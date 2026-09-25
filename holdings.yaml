@@ -1,0 +1,19 @@
+# ==========================================================================
+# 持仓清单 —— 唯一需要你手工维护的文件
+# --------------------------------------------------------------------------
+# market: cn = A股/境内, us = 美股/境外（含美债ETF、指数）
+# type:   stock | etf | bond | index(基准)
+# start_date: 投资起始日（本地累计收益以此为基准；若非交易日自动顺延到下一交易日）
+# weight: 组合权重（0~1）。当前版本先单标的，此字段预留，暂不生效。
+# ==========================================================================
+
+base_currency: CNY
+
+holdings:
+  - {name: 英维克,        symbol: "002837", market: cn, type: stock, start_date: 2026-09-24}
+  - {name: SOXX,            symbol: "SOXX",   market: us, type: etf,   start_date: 2026-09-24}
+
+# 基准指数（看板可叠加对比，不参与组合收益）
+benchmarks:
+  - {name: 沪深300,  symbol: "000300", market: cn, type: index}
+  - {name: 标普500,  symbol: "^GSPC",  market: us, type: index}

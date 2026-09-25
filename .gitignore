@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# 运行日志 / 临时产物
+*.log
+prototype/out/
+
+# 本地/编辑器
+.vscode/
+.idea/
+.DS_Store
+
+# 本地密钥（Tushare token 等），绝不提交
+.tushare_token
+.env
+
+# 注意：data/ 需要被提交（GitHub Actions 更新后 commit，Streamlit Cloud 读取）
+# 所以这里不忽略 data/

@@ -1,0 +1,72 @@
+# 原型用的示意清单（~70 个标的），覆盖 A股个股/ETF/指数 + 美股 + 港股。
+# 真用时把这里换成你自己的 70 个即可（market: cn/us/hk，type: stock/etf/bond/index）。
+universe:
+  # ---- A股个股 ----
+  - {name: 贵州茅台,   symbol: "600519", market: cn, type: stock}
+  - {name: 中国平安,   symbol: "601318", market: cn, type: stock}
+  - {name: 招商银行,   symbol: "600036", market: cn, type: stock}
+  - {name: 五粮液,     symbol: "000858", market: cn, type: stock}
+  - {name: 中信证券,   symbol: "600030", market: cn, type: stock}
+  - {name: 恒瑞医药,   symbol: "600276", market: cn, type: stock}
+  - {name: 美的集团,   symbol: "000333", market: cn, type: stock}
+  - {name: 格力电器,   symbol: "000651", market: cn, type: stock}
+  - {name: 伊利股份,   symbol: "600887", market: cn, type: stock}
+  - {name: 兴业银行,   symbol: "601166", market: cn, type: stock}
+  - {name: 长江电力,   symbol: "600900", market: cn, type: stock}
+  - {name: 紫金矿业,   symbol: "601899", market: cn, type: stock}
+  - {name: 比亚迪,     symbol: "002594", market: cn, type: stock}
+  - {name: 宁德时代,   symbol: "300750", market: cn, type: stock}
+  - {name: 隆基绿能,   symbol: "601012", market: cn, type: stock}
+  - {name: 万华化学,   symbol: "600309", market: cn, type: stock}
+  - {name: 中国中免,   symbol: "601888", market: cn, type: stock}
+  - {name: 平安银行,   symbol: "000001", market: cn, type: stock}
+  - {name: 中国石化,   symbol: "600028", market: cn, type: stock}
+  - {name: 中国石油,   symbol: "601857", market: cn, type: stock}
+  - {name: 中国银行,   symbol: "601988", market: cn, type: stock}
+  - {name: 工商银行,   symbol: "601398", market: cn, type: stock}
+  - {name: 中国人寿,   symbol: "601628", market: cn, type: stock}
+  - {name: 京东方A,    symbol: "000725", market: cn, type: stock}
+  - {name: 海康威视,   symbol: "002415", market: cn, type: stock}
+  - {name: 东方财富,   symbol: "300059", market: cn, type: stock}
+  - {name: 海螺水泥,   symbol: "600585", market: cn, type: stock}
+  - {name: 中国建筑,   symbol: "601668", market: cn, type: stock}
+  - {name: 中国神华,   symbol: "601088", market: cn, type: stock}
+  - {name: 万科A,      symbol: "000002", market: cn, type: stock}
+  # ---- A股 ETF / 债券 ----
+  - {name: 沪深300ETF,    symbol: "510300", market: cn, type: etf}
+  - {name: 中证500ETF,    symbol: "510500", market: cn, type: etf}
+  - {name: 上证50ETF,     symbol: "510050", market: cn, type: etf}
+  - {name: 创业板ETF,     symbol: "159915", market: cn, type: etf}
+  - {name: 科创50ETF,     symbol: "588000", market: cn, type: etf}
+  - {name: 证券ETF,       symbol: "512880", market: cn, type: etf}
+  - {name: 国债ETF,       symbol: "511010", market: cn, type: bond}
+  - {name: 十年国债ETF,   symbol: "511260", market: cn, type: bond}
+  - {name: 黄金ETF,       symbol: "518880", market: cn, type: etf}
+  - {name: 纳指ETF,       symbol: "513100", market: cn, type: etf}
+  - {name: 中概互联网ETF, symbol: "513050", market: cn, type: etf}
+  - {name: 半导体ETF,     symbol: "512480", market: cn, type: etf}
+  # ---- A股指数 ----
+  - {name: 沪深300,   symbol: "000300", market: cn, type: index}
+  - {name: 上证指数,  symbol: "000001", market: cn, type: index}
+  - {name: 深证成指,  symbol: "399001", market: cn, type: index}
+  - {name: 创业板指,  symbol: "399006", market: cn, type: index}
+  - {name: 中证500,   symbol: "000905", market: cn, type: index}
+  # ---- 美股 ----
+  - {name: 苹果,       symbol: "AAPL",  market: us, type: stock}
+  - {name: 微软,       symbol: "MSFT",  market: us, type: stock}
+  - {name: 谷歌,       symbol: "GOOGL", market: us, type: stock}
+  - {name: 亚马逊,     symbol: "AMZN",  market: us, type: stock}
+  - {name: 英伟达,     symbol: "NVDA",  market: us, type: stock}
+  - {name: 特斯拉,     symbol: "TSLA",  market: us, type: stock}
+  - {name: Meta,       symbol: "META",  market: us, type: stock}
+  - {name: 摩根大通,   symbol: "JPM",   market: us, type: stock}
+  - {name: 标普500ETF, symbol: "SPY",   market: us, type: etf}
+  - {name: 纳指100ETF, symbol: "QQQ",   market: us, type: etf}
+  - {name: 美国长债ETF, symbol: "TLT",  market: us, type: bond}
+  - {name: 黄金ETF,    symbol: "GLD",   market: us, type: etf}
+  - {name: 标普500指数, symbol: "^GSPC", market: us, type: index}
+  - {name: 纳斯达克指数, symbol: "^IXIC", market: us, type: index}
+  # ---- 港股 ----
+  - {name: 腾讯控股,  symbol: "00700", market: hk, type: stock}
+  - {name: 阿里巴巴,  symbol: "09988", market: hk, type: stock}
+  - {name: 美团,      symbol: "03690", market: hk, type: stock}

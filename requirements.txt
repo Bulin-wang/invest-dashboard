@@ -1,0 +1,11 @@
+# 核心依赖（看板 + 免 key 端点 pipeline：prototype/）
+pandas>=2.0
+requests>=2.28
+pyyaml>=6.0
+plotly>=5.18
+streamlit>=1.30
+pytest>=7.0
+
+# 备用后端 src/（Tushare MCP / akshare / yfinance）才需要：
+akshare>=1.12
+yfinance>=0.2.40

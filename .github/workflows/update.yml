@@ -1,0 +1,52 @@
+name: update-data
+
+# 每日定时抓取行情并提交 data/。cron 用 UTC。
+#  - "35 7 * * 1-5"  = UTC 07:35 = 北京 15:35，抓 A股当日收盘
+#  - "10 1 * * 2-6"  = UTC 01:10 = 北京 09:10，抓美股隔夜收盘
+# 数据源为免 key 的行情端点（新浪/腾讯），无需任何 Secret。
+on:
+  schedule:
+    - cron: "35 7 * * 1-5"
+    - cron: "10 1 * * 2-6"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: python -m pytest tests/ -q
+
+      - name: Seed history if empty (first run only)
+        run: |
+          if [ -z "$(ls -A data/prices 2>/dev/null)" ]; then
+            python -m prototype.backfill --days 400
+          fi
+
+      - name: Fetch today's close & compute price change
+        run: python -m prototype.daily_close
+
+      - name: Commit data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "no data changes"
+          else
+            git commit -m "data: update $(date -u +%F_%H%M)"
+            git push
+          fi
