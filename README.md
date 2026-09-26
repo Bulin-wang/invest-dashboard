@@ -66,7 +66,9 @@ python -m pytest tests/ -q
 ```
 
 编辑 `holdings.yaml` 增删标的（`market: cn|us|hk`，`type: stock|etf|bond|index`，
-`start_date: YYYY-MM-DD`），每天重跑 `python -m prototype.daily_close` 即可。
+`start_date: YYYY-MM-DD`）。**新增标的后直接跑 `python -m prototype.daily_close` 即可**——
+脚本会自动给历史过短/缺失的标的**补种日线**（等效于对它跑一次 `backfill`），
+所以不必手动回填新标的，也不会因为某标只有 1 天数据把自定义指数带偏。
 
 ## 云端部署
 

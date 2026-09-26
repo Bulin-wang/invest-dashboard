@@ -5,7 +5,8 @@
 - 再平衡：**买入持有**（基准日等权买入，之后权重随涨跌漂移）：
       index(t) = 100 × mean_i( P_i(t) / P_i(基准日) )
 - 基准日：默认取持仓最早的 `start_date`（可 `--base` 覆盖）；基准日归一为 **100**。
-  保留基准日之前的历史（回推），以便立刻看到曲线。
+- 只有**所有成分都有数据**的区间才纳入指数：若某标的起始晚于基准日（例如新加还没回填的标的），
+  会打印告警并把基准日顺延到它们的共同起点；正常应先跑 `prototype.backfill`（daily_close 会自动补）。
 - 输出：`data/index/equal_weight.csv`（date, index）。
 
 用法：
@@ -26,7 +27,7 @@ try:
 except (AttributeError, ValueError):
     pass
 
-from src.config import INDEX_PATH, PRICES_DIR, ROOT, load_holdings  # noqa: E402
+from src.config import INDEX_PATH, PRICES_DIR, load_holdings  # noqa: E402
 
 
 def _load_prices(key: str) -> pd.Series | None:
@@ -48,15 +49,24 @@ def build(base: str | None = None) -> tuple[pd.DataFrame, list[str], pd.Timestam
     if not series:
         raise SystemExit("没有可用价格数据，请先跑 prototype.backfill / daily_close")
 
-    px = pd.DataFrame(series).sort_index().ffill().dropna()   # 对齐交易日，取共同区间
-    if px.empty:
-        raise SystemExit("成分之间没有重叠的历史区间")
+    px = pd.DataFrame(series).sort_index().ffill()   # 对齐交易日（先只前向填充，不整段丢弃）
+    firsts = {k: px[k].first_valid_index() for k in px.columns}
 
     starts = [pd.Timestamp(it.start_date) for it in holdings if it.start_date]
     base_ts = pd.Timestamp(base) if base else (min(starts) if starts else px.index[0])
+
+    # 有的成分在基准日当天/之前还没数据 → 告警（多半是新加还没回填）
+    late = {k: v for k, v in firsts.items() if v is not None and v > base_ts}
+    if late:
+        print(f"[warn] 以下标的在基准日 {base_ts.date()} 及之前没有数据，指数基准日将顺延到其起点：")
+        for k, v in late.items():
+            print(f"        - {k} 起于 {v.date()}  → 建议先跑 `python -m prototype.backfill`")
+
+    common_start = max(v for v in firsts.values() if v is not None)
+    px = px.loc[px.index >= common_start]            # 只在「所有成分都有数据」的区间内
     after = px.index[px.index >= base_ts]
     if len(after) == 0:
-        raise SystemExit(f"基准日 {base_ts.date()} 之后没有数据")
+        raise SystemExit(f"基准日 {base_ts.date()} 之后没有共同数据")
     d0 = after[0]
 
     index = 100.0 * (px / px.loc[d0]).mean(axis=1)   # 等权 · 买入持有

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25T17:07:04.949708+00:00",
+  "updated_at": "2026-09-26T14:22:49.445017+00:00",
   "base_currency": "CNY",
   "caliber": "price_return",
   "source": "sina/tencent",
@@ -38,6 +38,25 @@
       "max_drawdown": 0.0,
       "calmar": null,
       "n_obs": 2,
+      "appended": false,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "us_NVDA": {
+      "name": "NVDA",
+      "symbol": "NVDA",
+      "market": "us",
+      "type": "stock",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-09-26",
+      "base_close": 224.58,
+      "last_close": 225.07,
+      "cum_return": 0.002181850565500021,
+      "annualized": 0.48888333618947444,
+      "max_drawdown": 0.0,
+      "calmar": null,
+      "n_obs": 3,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"

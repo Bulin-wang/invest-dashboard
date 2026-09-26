@@ -86,6 +86,35 @@ def _merge(existing: pd.DataFrame, fetched: pd.DataFrame) -> pd.DataFrame:
     return part
 
 
+def seed_missing(items, days: int = 400, min_rows: int = 5) -> int:
+    """给**历史过短/缺失**的标的补一份历史（新加入标的用）。
+
+    daily_close 每次会先调用它：这样"往 holdings.yaml 加个标的 → 跑 daily_close"
+    就能自动补全历史，不会因为某标只有 1 天数据把指数/收益带偏。返回补种数量。
+    """
+    seeded = 0
+    for it in items:
+        path = PRICES_DIR / f"{it.key}.csv"
+        rows = 0
+        if path.exists():
+            try:
+                rows = len(pd.read_csv(path))
+            except Exception:  # noqa: BLE001
+                rows = 0
+        if rows >= min_rows:
+            continue
+        try:
+            fetched = fetch_history(it, days)
+            existing = pd.read_csv(path, parse_dates=["date"]) if path.exists() else None
+            merged = _merge(existing, fetched)
+            merged.to_csv(path, index=False)
+            print(f"[seed] {it.key:12s} {it.name:8s} 补种 {len(fetched)} 行 -> 共 {len(merged)} 行")
+            seeded += 1
+        except Exception as e:  # noqa: BLE001
+            print(f"[warn] {it.key:12s} {it.name:8s} 补种失败：{type(e).__name__}: {e}")
+    return seeded
+
+
 def run(days: int) -> None:
     PRICES_DIR.mkdir(parents=True, exist_ok=True)
     items = load_holdings() + load_benchmarks()

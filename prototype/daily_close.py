@@ -75,6 +75,13 @@ def run() -> dict:
     RETURNS_DIR.mkdir(parents=True, exist_ok=True)
 
     items = load_holdings() + load_benchmarks()
+    # 新增标的（本地尚无/过短历史）自动补种，避免其只有单日数据把指数/收益带偏
+    try:
+        from prototype import backfill
+        if backfill.seed_missing(items):
+            print()
+    except Exception as e:  # noqa: BLE001
+        print(f"[warn] 历史补种跳过：{e}")
     snap = qf.snapshot(items)                  # 一次批量拿全部标的的当日收盘价
     quotes = {(r["market"], r["symbol"]): r for _, r in snap.iterrows()}
 
