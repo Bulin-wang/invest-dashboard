@@ -73,13 +73,38 @@ python -m pytest tests/ -q
 ## 云端部署
 
 1. 把本目录推到 GitHub（public/private 均可）。
-2. **定时更新**：把 `.github/workflows/update.yml` 里的抓数命令改成
-   `python -m prototype.daily_close`（首次另跑一次 `python -m prototype.backfill --days 400`），
-   Actions 会按 cron 更新并 commit `data/`。**无需任何 Secret**（端点无 key）。
+2. **定时更新**：`.github/workflows/update.yml` 已配好，Actions 会按 cron 自动抓数、
+   算收益/指数，并把 `data/` **commit 回仓库**。**无需任何 Secret**（端点无 key）。
 3. **看板托管**：到 [share.streamlit.io](https://share.streamlit.io) 连接该仓库，主文件填
    `app/streamlit_app.py`。Actions commit 新数据后自动 redeploy。
 
 > Streamlit Cloud 只读仓库里的 `data/`；抓数由 Actions 负责，两者职责分离。
+
+### 自动更新的节奏（cron 用的是 UTC！）
+
+| 北京 星期 | 运行时间 | 抓取内容 |
+|---|---|---|
+| 周一 ~ 周五 | **15:35** | A股当日收盘 |
+| 周二 ~ 周六 | **09:10** | 美股隔夜收盘 |
+| **周日** | **不运行** | —— |
+
+- **只在交易日抓**：周日 / 节假日**不运行**（休市本来也没有新数据，属正常）。
+- 想立刻更新一次：Actions 页 → `update-data` → **Run workflow**（手动触发）。
+
+### 日常维护（关键：别和云端 bot 撞车）
+
+`data/` 由云端 bot 维护。**本地只改 `holdings.yaml` 和代码，不要提交本地重算的 `data/`**，
+否则会和 bot 的提交分叉、产生 merge：
+
+```powershell
+git pull                          # 先拉最新（含 bot 的提交）
+# 改 holdings.yaml / 代码
+git add holdings.yaml             # 只 add 你改的文件，别 git add data/
+git commit -m "add XXX" ; git push
+# 云端下次运行会自动给新标的补历史、重算收益与指数
+```
+
+若本地跑过 `daily_close` 只是为了预览，提交前用 `git checkout -- data/` 丢弃本地数据改动即可。
 
 ## 备用后端（`src/`，可选）
 
