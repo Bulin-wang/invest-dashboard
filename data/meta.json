@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-26T14:22:49.445017+00:00",
+  "updated_at": "2026-09-27T16:48:13.896511+00:00",
   "base_currency": "CNY",
   "caliber": "price_return",
   "source": "sina/tencent",
@@ -58,6 +58,25 @@
       "calmar": null,
       "n_obs": 3,
       "appended": false,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "us_RGTI": {
+      "name": "RGTI",
+      "symbol": "RGTI",
+      "market": "us",
+      "type": "stock",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-09-26",
+      "base_close": 16.5,
+      "last_close": 16.66,
+      "cum_return": 0.00969696969696976,
+      "annualized": 4.826275650959493,
+      "max_drawdown": 0.0,
+      "calmar": null,
+      "n_obs": 3,
+      "appended": true,
       "caliber": "price_return",
       "status": "ok"
     },
