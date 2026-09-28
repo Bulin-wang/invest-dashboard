@@ -14,6 +14,7 @@ holdings:
   - {name: SOXX,            symbol: "SOXX",   market: us, type: etf,   start_date: 2026-09-24}
   - {name: NVDA,            symbol: "NVDA",   market: us, type: stock,   start_date: 2026-09-24}
   - {name: RGTI,            symbol: "RGTI",   market: us, type: stock,   start_date: 2026-09-24}
+  - {name: AAPL,            symbol: "AAPL",   market: us, type: stock,   start_date: 2026-09-24}
 
 # 基准指数（看板可叠加对比，不参与组合收益）
 benchmarks:
