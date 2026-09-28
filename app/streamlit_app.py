@@ -136,7 +136,8 @@ for i, (it, d) in enumerate(series):
         line=dict(color=PALETTE[i % len(PALETTE)], width=2)))
 
 if show_bench:
-    for it in benchmarks:
+    bench_dashes = ["dash", "dot"]              # 沪深300=虚线、标普500=点线（均为灰色参考线）
+    for j, it in enumerate(benchmarks):
         if it.key not in frames:
             continue
         bf = frames[it.key]
@@ -156,7 +157,8 @@ if show_bench:
             by, bx = b["cum_return"] * 100.0, b["date"]
         fig.add_trace(go.Scatter(
             x=bx, y=by, name=f"[基准] {it.name}", mode="lines",
-            line=dict(width=1.5, dash="dash", color="rgba(120,120,120,0.9)")))
+            line=dict(width=1.5, dash=bench_dashes[j % len(bench_dashes)],
+                      color="rgba(120,120,120,0.9)")))
 
 if show_index and index_df is not None and not index_df.empty:
     ix = slice_df(index_df)
