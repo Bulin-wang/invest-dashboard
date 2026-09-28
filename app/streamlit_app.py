@@ -43,6 +43,10 @@ def load_all():
 
 holdings, benchmarks, frames, meta, index_df = load_all()
 
+# 归一化基准日：持仓里最早的 start_date（与自定义等权指数保持一致）
+_BASE_DATES = [pd.Timestamp(it.start_date) for it in holdings if getattr(it, "start_date", None)]
+BASE_DATE = min(_BASE_DATES) if _BASE_DATES else None
+
 PALETTE = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
            "#8c564b", "#e377c2", "#17becf", "#bcbd22", "#7f7f7f"]
 
@@ -139,12 +143,23 @@ if show_bench:
     for it in benchmarks:
         if it.key not in frames:
             continue
-        b = slice_df(frames[it.key])
-        if b.empty:
-            continue
-        by = b["cum_return"] * 100.0
+        bf = frames[it.key]
+        if norm100 and BASE_DATE is not None:
+            after = bf[bf["date"] >= BASE_DATE]          # 以基准日 = 100 归一
+            if after.empty:
+                continue
+            base_close = float(after["close"].iloc[0])
+            b = slice_df(bf)
+            if b.empty:
+                continue
+            by, bx = b["close"] / base_close * 100.0, b["date"]
+        else:
+            b = slice_df(bf)
+            if b.empty:
+                continue
+            by, bx = b["cum_return"] * 100.0, b["date"]
         fig.add_trace(go.Scatter(
-            x=b["date"], y=by, name=f"[基准] {it.name}", mode="lines",
+            x=bx, y=by, name=f"[基准] {it.name}", mode="lines",
             line=dict(width=1.5, dash="dash", color="rgba(120,120,120,0.9)")))
 
 if show_index and index_df is not None and not index_df.empty:
@@ -188,4 +203,5 @@ st.dataframe(table, use_container_width=True)
 
 st.caption("说明：全部为**价格**口径（未复权收盘价，不含分红 / 除权）。"
            "年化按实际天数几何折算；最大回撤基于归一化价格序列。"
+           "净值化模式下，基准指数与持仓 / 等权指数统一以**基准日（持仓最早 start_date）= 100** 归一。"
            "组合聚合（含汇率折算）为后续扩展。")
