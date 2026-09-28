@@ -51,10 +51,6 @@ PALETTE = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
            "#8c564b", "#e377c2", "#17becf", "#bcbd22", "#7f7f7f"]
 
 
-def fmt_pct(x) -> str:
-    return "—" if x is None or x != x else f"{x:+.2%}"
-
-
 # ----------------------------------------------------------------------------- 顶部
 st.title("📈 持仓价格看板")
 st.caption("口径：未复权收盘价的**价格变化**（不含分红 / 除权），自各标的起始日归一化。")
@@ -189,17 +185,23 @@ for it, d in series:
         "市场": it.market.upper(),
         "类型": it.type,
         "起始日": d["date"].iloc[0].date(),
-        "起始价": round(float(d["close"].iloc[0]), 3),
-        "最新价": round(float(d["close"].iloc[-1]), 3),
-        "累计涨跌": fmt_pct(float(d["cum_return"].iloc[-1])),
-        "年化": fmt_pct(rec.get("annualized")),
-        "最大回撤": fmt_pct(rec.get("max_drawdown")),
+        "起始价": float(d["close"].iloc[0]),
+        "最新价": float(d["close"].iloc[-1]),
+        # 以下三列存 **数值（分数）**，点列头即可按数值正确排序；显示交给 column_config
+        "累计涨跌": float(d["cum_return"].iloc[-1]),
+        "年化": rec.get("annualized"),
+        "最大回撤": rec.get("max_drawdown"),
     })
-table = pd.DataFrame(rows)
-# 按累计涨跌降序（把 % 转回数值排序）
-table["_c"] = [float(d["cum_return"].iloc[-1]) for _, d in series]
-table = table.sort_values("_c", ascending=False).drop(columns="_c").set_index("标的")
-st.dataframe(table, use_container_width=True)
+table = pd.DataFrame(rows).sort_values("累计涨跌", ascending=False).set_index("标的")
+st.dataframe(
+    table, use_container_width=True,
+    column_config={
+        "起始价": st.column_config.NumberColumn(format="%.3f"),
+        "最新价": st.column_config.NumberColumn(format="%.3f"),
+        "累计涨跌": st.column_config.NumberColumn(format="percent"),
+        "年化": st.column_config.NumberColumn(format="percent"),
+        "最大回撤": st.column_config.NumberColumn(format="percent"),
+    })
 
 st.caption("说明：全部为**价格**口径（未复权收盘价，不含分红 / 除权）。"
            "年化按实际天数几何折算；最大回撤基于归一化价格序列。"
