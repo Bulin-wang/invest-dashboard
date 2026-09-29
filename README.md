@@ -45,8 +45,10 @@
 ```
 investors.yaml               # 公开清单：60 余位投资者的昵称 + **初始**标的（不含真实姓名）
 switches.yaml                # 调仓流水（append-only）：每条 = 某投资者某日全仓切换到某标的
-private/                     # 本地私密：真实姓名 ↔ 昵称 映射（已 gitignore，绝不上传）
-tools/make_investors.py      # 本地匿名化：真实名单 -> investors.yaml
+private/                     # 本地私密：roster.csv(真名↔昵称) + investors.private.yaml（gitignore）
+tools/make_investors.py      # 本地匿名化：roster + members -> investors.yaml
+tools/admin_app.py           # 本地管理台（Streamlit）：新增投资者 / 追加调仓
+tools/admin_ops.py           # 管理台纯文件操作（可单测）
 prototype/
   quote_fetch.py             # 报价端点抓取（新浪/腾讯；A股/美股/港股）
   daily_close.py             # 每日：取当日收盘价 → append → 算组合收益 / 群体平均
@@ -60,14 +62,27 @@ tests/                       # 计算层单测（离线）
 src/                         # 配置/计算（portfolio.py 组合收益）+【备用后端】
 ```
 
-## 隐私（重要）
+## 隐私与昵称映射（重要）
 
-- `investors.yaml` 是**公开**清单，**只有昵称**（Alice / Bob / …）和标的，**不含真实姓名**。
-- 真实姓名只在本地 `private/investors.private.yaml`，该目录被 `.gitignore` 忽略，**不会上传**。
-- 映射规则与昵称分配都**在本地完成**：`python -m tools.make_investors` 会读私有名单、
-  分配昵称、写出公开的 `investors.yaml`，并把反向映射写到 `private/nickname_map.csv`（私密）。
+- `investors.yaml` / `switches.yaml` 是**公开**文件，**只出现昵称**（如 `investor01`），**不含真实姓名**。
+- 真名 ↔ 昵称 的映射放在本地 **`private/roster.csv`**（`real_name,nickname`）；
+  真名 + 初始持仓放在 **`private/investors.private.yaml`**。整个 `private/` 被 `.gitignore` 忽略，**不会上传**。
+- 生成：`python -m tools.make_investors` 按 `real_name` 把两者 **JOIN** → 写出公开的 `investors.yaml`（只留昵称 + 标的）。
 
-别人 clone 仓库只能看到「Alice 持有 600519」，看不到真实身份。
+**维护映射**（`private/roster.csv`，编号昵称、**稳定不重排**）：
+
+```csv
+real_name,nickname
+张三,investor01
+李四,investor02
+```
+
+- **加人**：往 `roster.csv` 追加一行（分配一个**没用过**的昵称）+ 往 `investors.private.yaml` 的 `members`
+  追加一行（真名 + 初始标的），再跑一次 `python -m tools.make_investors`。
+- **改昵称**：改 `roster.csv` 那一行（对外昵称会变，注意历史）。
+- **查询 真名 → 昵称**（录调仓时用）：直接查 `roster.csv`。
+
+别人 clone 仓库只能看到「investor01 持有 600519」，看不到真实身份。
 
 ## 本地使用
 
@@ -77,7 +92,7 @@ py -m venv .venv
 .\.venv\Scripts\Activate.ps1        # 或: py -m pip install -r requirements.txt 直接装到全局
 pip install -r requirements.txt
 
-# 0) 改名单后（可选）重新生成公开清单：编辑 private/investors.private.yaml，然后
+# 0) 改名单后（可选）重新生成公开清单：编辑 private/investors.private.yaml + private/roster.csv，然后
 python -m tools.make_investors
 
 # 1) 首次：回填历史（未复权）→ 生成 data/prices/
@@ -111,11 +126,27 @@ python -m pytest tests/ -q
 
 ```yaml
 switches:
-  - {date: 2026-10-15, nickname: "Bob", symbol: "AAPL", market: us, type: stock}
+  - {date: 2026-10-15, nickname: "investor01", symbol: "AAPL", market: us, type: stock}
 ```
 
-含义：Bob 在 `2026-10-15` 收盘把整仓**全仓切换**到 AAPL。追加后跑 `python -m prototype.daily_close`
+含义：investor01 在 `2026-10-15` 收盘把整仓**全仓切换**到 AAPL。追加后跑 `python -m prototype.daily_close`
 即可重算组合收益。每位投资者各自独立，日期 / 标的互不影响。
+
+## 本地管理台（GUI，辅助录入）
+
+一个**仅本地**的 Streamlit 页面，帮你录入：
+
+```powershell
+python -m streamlit run tools/admin_app.py
+```
+
+- **➕ 新增投资者**：填「真实姓名 + 初始标的」→ 自动/指定昵称，写入 `private/roster.csv`
+  与 `private/investors.private.yaml`，并重生成 `investors.yaml`。
+- **🔁 追加调仓**：选投资者 + 目标标的 + 生效日 → 追加到 `switches.yaml`。改完记得跑
+  `python -m prototype.daily_close` 重算。
+
+> ⚠️ 它会**写本地文件**（`private/`、`switches.yaml`），**切勿部署到公网 / Streamlit Cloud**
+> （所以放在 `tools/` 而非 `app/pages/`）。
 
 ## 云端部署
 

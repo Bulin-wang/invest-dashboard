@@ -21,5 +21,8 @@ prototype/out/
 # 本地私密名单：真实姓名 ↔ 昵称 映射等，绝不提交/上传
 private/
 
+# 本地 AI agent 目录 / 会话元数据，不提交
+.reasonix/
+
 # 注意：data/ 需要被提交（GitHub Actions 更新后 commit，Streamlit Cloud 读取）
 # 所以这里不忽略 data/

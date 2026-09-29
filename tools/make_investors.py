@@ -1,74 +1,47 @@
-"""本地匿名化：把**真实名单**转成可公开的 `investors.yaml`。
+"""本地匿名化：把「成员名单（真名+标的）」+「真名↔昵称 映射」合成为公开的 `investors.yaml`。
 
-隐私设计
---------
-- 输入：`private/investors.private.yaml`（**私密，已 gitignore**）——含真实姓名 + 标的；
-- 输出：`investors.yaml`（**公开**）——只含昵称（Alice/Bob/…）+ 标的，**不含真实姓名**；
-- 同时把「真实姓名 ↔ 昵称」的反向映射写到 `private/nickname_map.csv`（私密），供你自己核对。
+输入（都在 private/，已 gitignore）：
+- `private/roster.csv`            —— **权威身份映射**：`real_name,nickname`（手动维护、稳定不重排）
+- `private/investors.private.yaml` —— `members: [{real_name, symbol, market, type}]` + 顶层参数 + benchmarks
+输出（公开）：
+- `investors.yaml` —— 只含 `{nickname, symbol, market, type}` + benchmarks，**不含真实姓名**
 
-这样别人 clone 仓库只能看到「Alice 持有 600519」，看不到真实身份；
-昵称分配规则与原始名单都留在本地，不入库。
-
-昵称规则
---------
-- 按私密清单里的**顺序**依次分配 `NICKNAMES` 里的名字；人数超过名字池时追加序号（Alice2、Bob2…）。
-- 想换昵称风格，改 `NICKNAMES` 即可（生成结果稳定、可复现）。
+隐私：真名只留在 private/；`investors.yaml` 对外只出现昵称。
+维护：加人 = 往 roster.csv 追加一行（分配一个没用过的昵称）+ 往 members 追加一行（真名 + 初始标的）；
+两者靠 `real_name` 关联。
 
 用法：
-    python -m tools.make_investors                     # 默认读 private/investors.private.yaml
-    python -m tools.make_investors --in xxx.yaml --out investors.yaml
+    python -m tools.make_investors
+    python -m tools.make_investors --members private/investors.private.yaml --roster private/roster.csv --out investors.yaml
 """
 from __future__ import annotations
 
 import argparse
+import csv
 import sys
 from pathlib import Path
 
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_IN = ROOT / "private" / "investors.private.yaml"
+DEFAULT_MEMBERS = ROOT / "private" / "investors.private.yaml"
+DEFAULT_ROSTER = ROOT / "private" / "roster.csv"
 DEFAULT_OUT = ROOT / "investors.yaml"
-DEFAULT_MAP = ROOT / "private" / "nickname_map.csv"
-
-# 昵称池（够 ~80 人；不够时自动追加序号）。顺序即分配顺序。
-NICKNAMES = [
-    "Alice", "Bob", "Carol", "Dave", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy",
-    "Mallory", "Niaj", "Olivia", "Peggy", "Quan", "Rupert", "Sybil", "Trent", "Uma", "Victor",
-    "Walter", "Xena", "Yuri", "Zoe", "Aaron", "Bella", "Caleb", "Diana", "Ethan", "Fiona",
-    "George", "Hannah", "Isaac", "Julia", "Kevin", "Luna", "Mason", "Nina", "Oscar", "Paula",
-    "Quinn", "Rachel", "Sam", "Tina", "Ulysses", "Vera", "Wendy", "Xavier", "Yolanda", "Zach",
-    "Adam", "Bianca", "Carlos", "Denise", "Edward", "Freya", "Gabriel", "Helen", "Igor", "Janet",
-    "Karl", "Leo", "Mia", "Noah", "Olga", "Pablo", "Rosa", "Simon", "Tara", "Umar",
-    "Violet", "Will", "Xin", "Yara", "Zane", "Amy", "Bruno", "Cindy", "Derek", "Elena",
-]
 
 HEADER = """\
 # ==========================================================================
 # 投资组合清单（公开版）—— 只有昵称，**不含真实姓名**
 # --------------------------------------------------------------------------
-# 本文件由 `python -m tools.make_investors` 从私有名单生成，请勿手改（会被覆盖）。
-# 真实姓名 ↔ 昵称 的映射保存在本地 private/（已 gitignore），不入库、不公开。
+# 由 `python -m tools.make_investors` 从 private/roster.csv（真名↔昵称）
+# 与 private/investors.private.yaml（真名+标的）合成，请勿手改（会被覆盖）。
 #
-# 口径：每人持有 1 个标的，本金 principal（元），自 start_date 起按标的
-#       **未复权价格收益**折算市值 = principal × close(t)/close(start_date)。
+# 口径：每人持有 1 个标的（初始），本金 principal（元），自 start_date 起按标的
+#       未复权价格收益折算市值；调仓见 switches.yaml。
 # ==========================================================================
 """
 
 
-def _assign_nicknames(n: int) -> list[str]:
-    out: list[str] = []
-    total = len(NICKNAMES)
-    for i in range(n):
-        if i < total:
-            out.append(NICKNAMES[i])
-        else:  # 人数超过名字池：追加轮次序号
-            out.append(f"{NICKNAMES[i % total]}{i // total + 1}")
-    return out
-
-
 def _rel(p: Path) -> str:
-    """尽量显示相对项目根的路径；不在根下（如临时目录）时回退为原路径。"""
     try:
         return str(p.relative_to(ROOT))
     except ValueError:
@@ -76,41 +49,59 @@ def _rel(p: Path) -> str:
 
 
 def _fmt_flow(d: dict) -> str:
-    """把 dict 渲染成 `{k: v, ...}` 的行内形式，尽量贴合仓库既有清单风格。"""
     parts = []
     for k, v in d.items():
-        key = k
-        if isinstance(v, str):
-            val = f'"{v}"'
-        else:
-            val = str(v)
-        parts.append(f"{key}: {val}")
+        parts.append(f'{k}: "{v}"' if isinstance(v, str) else f"{k}: {v}")
     return "{" + ", ".join(parts) + "}"
 
 
-def build(src: Path, out: Path, map_path: Path) -> int:
-    if not src.exists():
-        raise SystemExit(
-            f"找不到私密名单 {src}。请先创建它（例如从模板复制），"
-            f"内容是 `members: [{{real_name, symbol, market, type}}]`。")
-    cfg = yaml.safe_load(src.read_text(encoding="utf-8")) or {}
+def load_roster(path: Path) -> dict[str, str]:
+    """读 real_name → nickname 映射。"""
+    if not path.exists():
+        raise SystemExit(f"找不到映射文件 {path}（格式：real_name,nickname）")
+    rows = list(csv.DictReader(path.read_text(encoding="utf-8-sig").splitlines()))
+    out: dict[str, str] = {}
+    for r in rows:
+        rn = (r.get("real_name") or "").strip()
+        nk = (r.get("nickname") or "").strip()
+        if not rn or not nk:
+            continue
+        if rn in out:
+            raise SystemExit(f"{path} 里 real_name 重复：{rn}")
+        out[rn] = nk
+    if not out:
+        raise SystemExit(f"{path} 里没有有效行（real_name,nickname）")
+    return out
+
+
+def build(members_path: Path = DEFAULT_MEMBERS,
+          roster_path: Path = DEFAULT_ROSTER,
+          out: Path = DEFAULT_OUT) -> int:
+    if not members_path.exists():
+        raise SystemExit(f"找不到成员名单 {members_path}")
+    cfg = yaml.safe_load(members_path.read_text(encoding="utf-8")) or {}
     members = cfg.get("members", [])
     if not members:
-        raise SystemExit(f"{src} 里没有 members 条目")
+        raise SystemExit(f"{members_path} 里没有 members 条目")
 
-    nicks = _assign_nicknames(len(members))
-    investors, mapping = [], []
-    for m, nick in zip(members, nicks):
-        rec = {
-            "nickname": nick,
+    roster = load_roster(roster_path)
+
+    investors, seen = [], set()
+    for m in members:
+        rn = str(m.get("real_name", "")).strip()
+        if rn not in roster:
+            raise SystemExit(f"成员 {rn!r} 在 {_rel(roster_path)} 里没有昵称映射")
+        nk = roster[rn]
+        if nk in seen:
+            raise SystemExit(f"昵称重复：{nk}（real_name={rn}）")
+        seen.add(nk)
+        investors.append({
+            "nickname": nk,
             "symbol": str(m["symbol"]),
             "market": str(m["market"]).lower(),
             "type": str(m.get("type", "stock")),
-        }
-        investors.append(rec)
-        mapping.append((str(m.get("real_name", "")), nick, rec["symbol"]))
+        })
 
-    # 逐行手写，保留行内风格与稳定字段顺序
     lines = [HEADER.rstrip("\n")]
     lines.append(f"base_currency: {cfg.get('base_currency', 'CNY')}")
     lines.append(f"start_date: {cfg.get('start_date', '2026-09-24')}")
@@ -128,23 +119,17 @@ def build(src: Path, out: Path, map_path: Path) -> int:
             lines.append("  - " + _fmt_flow({k: str(v) for k, v in b.items()}))
     out.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
-    # 私密反向映射
-    map_path.parent.mkdir(parents=True, exist_ok=True)
-    rows = ["real_name,nickname,symbol"] + [f"{a},{b},{c}" for a, b, c in mapping]
-    map_path.write_text("\n".join(rows) + "\n", encoding="utf-8", newline="\n")
-
     print(f"[ok] {len(investors)} 位投资者 -> {_rel(out)}（仅昵称）")
-    print(f"[ok] 私密映射 -> {_rel(map_path)}（勿上传）")
     return 0
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="从私密名单生成公开的 investors.yaml")
-    ap.add_argument("--in", dest="src", default=str(DEFAULT_IN))
+    ap = argparse.ArgumentParser(description="从私有名单生成公开的 investors.yaml")
+    ap.add_argument("--members", dest="members", default=str(DEFAULT_MEMBERS))
+    ap.add_argument("--roster", dest="roster", default=str(DEFAULT_ROSTER))
     ap.add_argument("--out", dest="out", default=str(DEFAULT_OUT))
-    ap.add_argument("--map", dest="map_path", default=str(DEFAULT_MAP))
     args = ap.parse_args()
-    return build(Path(args.src), Path(args.out), Path(args.map_path))
+    return build(Path(args.members), Path(args.roster), Path(args.out))
 
 
 if __name__ == "__main__":

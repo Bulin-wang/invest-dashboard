@@ -103,10 +103,21 @@ def test_market_value_scales_with_principal():
     assert ret["nav"].iloc[-1] * principal / 1e6 == pytest.approx(110.0)
 
 
-# --------------------------------------------------------------------- 匿名化工具
-def test_make_investors_hides_real_names(tmp_path):
-    src = tmp_path / "priv.yaml"
-    src.write_text("""
+# --------------------------------------------------------------------- 匿名化工具（roster JOIN）
+def _members(tmp_path: Path, body: str) -> Path:
+    p = tmp_path / "members.yaml"
+    p.write_text(body, encoding="utf-8")
+    return p
+
+
+def _roster(tmp_path: Path, body: str) -> Path:
+    p = tmp_path / "roster.csv"
+    p.write_text(body, encoding="utf-8")
+    return p
+
+
+def test_make_investors_joins_roster_and_hides_names(tmp_path):
+    members = _members(tmp_path, """
 start_date: 2026-09-24
 principal: 1000000
 members:
@@ -114,25 +125,34 @@ members:
   - {real_name: 李四, symbol: AAPL, market: us, type: stock}
 benchmarks:
   - {name: 沪深300, symbol: "000300", market: cn, type: index}
-""", encoding="utf-8")
+""")
+    roster = _roster(tmp_path, "real_name,nickname\n张三,investor01\n李四,investor02\n")
     out = tmp_path / "investors.yaml"
-    mp = tmp_path / "nickname_map.csv"
-    make_investors.build(src, out, mp)
+    make_investors.build(members, roster, out)
 
     text = out.read_text(encoding="utf-8")
-    assert "张三" not in text and "李四" not in text   # 真实姓名绝不进公开文件
-    assert "Alice" in text and "Bob" in text
-    assert "000300" in text                            # 基准保留
+    assert "张三" not in text and "李四" not in text          # 真名绝不进公开文件
+    assert "investor01" in text and "investor02" in text
+    assert "000300" in text                                   # 基准保留
 
-    mapping = mp.read_text(encoding="utf-8")
-    assert "张三" in mapping and "Alice" in mapping     # 反向映射（私密）里才有真名
-
-    # 生成物能被配置层正常读取
     invs = load_investors(out)
-    assert [i.nickname for i in invs] == ["Alice", "Bob"]
+    assert [i.nickname for i in invs] == ["investor01", "investor02"]
+    assert invs[0].key == "cn_stock_600519"
 
 
-def test_assign_nicknames_overflows_pool():
-    names = make_investors._assign_nicknames(len(make_investors.NICKNAMES) + 2)
-    assert len(names) == len(make_investors.NICKNAMES) + 2
-    assert names[-1].endswith("2")                     # 超出池后追加轮次序号
+def test_make_investors_errors_on_missing_mapping(tmp_path):
+    members = _members(tmp_path,
+                       "members:\n  - {real_name: 王五, symbol: X, market: us, type: stock}\n")
+    roster = _roster(tmp_path, "real_name,nickname\n张三,investor01\n")
+    with pytest.raises(SystemExit):
+        make_investors.build(members, roster, tmp_path / "out.yaml")
+
+
+def test_make_investors_errors_on_duplicate_nickname(tmp_path):
+    members = _members(tmp_path,
+                       "members:\n"
+                       "  - {real_name: 张三, symbol: X, market: us, type: stock}\n"
+                       "  - {real_name: 李四, symbol: Y, market: us, type: stock}\n")
+    roster = _roster(tmp_path, "real_name,nickname\n张三,investor01\n李四,investor01\n")
+    with pytest.raises(SystemExit):
+        make_investors.build(members, roster, tmp_path / "out.yaml")
