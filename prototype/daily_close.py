@@ -1,15 +1,15 @@
-"""日更脚本（报价端点版）：每天 append 当日收盘价 → 算累计收益 / 市值。
+"""日更脚本（报价端点版）：每天 append 当日收盘价 → 算标的收益 + 投资者组合收益。
 
-设计（契合「~60 位投资者、每天一次、低时效」的场景）：
+设计（契合「~60 位投资者、每天一次、低时效」）：
 - 数据源：新浪/腾讯报价端点（复用 prototype.quote_fetch），**无 key**；
-- 清单：项目根 investors.yaml（investors + benchmarks）；**同一标的多位持有者只抓一次**；
-- 存储：**增量 append** 当日收盘价到 data/prices/{key}.csv（不是每天全量重取）；
-- 收益：cum_return(t) = close(t)/close(start) - 1，起点 = 各投资者 start_date（基准日）；
-- 市值：principal × close(t)/close(start)，即 100 万 × 标的收益率；
-- 输出：data/prices/*.csv、data/returns/*.csv、data/meta.json —— 与 Streamlit 看板兼容。
+- 清单：项目根 investors.yaml（每人**初始持仓** + 基准）；调仓流水 switches.yaml（append-only）；
+- 组合：按每位投资者的**持仓路径**（全仓切换）合成投资者的累计收益
+  （`src.portfolio.portfolio_nav`；调仓日收盘切换，当日算旧标的，无费用 / 不计汇率）；
+- 存储：增量 append 当日收盘价到 `data/prices/{key}.csv`；
+  投资者组合收益写到 `data/portfolios/{Investor}.csv`；
+- 输出：data/prices/*.csv、data/returns/*.csv、data/portfolios/*.csv、data/index/*.csv、data/meta.json。
 
-⚠️ 口径：**价格收益**（未复权）。当日报价未含分红/除权；若要「含分红再投」，
-   需另配除权修正（后续再做）。
+⚠️ 口径：**价格收益**（未复权），不含分红/除权，不计汇率。
 
 用法：
     python -m prototype.daily_close
@@ -32,13 +32,18 @@ except (AttributeError, ValueError):
 from prototype import quote_fetch as qf  # noqa: E402
 from src.config import (  # noqa: E402
     META_PATH,
+    PORTFOLIOS_DIR,
     PRICES_DIR,
     RETURNS_DIR,
     Item,
+    investor_segments,
     load_investor_benchmarks,
     load_investor_config,
     load_investors,
+    load_switches,
+    portfolio_id,
 )
+from src.portfolio import portfolio_nav  # noqa: E402
 from src.returns import (  # noqa: E402
     annualized_return,
     calmar_ratio,
@@ -73,17 +78,24 @@ def _safe(x) -> float | None:
         return None
 
 
-def _instruments(investors, benchmarks) -> list[Item]:
-    """投资者 + 基准 → **去重后的标的列表**（同一标的多位持有者只抓一次）。
+def _price_series(key: str) -> pd.Series | None:
+    """读已落盘的收盘价序列（日期索引）。"""
+    path = PRICES_DIR / f"{key}.csv"
+    if not path.exists():
+        return None
+    s = pd.read_csv(path, parse_dates=["date"]).set_index("date")["close"].sort_index()
+    return s if not s.dropna().empty else None
 
-    键用 `market_type_symbol`（如 cn_stock_600519、cn_index_000001），故同标的共享同一份
-    prices/returns；含 type 也避免同 market 同代码不同品种（个股/指数）撞键。
+
+def _instruments(segments_by_inv, benchmarks) -> list[Item]:
+    """所有持仓路径里的标的 + 基准 → **去重后的标的列表**（同一标的多位持有者只抓一次）。
+
+    键用 `market_type_symbol`（如 cn_stock_600519、cn_index_000001）。
     """
     uniq: dict[str, Item] = {}
-    for inv in investors:
-        uniq.setdefault(inv.key, Item(
-            name=inv.nickname, symbol=inv.symbol, market=inv.market,
-            type=inv.type, start_date=inv.start_date))
+    for segs in segments_by_inv.values():
+        for _date, it in segs:
+            uniq.setdefault(it.key, it)
     for b in benchmarks:
         uniq.setdefault(b.key, b)
     return list(uniq.values())
@@ -92,14 +104,17 @@ def _instruments(investors, benchmarks) -> list[Item]:
 def run() -> dict:
     PRICES_DIR.mkdir(parents=True, exist_ok=True)
     RETURNS_DIR.mkdir(parents=True, exist_ok=True)
+    PORTFOLIOS_DIR.mkdir(parents=True, exist_ok=True)
 
     investors = load_investors()
+    switches = load_switches()
     benchmarks = load_investor_benchmarks()
     cfg = load_investor_config()
     principal = cfg["principal"]
 
-    items = _instruments(investors, benchmarks)
-    # 新增标的（本地尚无/过短历史）自动补种，避免其只有单日数据把指数/收益带偏
+    segments_by_inv = investor_segments(investors, switches)
+    items = _instruments(segments_by_inv, benchmarks)
+    # 新增标的（本地尚无/过短历史）自动补种，避免其只有单日数据把收益/指数带偏
     try:
         from prototype import backfill
         if backfill.seed_missing(items):
@@ -117,10 +132,12 @@ def run() -> dict:
         "principal": principal,
         "base_date": cfg["start_date"],
         "n_investors": len(investors),
+        "n_switches": len(switches),
         "items": {},
-        "investors": [],
+        "portfolios": [],
     }
 
+    # --- 标的层：抓当日收盘 + 增量 append + 单标的收益 ---
     for it in items:
         key = it.key
         q = quotes.get((it.market, it.symbol))
@@ -156,7 +173,7 @@ def run() -> dict:
                 "caliber": CALIBER,
                 "status": "ok",
             }
-            print(f"[ok ] {key:12s} {it.name:8s} {'+1 新行' if added else '无新行(已是最新)'} "
+            print(f"[ok ] {key:14s} {it.name:8s} {'+1 新行' if added else '无新行(已是最新)'} "
                   f"close={q['close']} n={len(ret)} cum={ret['cum_return'].iloc[-1]:+.2%}")
         except Exception as e:  # noqa: BLE001
             meta["items"][key] = {
@@ -164,26 +181,62 @@ def run() -> dict:
                 "market": it.market, "type": it.type,
                 "status": "error", "error": f"{type(e).__name__}: {e}",
             }
-            print(f"[ERR] {key:12s} {it.name:8s} -> {type(e).__name__}: {e}")
+            print(f"[ERR] {key:14s} {it.name:8s} -> {type(e).__name__}: {e}")
 
-    # 投资者 → 标的 的映射（看板按昵称展示；同标的多位持有者共享同一 key）
-    meta["investors"] = [
-        {"nickname": inv.nickname, "key": inv.key, "symbol": inv.symbol,
-         "market": inv.market, "type": inv.type, "principal": inv.principal}
-        for inv in investors
-    ]
+    # --- 投资者层：按持仓路径（全仓切换）合成组合收益 ---
+    for inv in investors:
+        nick = inv.nickname
+        segs = segments_by_inv[nick]
+        try:
+            series: dict[str, pd.Series] = {}
+            for _d, it in segs:
+                s = _price_series(it.key)
+                if s is None:
+                    raise ValueError(f"缺 {it.key} 的价格数据")
+                series[it.key] = s
+            df = portfolio_nav(series, [(d, it.key) for d, it in segs], principal)
+            df.to_csv(PORTFOLIOS_DIR / f"{portfolio_id(nick)}.csv", index=False)
+
+            current = segs[-1][1]
+            meta["portfolios"].append({
+                "nickname": nick,
+                "principal": inv.principal,
+                "holdings": [
+                    {"date": d, "key": it.key, "symbol": it.symbol,
+                     "market": it.market, "type": it.type}
+                    for d, it in segs
+                ],
+                "n_switches": len(segs) - 1,
+                "current": {"symbol": current.symbol, "market": current.market, "type": current.type},
+                "first_date": str(df["date"].iloc[0].date()),
+                "last_date": str(df["date"].iloc[-1].date()),
+                "cum_return": float(df["cum_return"].iloc[-1]),
+                "market_value": float(df["value"].iloc[-1]),
+                "annualized": _safe(annualized_return(df)),
+                "max_drawdown": _safe(max_drawdown(df["nav"])),
+                "status": "ok",
+            })
+            print(f"[inv] {nick:8s} {len(segs) - 1} 次调仓 · 当前 {current.symbol:>7s} "
+                  f"· cum={df['cum_return'].iloc[-1]:+.2%}")
+        except Exception as e:  # noqa: BLE001
+            meta["portfolios"].append({
+                "nickname": nick, "status": "error",
+                "error": f"{type(e).__name__}: {e}",
+            })
+            print(f"[ERR] {nick:8s} 组合 -> {type(e).__name__}: {e}")
 
     META_PATH.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    # 自定义等权指数（= 群体平均，依赖刚更新的 data/prices）
+    # 群体平均指数（= 投资者组合收益按人平均，依赖刚生成的 data/portfolios）
     try:
         from prototype import index_build
         index_build.run()
     except Exception as e:  # noqa: BLE001
-        print(f"[warn] 自定义指数构建失败：{e}")
+        print(f"[warn] 群体平均指数构建失败：{e}")
 
     ok = sum(1 for v in meta["items"].values() if v.get("status") == "ok")
-    print(f"\n完成：{ok}/{len(items)} 个标的更新成功（{len(investors)} 位投资者）"
+    pok = sum(1 for v in meta["portfolios"] if v.get("status") == "ok")
+    print(f"\n完成：{ok}/{len(items)} 标的、{pok}/{len(investors)} 投资者"
           f" -> {META_PATH.relative_to(META_PATH.parent.parent)}")
     return meta
 

@@ -1,16 +1,16 @@
 # 投资组合价值看板
 
-展示 **60 余位投资者**的组合价值：每人持有 **1 个标的**、本金 **100 万人民币**、
-统一起始日（`2026-09-24`），按标的的**收益率**折算成 100 万的累计市值。
+展示 **60 余位投资者**的组合价值：每人本金 **100 万人民币**、统一起始日（`2026-09-24`），
+每人有一条**持仓路径**（可全仓切换标的），按路径的**分段收益率连乘**折算成 100 万的累计市值。
 用一个交互式 Streamlit 看板呈现，并由 GitHub Actions 每日自动更新。
 
 ## 口径
 
-- **市值**：`市值(t) = 本金 × close(t) / close(start_date)`，起点取 `investors.yaml` 的
-  `start_date`（起始日若非交易日自动顺延到下一交易日）。
-- **收益率**：`cum(t) = close(t) / close(start_date) - 1`。
-- **未复权**：用**未复权收盘价**，**不含分红 / 除权**（不做分红再投、也不做除权修正），
-  也**不考虑汇率**。
+- **持仓路径**：每位投资者从初始标的起步，可**全仓切换**到别的标的（见 `switches.yaml`）。
+- **组合市值**：把路径上各段标的收益**连乘**（复利）：
+  `市值(t) = 本金 × ∏(已结束段收益) × 当前段 close(t)/close(段起点)`（见 `src/portfolio.py`）。
+- **切换口径**：调仓日按**收盘价**全仓切换；**当日算旧标的，次交易日起算新标的**；不计费用。
+- **未复权**：用**未复权收盘价**，**不含分红 / 除权**，也**不考虑汇率**。
   - ⚠️ 因此跨**除权除息**（A股）或**拆股**（美股）会有跳空，适合近期窗口；长历史数值会失真。
 - **只展示起始日及之后**的数据：所有人从 100 万起步。
 - 债券 / 部分标的以**代表性 ETF** 表征（如 `511010`、`TLT`、`SOXX`）。
@@ -27,10 +27,9 @@
 
 ## 群体平均指数
 
-把**所有投资者按人平均**合成一条指数（`prototype/index_build.py`；`daily_close` 会顺带重建）：
+把**所有投资者的组合收益按人平均**合成一条指数（`prototype/index_build.py`；`daily_close` 顺带重建）：
 
-- **口径**：价格变化（未复权），**按人等权**（同一标的被多人持有时权重按持有者人数累加），
-  **买入持有**（基准日等权买入，之后权重随涨跌漂移），**忽略汇率**；
+- **口径**：读 `data/portfolios/{Investor}.csv` 的 nav，**按人等权**平均；
 - **基准日**取 `investors.yaml` 顶层的 `start_date`，该日 = **100**（对应 100 万）；
 - **只输出基准日及之后**的点；
 - 输出 `data/index/equal_weight.csv`（date, index），**看板自动叠加**为 ★ 群体平均。
@@ -38,18 +37,19 @@
 ## 目录
 
 ```
-investors.yaml               # 公开清单：60 余位投资者的昵称 + 标的（不含真实姓名）
+investors.yaml               # 公开清单：60 余位投资者的昵称 + **初始**标的（不含真实姓名）
+switches.yaml                # 调仓流水（append-only）：每条 = 某投资者某日全仓切换到某标的
 private/                     # 本地私密：真实姓名 ↔ 昵称 映射（已 gitignore，绝不上传）
 tools/make_investors.py      # 本地匿名化：真实名单 -> investors.yaml
 prototype/
   quote_fetch.py             # 报价端点抓取（新浪/腾讯；A股/美股/港股）
-  daily_close.py             # 每日：取当日收盘价 → append → 算收益率/市值（并重建群体平均）
+  daily_close.py             # 每日：取当日收盘价 → append → 算组合收益 / 群体平均
   backfill.py                # 首次：回填历史日线（未复权）
-  index_build.py             # 群体平均指数（基准日 = 100 = 100 万）
+  index_build.py             # 群体平均指数（对投资者组合收益按人平均，基准日 = 100 = 100 万）
 app/streamlit_app.py         # 看板
-data/{prices,returns}/*.csv, data/index/equal_weight.csv, meta.json   # 生成物
+data/{prices,returns}/*.csv, data/portfolios/*.csv, data/index/equal_weight.csv, meta.json  # 生成物
 tests/                       # 计算层单测（离线）
-src/                         # 配置/计算 + 【备用后端】Tushare / akshare / yfinance 版 pipeline
+src/                         # 配置/计算（portfolio.py 组合收益）+【备用后端】
 ```
 
 ## 隐私（重要）
@@ -96,6 +96,19 @@ python -m pytest tests/ -q
 > （如 `cn_stock_600519`、`cn_index_000300`、`us_index_GSPC`）——**含 `type`** 以区分
 > 同市场同代码的不同品种（例：`cn_stock_000001` 平安银行 vs `cn_index_000001` 上证指数）。
 
+### 调仓（switches.yaml）
+
+投资者的**初始持仓**写在 `investors.yaml`（`symbol/market/type`）；**调仓**往 `switches.yaml`
+**追加一行**即可（append-only，不改历史）：
+
+```yaml
+switches:
+  - {date: 2026-10-15, nickname: "Bob", symbol: "AAPL", market: us, type: stock}
+```
+
+含义：Bob 在 `2026-10-15` 收盘把整仓**全仓切换**到 AAPL。追加后跑 `python -m prototype.daily_close`
+即可重算组合收益。每位投资者各自独立，日期 / 标的互不影响。
+
 ## 云端部署
 
 1. 把本目录推到 GitHub（public/private 均可）。**注意 `private/` 已被忽略，不会上传。**
@@ -125,7 +138,7 @@ python -m pytest tests/ -q
 ```powershell
 git pull                          # 先拉最新（含 bot 的提交）
 # 改 investors.yaml / 代码
-git add investors.yaml            # 只 add 你改的文件，别 git add data/（也别 add private/）
+git add investors.yaml switches.yaml   # 只 add 你改的文件，别 git add data/（也别 add private/）
 git commit -m "add XXX" ; git push
 # 云端下次运行会自动给新标的补历史、重算收益与指数
 ```
@@ -146,5 +159,5 @@ git commit -m "add XXX" ; git push
 
 ## 后续扩展（已预留）
 
-- **组合聚合 / 汇率折算**：`src/aggregate.py` 占位（多标的、权重、CNY 折算）。
+- **汇率折算 / 权重组合**：`src/aggregate.py` 占位（多标的权重、CNY 折算，跨市场统一口径）。
 - **更多基准 / 自定义指数**：加到 `investors.yaml` 的 `benchmarks:` 即可。

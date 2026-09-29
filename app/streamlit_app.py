@@ -1,11 +1,10 @@
-"""投资组合价值看板（Streamlit）—— 看 ~60 位投资者 **100 万本金**的累计市值。
+"""投资组合价值看板（Streamlit）—— 看 ~60 位投资者的**组合累计收益**（含调仓）。
 
-- 每人持有 1 个标的，本金 principal（元），自 start_date 起按标的**未复权价格收益**折算：
-      value(t) = principal × close(t) / close(start_date)
-- Y 轴单位为「万元」，基准线画在 100 万；**不展示起始日之前**的信息。
+- 每位投资者有一条持仓路径（全仓切换，`switches.yaml`）；看板汇报其**组合收益**
+  （`data/portfolios/{Investor}.csv`，由 prototype.daily_close 合成）。
+- 本金 principal（元），Y 轴单位为「万元」，基准线画在 100 万；**不展示起始日之前**。
 - 展示用昵称（真实姓名映射在本地，不入库）。
 
-读取 data/ 下由 prototype.daily_close 生成的结果并可视化。
 本地运行：  streamlit run app/streamlit_app.py
 云端：      Streamlit Community Cloud，主文件填 app/streamlit_app.py
 """
@@ -25,10 +24,12 @@ import streamlit as st
 from src.config import (
     INDEX_PATH,
     META_PATH,
+    PORTFOLIOS_DIR,
     RETURNS_DIR,
     load_investor_benchmarks,
     load_investor_config,
     load_investors,
+    portfolio_id,
 )
 
 st.set_page_config(page_title="投资组合价值看板", page_icon="📈", layout="wide")
@@ -42,27 +43,31 @@ def load_all():
     investors = load_investors()
     benchmarks = load_investor_benchmarks()
     cfg = load_investor_config()
-    keys = sorted({inv.key for inv in investors} | {b.key for b in benchmarks})
-    frames: dict[str, pd.DataFrame] = {}
-    for k in keys:
-        f = RETURNS_DIR / f"{k}.csv"
+    portfolios: dict[str, pd.DataFrame] = {}
+    for inv in investors:
+        f = PORTFOLIOS_DIR / f"{portfolio_id(inv.nickname)}.csv"
         if f.exists():
-            frames[k] = pd.read_csv(f, parse_dates=["date"])
+            portfolios[inv.nickname] = pd.read_csv(f, parse_dates=["date"])
+    bench_frames: dict[str, pd.DataFrame] = {}
+    for b in benchmarks:
+        f = RETURNS_DIR / f"{b.key}.csv"
+        if f.exists():
+            bench_frames[b.key] = pd.read_csv(f, parse_dates=["date"])
     meta = {}
     if META_PATH.exists():
         meta = json.loads(META_PATH.read_text(encoding="utf-8"))
     index_df = None
     if INDEX_PATH.exists():
         index_df = pd.read_csv(INDEX_PATH, parse_dates=["date"])
-    return investors, benchmarks, cfg, frames, meta, index_df
+    return investors, benchmarks, cfg, portfolios, bench_frames, meta, index_df
 
 
-investors, benchmarks, cfg, frames, meta, index_df = load_all()
+investors, benchmarks, cfg, portfolios, bench_frames, meta, index_df = load_all()
 
 PRINCIPAL = float(cfg.get("principal", UNIT))
 SCALE = PRINCIPAL / UNIT                       # nav → 万元
 BASE_DATE = pd.Timestamp(cfg["start_date"]) if cfg.get("start_date") else None
-ITEMS_META = meta.get("items", {})
+PF_META = {p["nickname"]: p for p in meta.get("portfolios", [])}
 
 PALETTE = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
            "#8c564b", "#e377c2", "#17becf", "#bcbd22", "#7f7f7f"]
@@ -70,25 +75,24 @@ PALETTE = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
 
 # ----------------------------------------------------------------------------- 顶部
 st.title("📈 投资组合价值看板")
-st.caption(f"口径：每人本金 **{PRINCIPAL / 1e4:,.0f} 万元**，自 {cfg.get('start_date')} 起按标的"
-           "**未复权价格收益**折算市值（不含分红 / 汇率）；Y 轴单位为**万元**，起点 100 万。")
+st.caption(f"口径：每人本金 **{PRINCIPAL / 1e4:,.0f} 万元**，自 {cfg.get('start_date')} 起按持仓路径"
+           "（全仓切换）计算**组合收益**；调仓日收盘切换、不计费用/汇率。Y 轴单位为**万元**，起点 100 万。")
 
-if not frames:
+if not portfolios:
     st.warning(
         "还没有数据。请先在项目根目录运行：\n\n"
         "```\n"
         "python -m prototype.backfill --days 400   # 首次：回填历史\n"
-        "python -m prototype.daily_close           # 每天：取当日收盘价\n"
+        "python -m prototype.daily_close           # 每天：取当日收盘价 + 合成组合收益\n"
         "```\n\n"
         "生成 `data/` 后刷新本页。")
     st.stop()
 
 updated = meta.get("updated_at", "未知")
-ok = sum(1 for v in ITEMS_META.values() if v.get("status") == "ok")
-errs = [v.get("name", "") for v in ITEMS_META.values() if v.get("status") == "error"]
+ok = sum(1 for v in meta.get("items", {}).values() if v.get("status") == "ok")
+n_sw = meta.get("n_switches", "?")
 n_inv = len(investors)
-st.caption(f"数据更新时间(UTC)：{updated} ｜ {n_inv} 位投资者 / {ok} 个标的成功"
-           + (f" ｜ ⚠️ 失败：{', '.join(errs)}" if errs else ""))
+st.caption(f"数据更新时间(UTC)：{updated} ｜ {n_inv} 位投资者 / {ok} 个标的 ｜ 调仓流水 {n_sw} 条")
 if index_df is not None and not index_df.empty:
     iv_wan = float(index_df["index"].iloc[-1]) * SCALE
     st.caption(f"群体平均（基准 {cfg.get('start_date')} = 100 万）：**{iv_wan:,.0f} 万元**"
@@ -98,21 +102,8 @@ if index_df is not None and not index_df.empty:
 # ----------------------------------------------------------------------------- 侧边栏筛选
 with st.sidebar:
     st.header("筛选")
-    markets = sorted({inv.market for inv in investors})
-    types = sorted({inv.type for inv in investors})
-    mkt_labels = {"cn": "A股/境内", "us": "美股/境外"}
-    type_labels = {"stock": "股票", "etf": "ETF", "bond": "债券", "index": "指数"}
-
-    sel_mkt = st.multiselect("市场", markets, default=markets,
-                             format_func=lambda m: mkt_labels.get(m, m))
-    sel_type = st.multiselect("类型", types, default=types,
-                              format_func=lambda t: type_labels.get(t, t))
-
-    candidates = [inv for inv in investors
-                  if inv.market in sel_mkt and inv.type in sel_type]
-    sel_names = st.multiselect(
-        "投资者（昵称）", [inv.nickname for inv in candidates],
-        default=[inv.nickname for inv in candidates])
+    all_nicks = [inv.nickname for inv in investors]
+    sel_names = st.multiselect("投资者（昵称）", all_nicks, default=all_nicks)
 
     st.divider()
     show_bench = st.checkbox("叠加基准指数", value=True)
@@ -170,8 +161,11 @@ def to_profit_wan(nav_or_index: pd.Series) -> pd.Series:
 # ----------------------------------------------------------------------------- 主图
 fig = go.Figure()
 for i, inv in enumerate(selected):
-    d = slice_df(frames[inv.key]) if inv.key in frames else None
-    if d is None or d.empty:
+    full = portfolios.get(inv.nickname)
+    if full is None:
+        continue
+    d = slice_df(full)
+    if d.empty:
         continue
     y = to_profit_wan(d["nav"]) if show_profit else to_wan(d["nav"])
     fig.add_trace(go.Scatter(
@@ -179,12 +173,12 @@ for i, inv in enumerate(selected):
         line=dict(color=PALETTE[i % len(PALETTE)], width=1.6)))
 
 if show_bench:
-    bench_dashes = ["dash", "dot"]              # 沪深300=虚线、标普500=点线（均为灰色参考线）
+    bench_dashes = ["dash", "dot"]
     for j, b in enumerate(benchmarks):
-        bf = frames.get(b.key)
+        bf = bench_frames.get(b.key)
         if bf is None or BASE_DATE is None:
             continue
-        after = bf[bf["date"] >= BASE_DATE]     # 以基准日 = 100 万归一
+        after = bf[bf["date"] >= BASE_DATE]
         if after.empty:
             continue
         base_close = float(after["close"].iloc[0])
@@ -219,23 +213,23 @@ st.plotly_chart(fig, use_container_width=True)
 st.subheader("明细")
 rows = []
 for inv in selected:
-    d = slice_df(frames[inv.key]) if inv.key in frames else None
-    if d is None or d.empty:
+    full = portfolios.get(inv.nickname)
+    if full is None:
         continue
-    rec = ITEMS_META.get(inv.key, {})
-    base_close = float(d["close"].iloc[0])
-    last_close = float(d["close"].iloc[-1])
+    d = slice_df(full)
+    if d.empty:
+        continue
+    rec = PF_META.get(inv.nickname, {})
+    cur = rec.get("current", {})
+    cur_label = f"{cur.get('symbol', '')} ({cur.get('market', '').upper()})".strip()
     rows.append({
         "昵称": inv.nickname,
-        "代码": inv.symbol,
-        "市场": inv.market.upper(),
-        "类型": inv.type,
+        "当前持仓": cur_label,
+        "调仓次数": rec.get("n_switches", 0),
         "起始日": d["date"].iloc[0].date(),
-        "起始价": base_close,
-        "最新价": last_close,
-        # 以下三列存 **数值（分数）**，点列头即可按数值正确排序；显示交给 column_config
-        "市值(万元)": last_close / base_close * PRINCIPAL / 1e4,
-        "收益额(万元)": (last_close / base_close - 1.0) * PRINCIPAL / 1e4,
+        # 以下三列存 **数值（分数/元）**，点列头即可按数值正确排序；显示交给 column_config
+        "市值(万元)": float(d["value"].iloc[-1]) / 1e4,
+        "收益额(万元)": (float(d["value"].iloc[-1]) - PRINCIPAL) / 1e4,
         "收益率": float(d["cum_return"].iloc[-1]),
         "年化": rec.get("annualized"),
         "最大回撤": rec.get("max_drawdown"),
@@ -245,8 +239,7 @@ table = pd.DataFrame(rows).sort_values("收益率", ascending=False).set_index("
 st.dataframe(
     table, use_container_width=True,
     column_config={
-        "起始价": st.column_config.NumberColumn(format="%.3f"),
-        "最新价": st.column_config.NumberColumn(format="%.3f"),
+        "调仓次数": st.column_config.NumberColumn(format="%d"),
         "市值(万元)": st.column_config.NumberColumn(format="%.1f"),
         "收益额(万元)": st.column_config.NumberColumn(format="%+.1f"),
         "收益率": st.column_config.NumberColumn(format="percent"),
@@ -255,6 +248,6 @@ st.dataframe(
     })
 
 st.caption("说明：全部为**价格**口径（未复权收盘价，不含分红 / 汇率）。"
-           "市值 = 本金 × close(t)/close(起始日)；年化按实际天数几何折算；"
-           "最大回撤基于归一化价格序列。仅展示起始日及之后的数据。"
+           "组合收益 = 各段标的收益**连乘**（调仓日收盘全仓切换，当日算旧标的、次日起算新标的）。"
+           "年化按实际天数几何折算；最大回撤基于组合净值序列。仅展示起始日及之后的数据。"
            "真实姓名 ↔ 昵称映射保存在本地，看板只显示昵称。")

@@ -49,3 +49,18 @@ def test_us_history_routes_to_sina(monkeypatch):
     monkeypatch.setattr(backfill, "_sina_us_daily", fake)
     backfill.fetch_history(Item("苹果", "AAPL", "us", "stock"), 300)
     assert seen["sym"] == "AAPL"
+
+
+def test_backfill_run_builds_items_from_segments(monkeypatch, tmp_path):
+    """回归：backfill.run 必须用 investor_segments 建标的（曾误传 list 导致 AttributeError）。"""
+    called = {"daily": False}
+    monkeypatch.setattr(backfill, "PRICES_DIR", tmp_path)
+    monkeypatch.setattr(
+        backfill, "fetch_history",
+        lambda it, n: pd.DataFrame({"date": ["2026-09-24"], "close": [100.0]}))
+    monkeypatch.setattr(backfill.daily_close, "run",
+                        lambda: called.__setitem__("daily", True))
+
+    backfill.run(days=30)                       # 不应抛异常
+    assert called["daily"] is True              # 末尾确实触发了 daily_close.run
+    assert len(list(tmp_path.glob("*.csv"))) > 0

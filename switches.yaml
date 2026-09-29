@@ -1,0 +1,105 @@
+# ==========================================================================
+# 调仓流水（append-only）—— **占位样例**，请替换为真实调仓记录
+# --------------------------------------------------------------------------
+# 每条 = 某投资者在某日（收盘）**全仓切换**到某标的：
+#   {date: 2026-09-25, nickname: "Alice", symbol: "AAPL", market: us, type: stock}
+# 口径：调仓日收盘价切换；**当日算旧标的，次交易日起算新标的**；不计费用 / 汇率。
+# 维护：每天有人提交调仓申请就往 switches 追加一行，不改历史。
+# ==========================================================================
+switches:
+  - {date: 2026-09-25, nickname: "Aaron", symbol: "300059", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Adam", symbol: "TSLA", market: us, type: stock}
+  - {date: 2026-09-25, nickname: "Alice", symbol: "601318", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Bella", symbol: "600585", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Bianca", symbol: "META", market: us, type: stock}
+  - {date: 2026-09-25, nickname: "Bob", symbol: "600036", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Caleb", symbol: "601668", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Carlos", symbol: "JPM", market: us, type: stock}
+  - {date: 2026-09-25, nickname: "Carol", symbol: "000858", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Dave", symbol: "600030", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Denise", symbol: "SPY", market: us, type: etf}
+  - {date: 2026-09-25, nickname: "Diana", symbol: "601088", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Edward", symbol: "QQQ", market: us, type: etf}
+  - {date: 2026-09-25, nickname: "Ethan", symbol: "000002", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Eve", symbol: "600276", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Fiona", symbol: "510300", market: cn, type: etf}
+  - {date: 2026-09-25, nickname: "Frank", symbol: "000333", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Freya", symbol: "TLT", market: us, type: bond}
+  - {date: 2026-09-25, nickname: "Gabriel", symbol: "GLD", market: us, type: etf}
+  - {date: 2026-09-25, nickname: "George", symbol: "510500", market: cn, type: etf}
+  - {date: 2026-09-25, nickname: "Grace", symbol: "000651", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Hannah", symbol: "510050", market: cn, type: etf}
+  - {date: 2026-09-25, nickname: "Heidi", symbol: "600887", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Helen", symbol: "^GSPC", market: us, type: index}
+  - {date: 2026-09-25, nickname: "Igor", symbol: "^IXIC", market: us, type: index}
+  - {date: 2026-09-25, nickname: "Isaac", symbol: "159915", market: cn, type: etf}
+  - {date: 2026-09-25, nickname: "Ivan", symbol: "601166", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Janet", symbol: "000001", market: cn, type: index}
+  - {date: 2026-09-25, nickname: "Judy", symbol: "600900", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Julia", symbol: "588000", market: cn, type: etf}
+  - {date: 2026-09-25, nickname: "Karl", symbol: "00700", market: hk, type: stock}
+  - {date: 2026-09-25, nickname: "Kevin", symbol: "512880", market: cn, type: etf}
+  - {date: 2026-09-25, nickname: "Leo", symbol: "09988", market: hk, type: stock}
+  - {date: 2026-09-25, nickname: "Luna", symbol: "511010", market: cn, type: bond}
+  - {date: 2026-09-25, nickname: "Mallory", symbol: "601899", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Mason", symbol: "511260", market: cn, type: bond}
+  - {date: 2026-09-25, nickname: "Mia", symbol: "03690", market: hk, type: stock}
+  - {date: 2026-09-25, nickname: "Niaj", symbol: "002594", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Nina", symbol: "518880", market: cn, type: etf}
+  - {date: 2026-09-25, nickname: "Noah", symbol: "600519", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Olivia", symbol: "300750", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Oscar", symbol: "513100", market: cn, type: etf}
+  - {date: 2026-09-25, nickname: "Paula", symbol: "513050", market: cn, type: etf}
+  - {date: 2026-09-25, nickname: "Peggy", symbol: "601012", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Quan", symbol: "600309", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Quinn", symbol: "512480", market: cn, type: etf}
+  - {date: 2026-09-25, nickname: "Rachel", symbol: "000300", market: cn, type: index}
+  - {date: 2026-09-25, nickname: "Rupert", symbol: "601888", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Sam", symbol: "399001", market: cn, type: index}
+  - {date: 2026-09-25, nickname: "Sybil", symbol: "000001", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Tina", symbol: "399006", market: cn, type: index}
+  - {date: 2026-09-25, nickname: "Trent", symbol: "600028", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Ulysses", symbol: "000905", market: cn, type: index}
+  - {date: 2026-09-25, nickname: "Uma", symbol: "601857", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Vera", symbol: "AAPL", market: us, type: stock}
+  - {date: 2026-09-25, nickname: "Victor", symbol: "601988", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Walter", symbol: "601398", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Wendy", symbol: "MSFT", market: us, type: stock}
+  - {date: 2026-09-25, nickname: "Xavier", symbol: "GOOGL", market: us, type: stock}
+  - {date: 2026-09-25, nickname: "Xena", symbol: "601628", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Yolanda", symbol: "AMZN", market: us, type: stock}
+  - {date: 2026-09-25, nickname: "Yuri", symbol: "000725", market: cn, type: stock}
+  - {date: 2026-09-25, nickname: "Zach", symbol: "NVDA", market: us, type: stock}
+  - {date: 2026-09-25, nickname: "Zoe", symbol: "002415", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Aaron", symbol: "600585", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Adam", symbol: "META", market: us, type: stock}
+  - {date: 2026-09-28, nickname: "Alice", symbol: "600036", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Caleb", symbol: "601088", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Carlos", symbol: "SPY", market: us, type: etf}
+  - {date: 2026-09-28, nickname: "Carol", symbol: "600030", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Edward", symbol: "TLT", market: us, type: bond}
+  - {date: 2026-09-28, nickname: "Ethan", symbol: "510300", market: cn, type: etf}
+  - {date: 2026-09-28, nickname: "Eve", symbol: "000333", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Gabriel", symbol: "^GSPC", market: us, type: index}
+  - {date: 2026-09-28, nickname: "George", symbol: "510050", market: cn, type: etf}
+  - {date: 2026-09-28, nickname: "Grace", symbol: "600887", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Igor", symbol: "000001", market: cn, type: index}
+  - {date: 2026-09-28, nickname: "Isaac", symbol: "588000", market: cn, type: etf}
+  - {date: 2026-09-28, nickname: "Ivan", symbol: "600900", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Karl", symbol: "09988", market: hk, type: stock}
+  - {date: 2026-09-28, nickname: "Kevin", symbol: "511010", market: cn, type: bond}
+  - {date: 2026-09-28, nickname: "Mallory", symbol: "002594", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Mason", symbol: "518880", market: cn, type: etf}
+  - {date: 2026-09-28, nickname: "Mia", symbol: "600519", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Olivia", symbol: "601012", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Oscar", symbol: "513050", market: cn, type: etf}
+  - {date: 2026-09-28, nickname: "Quan", symbol: "601888", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Quinn", symbol: "000300", market: cn, type: index}
+  - {date: 2026-09-28, nickname: "Sam", symbol: "399006", market: cn, type: index}
+  - {date: 2026-09-28, nickname: "Sybil", symbol: "600028", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Ulysses", symbol: "AAPL", market: us, type: stock}
+  - {date: 2026-09-28, nickname: "Uma", symbol: "601988", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Walter", symbol: "601628", market: cn, type: stock}
+  - {date: 2026-09-28, nickname: "Wendy", symbol: "GOOGL", market: us, type: stock}
+  - {date: 2026-09-28, nickname: "Yolanda", symbol: "NVDA", market: us, type: stock}
+  - {date: 2026-09-28, nickname: "Yuri", symbol: "002415", market: cn, type: stock}

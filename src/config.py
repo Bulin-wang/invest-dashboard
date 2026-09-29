@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -12,10 +13,12 @@ ROOT = Path(__file__).resolve().parent.parent
 
 HOLDINGS_PATH = ROOT / "holdings.yaml"
 INVESTORS_PATH = ROOT / "investors.yaml"      # 投资组合清单（公开版，仅昵称）
+SWITCHES_PATH = ROOT / "switches.yaml"        # 调仓流水（append-only，公开版）
 PRIVATE_DIR = ROOT / "private"                # 本地私密目录（真实名单，gitignore）
 DATA_DIR = ROOT / "data"
 PRICES_DIR = DATA_DIR / "prices"
 RETURNS_DIR = DATA_DIR / "returns"
+PORTFOLIOS_DIR = DATA_DIR / "portfolios"      # 每个投资者的组合收益序列
 INDEX_DIR = DATA_DIR / "index"
 INDEX_PATH = INDEX_DIR / "equal_weight.csv"
 META_PATH = DATA_DIR / "meta.json"
@@ -194,3 +197,69 @@ def load_investor_benchmarks(path: Path = INVESTORS_PATH) -> list[Item]:
     """读 investors.yaml 的 benchmarks（基准指数，不参与组合收益）。"""
     cfg = _load(path)
     return [_parse(b) for b in cfg.get("benchmarks", [])]
+
+
+# --------------------------------------------------------------------------- 调仓流水（switches.yaml）
+@dataclass
+class Switch:
+    """一次**全仓切换**：某投资者自 date（收盘）从当前标的整体换到该标的。"""
+
+    date: str
+    nickname: str
+    symbol: str
+    market: str            # cn / us / hk
+    type: str = "stock"
+
+    @property
+    def key(self) -> str:
+        safe = self.symbol.replace("^", "").replace("=", "_")
+        return f"{self.market}_{self.type}_{safe}"
+
+    def item(self, name: str | None = None) -> Item:
+        return Item(name=name or self.nickname, symbol=self.symbol,
+                    market=self.market, type=self.type)
+
+
+def portfolio_id(nickname: str) -> str:
+    """昵称 → 组合文件名（去掉不适合做文件名的字符）。"""
+    return re.sub(r"[^0-9A-Za-z_\-]", "_", nickname) or "investor"
+
+
+def load_switches(path: Path = SWITCHES_PATH) -> list[Switch]:
+    """读 switches.yaml 的调仓流水（append-only）。文件不存在时返回空表（= 每人单段）。"""
+    if not path.exists():
+        return []
+    cfg = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    out: list[Switch] = []
+    for s in cfg.get("switches", []):
+        market = str(s["market"]).lower()
+        typ = str(s.get("type", "stock")).lower()
+        if market not in VALID_MARKETS:
+            raise ValueError(f"未知 market={market!r}（应为 cn/us/hk）")
+        if typ not in VALID_TYPES:
+            raise ValueError(f"未知 type={typ!r}（应为 {sorted(VALID_TYPES)}）")
+        out.append(Switch(date=str(s["date"]), nickname=str(s["nickname"]),
+                          symbol=str(s["symbol"]), market=market, type=typ))
+    return out
+
+
+def investor_segments(investors: list[Investor],
+                      switches: list[Switch]) -> dict[str, list[tuple[str, Item]]]:
+    """把「初始持仓 + 调仓流水」合成为每位投资者的持仓路径（segments）。
+
+    返回 {nickname: [(起始日, Item), (调仓日, Item), ...]}，按日期升序；
+    首段 = investors.yaml 里的初始持仓（date = 该投资者 start_date）。
+    """
+    by_nick: dict[str, list[Switch]] = {}
+    for s in switches:
+        by_nick.setdefault(s.nickname, []).append(s)
+    out: dict[str, list[tuple[str, Item]]] = {}
+    for inv in investors:
+        start = inv.start_date
+        segs: list[tuple[str, Item]] = [(start, Item(
+            name=inv.nickname, symbol=inv.symbol, market=inv.market,
+            type=inv.type, start_date=start))]
+        for s in sorted(by_nick.get(inv.nickname, []), key=lambda x: x.date):
+            segs.append((s.date, s.item(inv.nickname)))
+        out[inv.nickname] = segs
+    return out
