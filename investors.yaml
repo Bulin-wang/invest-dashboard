@@ -78,6 +78,7 @@ investors:
   - {nickname: "investor64", symbol: "03690", market: "hk", type: "stock"}
   - {nickname: "investor65", symbol: "000002", market: "cn", type: "stock"}
   - {nickname: "investor66", symbol: "VOO", market: "us", type: "etf"}
+  - {nickname: "investor67", symbol: "NVDU", market: "us", type: "etf"}
 
 # 基准指数（看板可叠加对比，不参与组合收益）
 benchmarks:
