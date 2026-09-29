@@ -39,6 +39,7 @@
 - **总览**（`app/streamlit_app.py`）：所有投资者的组合收益曲线 + 明细表（当前持仓 / 调仓次数）。
 - **投资者明细**（`app/pages/1_投资者明细.py`）：选一位投资者，看其自起始日**每个交易日**
   持有什么标的、**当日收益**、**截至当日的累计收益**（时间序列），并列出调仓记录。
+- **口径说明**（`app/pages/2_口径说明.py`）：起始日 / 调仓规则 / 收益计算规则，附数字示例。
 
 ## 目录
 
@@ -57,6 +58,7 @@ prototype/
 app/streamlit_app.py         # 看板「总览」页
 app/common.py                # 看板共用：数据加载 / 常量
 app/pages/1_投资者明细.py    # 看板「投资者明细」页（某投资者逐日持仓 / 收益）
+app/pages/2_口径说明.py      # 看板「口径说明」页（规则 + 数字示例）
 data/{prices,returns}/*.csv, data/portfolios/*.csv, data/index/equal_weight.csv, meta.json  # 生成物
 tests/                       # 计算层单测（离线）
 src/                         # 配置/计算（portfolio.py 组合收益）+【备用后端】
