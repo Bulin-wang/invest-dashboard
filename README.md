@@ -34,6 +34,12 @@
 - **只输出基准日及之后**的点；
 - 输出 `data/index/equal_weight.csv`（date, index），**看板自动叠加**为 ★ 群体平均。
 
+## 看板页面
+
+- **总览**（`app/streamlit_app.py`）：所有投资者的组合收益曲线 + 明细表（当前持仓 / 调仓次数）。
+- **投资者明细**（`app/pages/1_投资者明细.py`）：选一位投资者，看其自起始日**每个交易日**
+  持有什么标的、**当日收益**、**截至当日的累计收益**（时间序列），并列出调仓记录。
+
 ## 目录
 
 ```
@@ -46,7 +52,9 @@ prototype/
   daily_close.py             # 每日：取当日收盘价 → append → 算组合收益 / 群体平均
   backfill.py                # 首次：回填历史日线（未复权）
   index_build.py             # 群体平均指数（对投资者组合收益按人平均，基准日 = 100 = 100 万）
-app/streamlit_app.py         # 看板
+app/streamlit_app.py         # 看板「总览」页
+app/common.py                # 看板共用：数据加载 / 常量
+app/pages/1_投资者明细.py    # 看板「投资者明细」页（某投资者逐日持仓 / 收益）
 data/{prices,returns}/*.csv, data/portfolios/*.csv, data/index/equal_weight.csv, meta.json  # 生成物
 tests/                       # 计算层单测（离线）
 src/                         # 配置/计算（portfolio.py 组合收益）+【备用后端】

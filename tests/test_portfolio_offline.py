@@ -22,6 +22,7 @@ def test_single_segment_matches_price_return():
     assert df["value"].tolist() == pytest.approx([100.0, 110.0, 99.0])   # 单段 = 纯价格收益
     assert df["nav"].iloc[0] == 100.0
     assert df["cum_return"].iloc[-1] == pytest.approx(-0.01)
+    assert df["holding"].tolist() == ["A", "A", "A"]                     # 全程持有 A
 
 
 def test_two_segments_chain_and_switch_day_is_old():
@@ -35,6 +36,8 @@ def test_two_segments_chain_and_switch_day_is_old():
     assert by_date["2026-09-24"] == pytest.approx(100.0)
     assert by_date["2026-09-25"] == pytest.approx(110.0)     # 调仓当日仍算旧标的 A（不是 B 的 120）
     assert by_date["2026-09-26"] == pytest.approx(121.0)     # 1.10 × 1.10 = 1.21
+    assert df["holding"].tolist() == ["A", "A", "B"]         # 09-25 仍算 A，09-26 起 B
+    assert df["daily_return"].tolist()[1:] == pytest.approx([0.10, 0.10])
 
 
 def test_switch_date_rolls_forward_to_next_trading_day():

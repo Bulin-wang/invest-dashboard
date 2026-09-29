@@ -1,66 +1,32 @@
-"""投资组合价值看板（Streamlit）—— 看 ~60 位投资者的**组合累计收益**（含调仓）。
+"""投资组合价值看板（Streamlit）—「总览」页。
 
 - 每位投资者有一条持仓路径（全仓切换，`switches.yaml`）；看板汇报其**组合收益**
   （`data/portfolios/{Investor}.csv`，由 prototype.daily_close 合成）。
 - 本金 principal（元），Y 轴单位为「万元」，基准线画在 100 万；**不展示起始日之前**。
 - 展示用昵称（真实姓名映射在本地，不入库）。
+- 单投资者「调仓明细」见 app/pages/ 下的页面。
 
 本地运行：  streamlit run app/streamlit_app.py
 云端：      Streamlit Community Cloud，主文件填 app/streamlit_app.py
 """
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT))  # 让 `import src...` 生效
+APP = Path(__file__).resolve().parent
+for _p in (str(ROOT), str(APP)):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from src.config import (
-    INDEX_PATH,
-    META_PATH,
-    PORTFOLIOS_DIR,
-    RETURNS_DIR,
-    load_investor_benchmarks,
-    load_investor_config,
-    load_investors,
-    portfolio_id,
-)
+from common import PALETTE, UNIT, load_all
 
 st.set_page_config(page_title="投资组合价值看板", page_icon="📈", layout="wide")
-
-UNIT = 1_000_000.0   # 100 万；`nav`（基准=100）换算成「万元」的缩放因子 = principal/UNIT
-
-
-# ----------------------------------------------------------------------------- 数据加载
-@st.cache_data(ttl=1800, show_spinner="加载数据中…")
-def load_all():
-    investors = load_investors()
-    benchmarks = load_investor_benchmarks()
-    cfg = load_investor_config()
-    portfolios: dict[str, pd.DataFrame] = {}
-    for inv in investors:
-        f = PORTFOLIOS_DIR / f"{portfolio_id(inv.nickname)}.csv"
-        if f.exists():
-            portfolios[inv.nickname] = pd.read_csv(f, parse_dates=["date"])
-    bench_frames: dict[str, pd.DataFrame] = {}
-    for b in benchmarks:
-        f = RETURNS_DIR / f"{b.key}.csv"
-        if f.exists():
-            bench_frames[b.key] = pd.read_csv(f, parse_dates=["date"])
-    meta = {}
-    if META_PATH.exists():
-        meta = json.loads(META_PATH.read_text(encoding="utf-8"))
-    index_df = None
-    if INDEX_PATH.exists():
-        index_df = pd.read_csv(INDEX_PATH, parse_dates=["date"])
-    return investors, benchmarks, cfg, portfolios, bench_frames, meta, index_df
-
 
 investors, benchmarks, cfg, portfolios, bench_frames, meta, index_df = load_all()
 
@@ -68,9 +34,6 @@ PRINCIPAL = float(cfg.get("principal", UNIT))
 SCALE = PRINCIPAL / UNIT                       # nav → 万元
 BASE_DATE = pd.Timestamp(cfg["start_date"]) if cfg.get("start_date") else None
 PF_META = {p["nickname"]: p for p in meta.get("portfolios", [])}
-
-PALETTE = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
-           "#8c564b", "#e377c2", "#17becf", "#bcbd22", "#7f7f7f"]
 
 
 # ----------------------------------------------------------------------------- 顶部
@@ -208,6 +171,7 @@ fig.update_layout(
 fig.add_hline(y=(0 if show_profit else 100 * SCALE), line_width=1,
               line_color="rgba(0,0,0,0.3)")
 st.plotly_chart(fig, use_container_width=True)
+st.caption("提示：左侧页面切换 →「投资者明细」可看某位投资者每个交易日的持仓与收益。")
 
 # ----------------------------------------------------------------------------- 明细表
 st.subheader("明细")
@@ -227,7 +191,6 @@ for inv in selected:
         "当前持仓": cur_label,
         "调仓次数": rec.get("n_switches", 0),
         "起始日": d["date"].iloc[0].date(),
-        # 以下三列存 **数值（分数/元）**，点列头即可按数值正确排序；显示交给 column_config
         "市值(万元)": float(d["value"].iloc[-1]) / 1e4,
         "收益额(万元)": (float(d["value"].iloc[-1]) - PRINCIPAL) / 1e4,
         "收益率": float(d["cum_return"].iloc[-1]),
@@ -249,5 +212,4 @@ st.dataframe(
 
 st.caption("说明：全部为**价格**口径（未复权收盘价，不含分红 / 汇率）。"
            "组合收益 = 各段标的收益**连乘**（调仓日收盘全仓切换，当日算旧标的、次日起算新标的）。"
-           "年化按实际天数几何折算；最大回撤基于组合净值序列。仅展示起始日及之后的数据。"
-           "真实姓名 ↔ 昵称映射保存在本地，看板只显示昵称。")
+           "年化按实际天数几何折算；最大回撤基于组合净值序列。仅展示起始日及之后的数据。")
