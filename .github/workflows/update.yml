@@ -4,6 +4,7 @@ name: update-data
 #  - "35 7 * * 1-5"  = UTC 07:35 = 北京 15:35，抓 A股当日收盘
 #  - "10 1 * * 2-6"  = UTC 01:10 = 北京 09:10，抓美股隔夜收盘
 # 数据源为免 key 的行情端点（新浪/腾讯），无需任何 Secret。
+# 清单为项目根 investors.yaml（公开版仅昵称；private/ 不入库，CI 也不需要）。
 on:
   schedule:
     - cron: "35 7 * * 1-5"

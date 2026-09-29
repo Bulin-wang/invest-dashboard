@@ -1,0 +1,83 @@
+# ==========================================================================
+# 投资组合清单（公开版）—— 只有昵称，**不含真实姓名**
+# --------------------------------------------------------------------------
+# 本文件由 `python -m tools.make_investors` 从私有名单生成，请勿手改（会被覆盖）。
+# 真实姓名 ↔ 昵称 的映射保存在本地 private/（已 gitignore），不入库、不公开。
+#
+# 口径：每人持有 1 个标的，本金 principal（元），自 start_date 起按标的
+#       **未复权价格收益**折算市值 = principal × close(t)/close(start_date)。
+# ==========================================================================
+base_currency: CNY
+start_date: 2026-09-24
+principal: 1000000
+
+investors:
+  - {nickname: "Alice", symbol: "600519", market: "cn", type: "stock"}
+  - {nickname: "Bob", symbol: "601318", market: "cn", type: "stock"}
+  - {nickname: "Carol", symbol: "600036", market: "cn", type: "stock"}
+  - {nickname: "Dave", symbol: "000858", market: "cn", type: "stock"}
+  - {nickname: "Eve", symbol: "600030", market: "cn", type: "stock"}
+  - {nickname: "Frank", symbol: "600276", market: "cn", type: "stock"}
+  - {nickname: "Grace", symbol: "000333", market: "cn", type: "stock"}
+  - {nickname: "Heidi", symbol: "000651", market: "cn", type: "stock"}
+  - {nickname: "Ivan", symbol: "600887", market: "cn", type: "stock"}
+  - {nickname: "Judy", symbol: "601166", market: "cn", type: "stock"}
+  - {nickname: "Mallory", symbol: "600900", market: "cn", type: "stock"}
+  - {nickname: "Niaj", symbol: "601899", market: "cn", type: "stock"}
+  - {nickname: "Olivia", symbol: "002594", market: "cn", type: "stock"}
+  - {nickname: "Peggy", symbol: "300750", market: "cn", type: "stock"}
+  - {nickname: "Quan", symbol: "601012", market: "cn", type: "stock"}
+  - {nickname: "Rupert", symbol: "600309", market: "cn", type: "stock"}
+  - {nickname: "Sybil", symbol: "601888", market: "cn", type: "stock"}
+  - {nickname: "Trent", symbol: "000001", market: "cn", type: "stock"}
+  - {nickname: "Uma", symbol: "600028", market: "cn", type: "stock"}
+  - {nickname: "Victor", symbol: "601857", market: "cn", type: "stock"}
+  - {nickname: "Walter", symbol: "601988", market: "cn", type: "stock"}
+  - {nickname: "Xena", symbol: "601398", market: "cn", type: "stock"}
+  - {nickname: "Yuri", symbol: "601628", market: "cn", type: "stock"}
+  - {nickname: "Zoe", symbol: "000725", market: "cn", type: "stock"}
+  - {nickname: "Aaron", symbol: "002415", market: "cn", type: "stock"}
+  - {nickname: "Bella", symbol: "300059", market: "cn", type: "stock"}
+  - {nickname: "Caleb", symbol: "600585", market: "cn", type: "stock"}
+  - {nickname: "Diana", symbol: "601668", market: "cn", type: "stock"}
+  - {nickname: "Ethan", symbol: "601088", market: "cn", type: "stock"}
+  - {nickname: "Fiona", symbol: "000002", market: "cn", type: "stock"}
+  - {nickname: "George", symbol: "510300", market: "cn", type: "etf"}
+  - {nickname: "Hannah", symbol: "510500", market: "cn", type: "etf"}
+  - {nickname: "Isaac", symbol: "510050", market: "cn", type: "etf"}
+  - {nickname: "Julia", symbol: "159915", market: "cn", type: "etf"}
+  - {nickname: "Kevin", symbol: "588000", market: "cn", type: "etf"}
+  - {nickname: "Luna", symbol: "512880", market: "cn", type: "etf"}
+  - {nickname: "Mason", symbol: "511010", market: "cn", type: "bond"}
+  - {nickname: "Nina", symbol: "511260", market: "cn", type: "bond"}
+  - {nickname: "Oscar", symbol: "518880", market: "cn", type: "etf"}
+  - {nickname: "Paula", symbol: "513100", market: "cn", type: "etf"}
+  - {nickname: "Quinn", symbol: "513050", market: "cn", type: "etf"}
+  - {nickname: "Rachel", symbol: "512480", market: "cn", type: "etf"}
+  - {nickname: "Sam", symbol: "000300", market: "cn", type: "index"}
+  - {nickname: "Tina", symbol: "399001", market: "cn", type: "index"}
+  - {nickname: "Ulysses", symbol: "399006", market: "cn", type: "index"}
+  - {nickname: "Vera", symbol: "000905", market: "cn", type: "index"}
+  - {nickname: "Wendy", symbol: "AAPL", market: "us", type: "stock"}
+  - {nickname: "Xavier", symbol: "MSFT", market: "us", type: "stock"}
+  - {nickname: "Yolanda", symbol: "GOOGL", market: "us", type: "stock"}
+  - {nickname: "Zach", symbol: "AMZN", market: "us", type: "stock"}
+  - {nickname: "Adam", symbol: "NVDA", market: "us", type: "stock"}
+  - {nickname: "Bianca", symbol: "TSLA", market: "us", type: "stock"}
+  - {nickname: "Carlos", symbol: "META", market: "us", type: "stock"}
+  - {nickname: "Denise", symbol: "JPM", market: "us", type: "stock"}
+  - {nickname: "Edward", symbol: "SPY", market: "us", type: "etf"}
+  - {nickname: "Freya", symbol: "QQQ", market: "us", type: "etf"}
+  - {nickname: "Gabriel", symbol: "TLT", market: "us", type: "bond"}
+  - {nickname: "Helen", symbol: "GLD", market: "us", type: "etf"}
+  - {nickname: "Igor", symbol: "^GSPC", market: "us", type: "index"}
+  - {nickname: "Janet", symbol: "^IXIC", market: "us", type: "index"}
+  - {nickname: "Karl", symbol: "000001", market: "cn", type: "index"}
+  - {nickname: "Leo", symbol: "00700", market: "hk", type: "stock"}
+  - {nickname: "Mia", symbol: "09988", market: "hk", type: "stock"}
+  - {nickname: "Noah", symbol: "03690", market: "hk", type: "stock"}
+
+# 基准指数（看板可叠加对比，不参与组合收益）
+benchmarks:
+  - {name: "沪深300", symbol: "000300", market: "cn", type: "index"}
+  - {name: "标普500", symbol: "^GSPC", market: "us", type: "index"}

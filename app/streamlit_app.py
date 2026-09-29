@@ -1,6 +1,11 @@
-"""持仓价格看板（Streamlit）—— 看各标的的**价格变化**（未复权收盘价）。
+"""投资组合价值看板（Streamlit）—— 看 ~60 位投资者 **100 万本金**的累计市值。
 
-读取 data/ 下由 prototype.daily_close / src.pipeline 生成的结果并可视化。
+- 每人持有 1 个标的，本金 principal（元），自 start_date 起按标的**未复权价格收益**折算：
+      value(t) = principal × close(t) / close(start_date)
+- Y 轴单位为「万元」，基准线画在 100 万；**不展示起始日之前**的信息。
+- 展示用昵称（真实姓名映射在本地，不入库）。
+
+读取 data/ 下由 prototype.daily_close 生成的结果并可视化。
 本地运行：  streamlit run app/streamlit_app.py
 云端：      Streamlit Community Cloud，主文件填 app/streamlit_app.py
 """
@@ -17,43 +22,56 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from src.config import RETURNS_DIR, META_PATH, INDEX_PATH, load_benchmarks, load_holdings
+from src.config import (
+    INDEX_PATH,
+    META_PATH,
+    RETURNS_DIR,
+    load_investor_benchmarks,
+    load_investor_config,
+    load_investors,
+)
 
-st.set_page_config(page_title="持仓价格看板", page_icon="📈", layout="wide")
+st.set_page_config(page_title="投资组合价值看板", page_icon="📈", layout="wide")
+
+UNIT = 1_000_000.0   # 100 万；`nav`（基准=100）换算成「万元」的缩放因子 = principal/UNIT
 
 
 # ----------------------------------------------------------------------------- 数据加载
 @st.cache_data(ttl=1800, show_spinner="加载数据中…")
 def load_all():
-    holdings = load_holdings()
-    benchmarks = load_benchmarks()
+    investors = load_investors()
+    benchmarks = load_investor_benchmarks()
+    cfg = load_investor_config()
+    keys = sorted({inv.key for inv in investors} | {b.key for b in benchmarks})
     frames: dict[str, pd.DataFrame] = {}
-    for it in holdings + benchmarks:
-        f = RETURNS_DIR / f"{it.key}.csv"
+    for k in keys:
+        f = RETURNS_DIR / f"{k}.csv"
         if f.exists():
-            frames[it.key] = pd.read_csv(f, parse_dates=["date"])
+            frames[k] = pd.read_csv(f, parse_dates=["date"])
     meta = {}
     if META_PATH.exists():
         meta = json.loads(META_PATH.read_text(encoding="utf-8"))
     index_df = None
     if INDEX_PATH.exists():
         index_df = pd.read_csv(INDEX_PATH, parse_dates=["date"])
-    return holdings, benchmarks, frames, meta, index_df
+    return investors, benchmarks, cfg, frames, meta, index_df
 
 
-holdings, benchmarks, frames, meta, index_df = load_all()
+investors, benchmarks, cfg, frames, meta, index_df = load_all()
 
-# 归一化基准日：持仓里最早的 start_date（与自定义等权指数保持一致）
-_BASE_DATES = [pd.Timestamp(it.start_date) for it in holdings if getattr(it, "start_date", None)]
-BASE_DATE = min(_BASE_DATES) if _BASE_DATES else None
+PRINCIPAL = float(cfg.get("principal", UNIT))
+SCALE = PRINCIPAL / UNIT                       # nav → 万元
+BASE_DATE = pd.Timestamp(cfg["start_date"]) if cfg.get("start_date") else None
+ITEMS_META = meta.get("items", {})
 
 PALETTE = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
            "#8c564b", "#e377c2", "#17becf", "#bcbd22", "#7f7f7f"]
 
 
 # ----------------------------------------------------------------------------- 顶部
-st.title("📈 持仓价格看板")
-st.caption("口径：未复权收盘价的**价格变化**（不含分红 / 除权），自各标的起始日归一化。")
+st.title("📈 投资组合价值看板")
+st.caption(f"口径：每人本金 **{PRINCIPAL / 1e4:,.0f} 万元**，自 {cfg.get('start_date')} 起按标的"
+           "**未复权价格收益**折算市值（不含分红 / 汇率）；Y 轴单位为**万元**，起点 100 万。")
 
 if not frames:
     st.warning(
@@ -66,21 +84,22 @@ if not frames:
     st.stop()
 
 updated = meta.get("updated_at", "未知")
-ok = sum(1 for v in meta.get("items", {}).values() if v.get("status") == "ok")
-errs = [v["name"] for v in meta.get("items", {}).values() if v.get("status") == "error"]
-st.caption(f"数据更新时间(UTC)：{updated} ｜ 成功 {ok} 个"
+ok = sum(1 for v in ITEMS_META.values() if v.get("status") == "ok")
+errs = [v.get("name", "") for v in ITEMS_META.values() if v.get("status") == "error"]
+n_inv = len(investors)
+st.caption(f"数据更新时间(UTC)：{updated} ｜ {n_inv} 位投资者 / {ok} 个标的成功"
            + (f" ｜ ⚠️ 失败：{', '.join(errs)}" if errs else ""))
 if index_df is not None and not index_df.empty:
-    iv = float(index_df["index"].iloc[-1])
-    st.caption(f"自定义等权指数（基准日 = 100）：**{iv:.2f}** 点"
-               f"（{iv - 100:+.2f} 点 / {iv / 100 - 1:+.2%}）")
+    iv_wan = float(index_df["index"].iloc[-1]) * SCALE
+    st.caption(f"群体平均（基准 {cfg.get('start_date')} = 100 万）：**{iv_wan:,.0f} 万元**"
+               f"（{(iv_wan * 1e4 / PRINCIPAL - 1):+.2%}）")
 
 
 # ----------------------------------------------------------------------------- 侧边栏筛选
 with st.sidebar:
     st.header("筛选")
-    markets = sorted({it.market for it in holdings})
-    types = sorted({it.type for it in holdings})
+    markets = sorted({inv.market for inv in investors})
+    types = sorted({inv.type for inv in investors})
     mkt_labels = {"cn": "A股/境内", "us": "美股/境外"}
     type_labels = {"stock": "股票", "etf": "ETF", "bond": "债券", "index": "指数"}
 
@@ -89,16 +108,17 @@ with st.sidebar:
     sel_type = st.multiselect("类型", types, default=types,
                               format_func=lambda t: type_labels.get(t, t))
 
-    candidates = [it for it in holdings
-                  if it.market in sel_mkt and it.type in sel_type]
-    sel_keys = st.multiselect(
-        "标的", [it.key for it in candidates], default=[it.key for it in candidates],
-        format_func=lambda k: next(it.name for it in holdings if it.key == k))
+    candidates = [inv for inv in investors
+                  if inv.market in sel_mkt and inv.type in sel_type]
+    sel_names = st.multiselect(
+        "投资者（昵称）", [inv.nickname for inv in candidates],
+        default=[inv.nickname for inv in candidates])
 
     st.divider()
     show_bench = st.checkbox("叠加基准指数", value=True)
-    show_index = st.checkbox("叠加等权指数", value=True)
-    norm100 = st.checkbox("净值化（起始=100）", value=False)
+    show_index = st.checkbox("叠加群体平均", value=True)
+    show_profit = st.checkbox("显示盈亏额（万元）", value=False,
+                              help="勾选后 Y 轴为相对 100 万的盈亏（万元）；默认显示市值。")
 
     st.divider()
     st.header("时间范围")
@@ -116,96 +136,125 @@ with st.sidebar:
         range_start = pd.Timestamp(custom)
 
 
-# ----------------------------------------------------------------------------- 取选中数据
-def slice_df(df: pd.DataFrame) -> pd.DataFrame:
+# ----------------------------------------------------------------------------- 取选中数据（不早于基准日）
+def floor_start():
+    if BASE_DATE is None:
+        return range_start
     if range_start is None:
+        return BASE_DATE
+    return max(range_start, BASE_DATE)
+
+
+START = floor_start()
+
+
+def slice_df(df: pd.DataFrame) -> pd.DataFrame:
+    if START is None:
         return df
-    return df[df["date"] >= range_start]
+    return df[df["date"] >= START]
 
 
-selected = [it for it in holdings if it.key in sel_keys]
-series = [(it, slice_df(frames[it.key])) for it in selected if it.key in frames]
-series = [(it, d) for it, d in series if not d.empty]
+selected = [inv for inv in investors if inv.nickname in sel_names]
+
+
+def to_wan(nav_or_index: pd.Series) -> pd.Series:
+    """把「基准=100」的序列换算成万元（相对 100 万本金）。"""
+    return nav_or_index * SCALE
+
+
+def to_profit_wan(nav_or_index: pd.Series) -> pd.Series:
+    """换算成相对 100 万的盈亏（万元）。"""
+    return (nav_or_index - 100.0) * SCALE
+
 
 # ----------------------------------------------------------------------------- 主图
 fig = go.Figure()
-for i, (it, d) in enumerate(series):
-    y = d["nav"] if norm100 else d["cum_return"] * 100.0
+for i, inv in enumerate(selected):
+    d = slice_df(frames[inv.key]) if inv.key in frames else None
+    if d is None or d.empty:
+        continue
+    y = to_profit_wan(d["nav"]) if show_profit else to_wan(d["nav"])
     fig.add_trace(go.Scatter(
-        x=d["date"], y=y, name=it.name, mode="lines",
-        line=dict(color=PALETTE[i % len(PALETTE)], width=2)))
+        x=d["date"], y=y, name=inv.nickname, mode="lines",
+        line=dict(color=PALETTE[i % len(PALETTE)], width=1.6)))
 
 if show_bench:
     bench_dashes = ["dash", "dot"]              # 沪深300=虚线、标普500=点线（均为灰色参考线）
-    for j, it in enumerate(benchmarks):
-        if it.key not in frames:
+    for j, b in enumerate(benchmarks):
+        bf = frames.get(b.key)
+        if bf is None or BASE_DATE is None:
             continue
-        bf = frames[it.key]
-        if norm100 and BASE_DATE is not None:
-            after = bf[bf["date"] >= BASE_DATE]          # 以基准日 = 100 归一
-            if after.empty:
-                continue
-            base_close = float(after["close"].iloc[0])
-            b = slice_df(bf)
-            if b.empty:
-                continue
-            by, bx = b["close"] / base_close * 100.0, b["date"]
-        else:
-            b = slice_df(bf)
-            if b.empty:
-                continue
-            by, bx = b["cum_return"] * 100.0, b["date"]
+        after = bf[bf["date"] >= BASE_DATE]     # 以基准日 = 100 万归一
+        if after.empty:
+            continue
+        base_close = float(after["close"].iloc[0])
+        d = slice_df(bf)
+        if d.empty:
+            continue
+        series = d["close"] / base_close * 100.0     # 基准日 = 100（万元）
+        y = to_profit_wan(series) if show_profit else to_wan(series)
         fig.add_trace(go.Scatter(
-            x=bx, y=by, name=f"[基准] {it.name}", mode="lines",
+            x=d["date"], y=y, name=f"[基准] {b.name}", mode="lines",
             line=dict(width=1.5, dash=bench_dashes[j % len(bench_dashes)],
                       color="rgba(120,120,120,0.9)")))
 
 if show_index and index_df is not None and not index_df.empty:
     ix = slice_df(index_df)
     if not ix.empty:
-        iy = ix["index"] if norm100 else ix["index"] - 100.0
+        y = to_profit_wan(ix["index"]) if show_profit else to_wan(ix["index"])
         fig.add_trace(go.Scatter(
-            x=ix["date"], y=iy, name="★ 等权指数", mode="lines",
+            x=ix["date"], y=y, name="★ 群体平均", mode="lines",
             line=dict(color="#111111", width=3)))
 
 fig.update_layout(
     height=520, hovermode="x unified",
-    yaxis_title=("净值（起始=100）" if norm100 else "累计涨跌（%）"),
+    yaxis_title=("盈亏（万元，相对 100 万）" if show_profit else "市值（万元）"),
     xaxis_title="日期", legend=dict(orientation="h", yanchor="bottom", y=1.02),
     margin=dict(l=10, r=10, t=40, b=10))
-fig.add_hline(y=(100 if norm100 else 0), line_width=1, line_color="rgba(0,0,0,0.3)")
+fig.add_hline(y=(0 if show_profit else 100 * SCALE), line_width=1,
+              line_color="rgba(0,0,0,0.3)")
 st.plotly_chart(fig, use_container_width=True)
 
 # ----------------------------------------------------------------------------- 明细表
 st.subheader("明细")
 rows = []
-for it, d in series:
-    rec = meta.get("items", {}).get(it.key, {})
+for inv in selected:
+    d = slice_df(frames[inv.key]) if inv.key in frames else None
+    if d is None or d.empty:
+        continue
+    rec = ITEMS_META.get(inv.key, {})
+    base_close = float(d["close"].iloc[0])
+    last_close = float(d["close"].iloc[-1])
     rows.append({
-        "标的": it.name,
-        "代码": it.symbol,
-        "市场": it.market.upper(),
-        "类型": it.type,
+        "昵称": inv.nickname,
+        "代码": inv.symbol,
+        "市场": inv.market.upper(),
+        "类型": inv.type,
         "起始日": d["date"].iloc[0].date(),
-        "起始价": float(d["close"].iloc[0]),
-        "最新价": float(d["close"].iloc[-1]),
+        "起始价": base_close,
+        "最新价": last_close,
         # 以下三列存 **数值（分数）**，点列头即可按数值正确排序；显示交给 column_config
-        "累计涨跌": float(d["cum_return"].iloc[-1]),
+        "市值(万元)": last_close / base_close * PRINCIPAL / 1e4,
+        "收益额(万元)": (last_close / base_close - 1.0) * PRINCIPAL / 1e4,
+        "收益率": float(d["cum_return"].iloc[-1]),
         "年化": rec.get("annualized"),
         "最大回撤": rec.get("max_drawdown"),
+        "更新日": d["date"].iloc[-1].date(),
     })
-table = pd.DataFrame(rows).sort_values("累计涨跌", ascending=False).set_index("标的")
+table = pd.DataFrame(rows).sort_values("收益率", ascending=False).set_index("昵称")
 st.dataframe(
     table, use_container_width=True,
     column_config={
         "起始价": st.column_config.NumberColumn(format="%.3f"),
         "最新价": st.column_config.NumberColumn(format="%.3f"),
-        "累计涨跌": st.column_config.NumberColumn(format="percent"),
+        "市值(万元)": st.column_config.NumberColumn(format="%.1f"),
+        "收益额(万元)": st.column_config.NumberColumn(format="%+.1f"),
+        "收益率": st.column_config.NumberColumn(format="percent"),
         "年化": st.column_config.NumberColumn(format="percent"),
         "最大回撤": st.column_config.NumberColumn(format="percent"),
     })
 
-st.caption("说明：全部为**价格**口径（未复权收盘价，不含分红 / 除权）。"
-           "年化按实际天数几何折算；最大回撤基于归一化价格序列。"
-           "净值化模式下，基准指数与持仓 / 等权指数统一以**基准日（持仓最早 start_date）= 100** 归一。"
-           "组合聚合（含汇率折算）为后续扩展。")
+st.caption("说明：全部为**价格**口径（未复权收盘价，不含分红 / 汇率）。"
+           "市值 = 本金 × close(t)/close(起始日)；年化按实际天数几何折算；"
+           "最大回撤基于归一化价格序列。仅展示起始日及之后的数据。"
+           "真实姓名 ↔ 昵称映射保存在本地，看板只显示昵称。")

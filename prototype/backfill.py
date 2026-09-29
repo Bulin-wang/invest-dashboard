@@ -3,7 +3,7 @@
 之后照常 `python -m prototype.daily_close` 每天增量 append。
 
 数据源（与当日报价同口径 —— 都是**未复权**，保证序列连续）：
-- cn（个股/指数）：腾讯 `fqkline` 的 `day`（= 不复权）
+- cn（个股/ETF/指数）+ hk（港股）：腾讯 `fqkline` 的 `day`（= 不复权；港股用 `hk` 前缀代码）
 - us（个股/ETF/指数）：新浪 `US_MinKService.getDailyK`（指数用 `.INX`/`.IXIC`/`.DJI`）
 
 ⚠️ 未复权：跨**拆股**（美股）或**除权除息**（A股）会有跳空 → 适合近期窗口；
@@ -33,7 +33,11 @@ except (AttributeError, ValueError):
 
 from prototype import daily_close  # noqa: E402
 from prototype.quote_fetch import Item, tencent_code  # noqa: E402
-from src.config import PRICES_DIR, load_benchmarks, load_holdings  # noqa: E402
+from src.config import (  # noqa: E402
+    PRICES_DIR,
+    load_investor_benchmarks,
+    load_investors,
+)
 
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 TX_KLINE = "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param={code},day,,,{n},"
@@ -67,9 +71,8 @@ def _sina_us_daily(symbol: str, n: int) -> pd.DataFrame:
 def fetch_history(it: Item, n: int) -> pd.DataFrame:
     if it.market == "us":
         return _sina_us_daily(it.symbol, n)
-    if it.market == "hk":
-        raise ValueError("港股历史回填暂未接（可后续加）")
-    return _tencent_cn_daily(tencent_code(it), n)   # cn 个股/ETF/指数
+    # cn 个股/ETF/指数 与 hk 港股：都走腾讯 fqkline（未复权 day）
+    return _tencent_cn_daily(tencent_code(it), n)
 
 
 def _merge(existing: pd.DataFrame, fetched: pd.DataFrame) -> pd.DataFrame:
@@ -89,7 +92,7 @@ def _merge(existing: pd.DataFrame, fetched: pd.DataFrame) -> pd.DataFrame:
 def seed_missing(items, days: int = 400, min_rows: int = 5) -> int:
     """给**历史过短/缺失**的标的补一份历史（新加入标的用）。
 
-    daily_close 每次会先调用它：这样"往 holdings.yaml 加个标的 → 跑 daily_close"
+    daily_close 每次会先调用它：这样"往 investors.yaml 加个标的 → 跑 daily_close"
     就能自动补全历史，不会因为某标只有 1 天数据把指数/收益带偏。返回补种数量。
     """
     seeded = 0
@@ -117,7 +120,7 @@ def seed_missing(items, days: int = 400, min_rows: int = 5) -> int:
 
 def run(days: int) -> None:
     PRICES_DIR.mkdir(parents=True, exist_ok=True)
-    items = load_holdings() + load_benchmarks()
+    items = daily_close._instruments(load_investors(), load_investor_benchmarks())
     print(f"回填 {len(items)} 个标的，各取最近 {days} 个交易日（未复权）…\n")
     for it in items:
         key = it.key

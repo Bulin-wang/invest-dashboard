@@ -1,11 +1,12 @@
-"""日更脚本（报价端点版）：每天 append 当日收盘价 → 算累计收益。
+"""日更脚本（报价端点版）：每天 append 当日收盘价 → 算累计收益 / 市值。
 
-设计（契合「每天一次、低时效、~70 个标的」）：
+设计（契合「~60 位投资者、每天一次、低时效」的场景）：
 - 数据源：新浪/腾讯报价端点（复用 prototype.quote_fetch），**无 key**；
-- 清单：项目根 holdings.yaml（holdings + benchmarks）；
+- 清单：项目根 investors.yaml（investors + benchmarks）；**同一标的多位持有者只抓一次**；
 - 存储：**增量 append** 当日收盘价到 data/prices/{key}.csv（不是每天全量重取）；
-- 收益：cum_return(t) = close(t)/close(start) - 1，起点取 start_date（无则取首个记录日）；
-- 输出：data/prices/*.csv、data/returns/*.csv、data/meta.json —— 与现有 Streamlit 看板兼容。
+- 收益：cum_return(t) = close(t)/close(start) - 1，起点 = 各投资者 start_date（基准日）；
+- 市值：principal × close(t)/close(start)，即 100 万 × 标的收益率；
+- 输出：data/prices/*.csv、data/returns/*.csv、data/meta.json —— 与 Streamlit 看板兼容。
 
 ⚠️ 口径：**价格收益**（未复权）。当日报价未含分红/除权；若要「含分红再投」，
    需另配除权修正（后续再做）。
@@ -33,8 +34,10 @@ from src.config import (  # noqa: E402
     META_PATH,
     PRICES_DIR,
     RETURNS_DIR,
-    load_benchmarks,
-    load_holdings,
+    Item,
+    load_investor_benchmarks,
+    load_investor_config,
+    load_investors,
 )
 from src.returns import (  # noqa: E402
     annualized_return,
@@ -70,11 +73,32 @@ def _safe(x) -> float | None:
         return None
 
 
+def _instruments(investors, benchmarks) -> list[Item]:
+    """投资者 + 基准 → **去重后的标的列表**（同一标的多位持有者只抓一次）。
+
+    键用 `market_type_symbol`（如 cn_stock_600519、cn_index_000001），故同标的共享同一份
+    prices/returns；含 type 也避免同 market 同代码不同品种（个股/指数）撞键。
+    """
+    uniq: dict[str, Item] = {}
+    for inv in investors:
+        uniq.setdefault(inv.key, Item(
+            name=inv.nickname, symbol=inv.symbol, market=inv.market,
+            type=inv.type, start_date=inv.start_date))
+    for b in benchmarks:
+        uniq.setdefault(b.key, b)
+    return list(uniq.values())
+
+
 def run() -> dict:
     PRICES_DIR.mkdir(parents=True, exist_ok=True)
     RETURNS_DIR.mkdir(parents=True, exist_ok=True)
 
-    items = load_holdings() + load_benchmarks()
+    investors = load_investors()
+    benchmarks = load_investor_benchmarks()
+    cfg = load_investor_config()
+    principal = cfg["principal"]
+
+    items = _instruments(investors, benchmarks)
     # 新增标的（本地尚无/过短历史）自动补种，避免其只有单日数据把指数/收益带偏
     try:
         from prototype import backfill
@@ -87,10 +111,14 @@ def run() -> dict:
 
     meta: dict = {
         "updated_at": datetime.now(timezone.utc).isoformat(),
-        "base_currency": "CNY",
+        "base_currency": cfg["base_currency"],
         "caliber": CALIBER,
         "source": "sina/tencent",
+        "principal": principal,
+        "base_date": cfg["start_date"],
+        "n_investors": len(investors),
         "items": {},
+        "investors": [],
     }
 
     for it in items:
@@ -108,15 +136,18 @@ def run() -> dict:
             ret = cumulative_return(hist, start)
             ret.to_csv(RETURNS_DIR / f"{key}.csv", index=False)
 
+            base_close = float(ret["close"].iloc[0])
+            last_close = float(ret["close"].iloc[-1])
             meta["items"][key] = {
                 "name": it.name, "symbol": it.symbol,
                 "market": it.market, "type": it.type,
                 "start_date": start,
                 "first_date": str(ret["date"].iloc[0].date()),
                 "last_date": str(ret["date"].iloc[-1].date()),
-                "base_close": float(ret["close"].iloc[0]),
-                "last_close": float(ret["close"].iloc[-1]),
+                "base_close": base_close,
+                "last_close": last_close,
                 "cum_return": float(ret["cum_return"].iloc[-1]),
+                "market_value": last_close / base_close * principal,
                 "annualized": _safe(annualized_return(ret)),
                 "max_drawdown": _safe(max_drawdown(ret["nav"])),
                 "calmar": _safe(calmar_ratio(ret)),
@@ -135,9 +166,16 @@ def run() -> dict:
             }
             print(f"[ERR] {key:12s} {it.name:8s} -> {type(e).__name__}: {e}")
 
+    # 投资者 → 标的 的映射（看板按昵称展示；同标的多位持有者共享同一 key）
+    meta["investors"] = [
+        {"nickname": inv.nickname, "key": inv.key, "symbol": inv.symbol,
+         "market": inv.market, "type": inv.type, "principal": inv.principal}
+        for inv in investors
+    ]
+
     META_PATH.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    # 自定义等权指数（依赖刚更新的 data/prices）
+    # 自定义等权指数（= 群体平均，依赖刚更新的 data/prices）
     try:
         from prototype import index_build
         index_build.run()
@@ -145,7 +183,8 @@ def run() -> dict:
         print(f"[warn] 自定义指数构建失败：{e}")
 
     ok = sum(1 for v in meta["items"].values() if v.get("status") == "ok")
-    print(f"\n完成：{ok}/{len(items)} 更新成功 -> {META_PATH.relative_to(META_PATH.parent.parent)}")
+    print(f"\n完成：{ok}/{len(items)} 个标的更新成功（{len(investors)} 位投资者）"
+          f" -> {META_PATH.relative_to(META_PATH.parent.parent)}")
     return meta
 
 
