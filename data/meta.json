@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-09-29T09:09:35.031421+00:00",
+  "updated_at": "2026-09-29T13:31:10.373564+00:00",
   "base_currency": "CNY",
   "caliber": "price_return",
   "source": "sina/tencent",
   "principal": 1000000.0,
   "base_date": "2026-09-24",
-  "n_investors": 66,
+  "n_investors": 67,
   "n_switches": 96,
   "items": {
     "cn_stock_600519": {
@@ -1305,6 +1305,26 @@
       "calmar": -29.240032891811236,
       "n_obs": 4,
       "appended": false,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "us_etf_NVDU": {
+      "name": "investor67",
+      "symbol": "NVDU",
+      "market": "us",
+      "type": "etf",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-09-29",
+      "base_close": 141.06,
+      "last_close": 149.29,
+      "cum_return": 0.058343967106195826,
+      "market_value": 1058343.9671061959,
+      "annualized": 61.94924919434451,
+      "max_drawdown": 0.0,
+      "calmar": null,
+      "n_obs": 4,
+      "appended": true,
       "caliber": "price_return",
       "status": "ok"
     }
@@ -3696,6 +3716,32 @@
       "market_value": 995219.1685879574,
       "annualized": -0.2953663334644566,
       "max_drawdown": -0.0101014364298877,
+      "status": "ok"
+    },
+    {
+      "nickname": "investor67",
+      "principal": 1000000.0,
+      "holdings": [
+        {
+          "date": "2026-09-24",
+          "key": "us_etf_NVDU",
+          "symbol": "NVDU",
+          "market": "us",
+          "type": "etf"
+        }
+      ],
+      "n_switches": 0,
+      "current": {
+        "symbol": "NVDU",
+        "market": "us",
+        "type": "etf"
+      },
+      "first_date": "2026-09-24",
+      "last_date": "2026-09-29",
+      "cum_return": 0.058343967106195826,
+      "market_value": 1058343.9671061959,
+      "annualized": 61.94924919434451,
+      "max_drawdown": 0.0,
       "status": "ok"
     }
   ]
