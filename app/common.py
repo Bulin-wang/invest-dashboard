@@ -18,6 +18,7 @@ from src.config import (  # noqa: E402
     INDEX_PATH,
     META_PATH,
     PORTFOLIOS_DIR,
+    PRICES_DIR,
     RETURNS_DIR,
     load_investor_benchmarks,
     load_investor_config,
@@ -36,6 +37,39 @@ def holding_label(key: str) -> str:
     if len(parts) == 3:
         return f"{parts[2]} ({parts[0].upper()})"
     return str(key)
+
+
+def load_price(key: str) -> pd.Series | None:
+    """读某标的的未复权收盘价序列（data/prices/{key}.csv，日期索引）。"""
+    p = PRICES_DIR / f"{key}.csv"
+    if not p.exists():
+        return None
+    s = pd.read_csv(p, parse_dates=["date"]).set_index("date")["close"].sort_index()
+    return s if not s.dropna().empty else None
+
+
+def ensure_holding(df: pd.DataFrame, rec: dict) -> pd.DataFrame:
+    """兼容旧数据：portfolios 缺 `holding` 列时，用 meta 的 holdings 按日期推算当日持仓。"""
+    if "holding" in df.columns:
+        return df
+    holdings = rec.get("holdings", [])
+    d = df.sort_values("date").reset_index(drop=True).copy()
+    if not holdings:
+        return d
+    bnds = []
+    for h in holdings:
+        cand = d.loc[d["date"] >= pd.Timestamp(h["date"]), "date"]
+        bnds.append(cand.iloc[0] if len(cand) else None)
+
+    def _hold(t) -> str:
+        k = 0
+        for j in range(1, len(bnds)):
+            if bnds[j] is not None and bnds[j] < t:
+                k = j
+        return holdings[k]["key"]
+
+    d["holding"] = d["date"].map(_hold)
+    return d
 
 
 @st.cache_data(ttl=1800, show_spinner="加载数据中…")
