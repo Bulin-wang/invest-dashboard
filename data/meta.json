@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29T07:41:21.014517+00:00",
+  "updated_at": "2026-09-29T09:09:35.031421+00:00",
   "base_currency": "CNY",
   "caliber": "price_return",
   "source": "sina/tencent",
@@ -1304,7 +1304,7 @@
       "max_drawdown": -0.0101014364298877,
       "calmar": -29.240032891811236,
       "n_obs": 4,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     }
