@@ -77,6 +77,7 @@ investors:
   - {nickname: "investor63", symbol: "09988", market: "hk", type: "stock"}
   - {nickname: "investor64", symbol: "03690", market: "hk", type: "stock"}
   - {nickname: "investor65", symbol: "000002", market: "cn", type: "stock"}
+  - {nickname: "investor66", symbol: "VOO", market: "us", type: "etf"}
 
 # 基准指数（看板可叠加对比，不参与组合收益）
 benchmarks:
