@@ -75,7 +75,7 @@ else:
                   手续费合计=("fee", "sum"))
              .sort_values("手续费合计", ascending=False))
     st.dataframe(agg, use_container_width=True,
-                 column_config={"平均换手": st.column_config.NumberColumn(format="%.0%%"),
+                 column_config={"平均换手": st.column_config.NumberColumn(format="percent"),
                                 "手续费合计": st.column_config.NumberColumn(format="%.0f")})
 
 st.caption("口径：每次调仓按**调仓当日组合市值 × 万分之几 × 换手率**收手续费。"
