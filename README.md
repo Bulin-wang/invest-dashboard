@@ -6,14 +6,63 @@
 
 ## 口径
 
-- **持仓路径**：每位投资者从初始标的起步，可**全仓切换**到别的标的（见 `switches.yaml`）。
-- **组合市值**：把路径上各段标的收益**连乘**（复利）：
-  `市值(t) = 本金 × ∏(已结束段收益) × 当前段 close(t)/close(段起点)`（见 `src/portfolio.py`）。
+- **持仓路径**：每位投资者从初始持仓起步，可切换到**别的标的**或**多标的权重组合**（见 `switches.yaml`）。
+- **组合市值**：把路径上各段收益**连乘**（复利）；段内多标的按权重加权（**buy & hold**）：
+  `市值(t) = 本金 × ∏(已结束段收益) × Σ wᵢ·Pᵢ(t)/Pᵢ(段起点)`（见 `src/aggregate.py`）。
+- **现金腿**：`type: cash` 的一条腿（价格恒为 1，不涨不跌，**无需行情**），用于持现金 / 减仓。
 - **切换口径**：调仓日按**收盘价**全仓切换；**当日算旧标的，次交易日起算新标的**；不计费用。
 - **未复权**：用**未复权收盘价**，**不含分红 / 除权**，也**不考虑汇率**。
   - ⚠️ 因此跨**除权除息**（A股）或**拆股**（美股）会有跳空，适合近期窗口；长历史数值会失真。
 - **只展示起始日及之后**的数据：所有人从 100 万起步。
 - 债券 / 部分标的以**代表性 ETF** 表征（如 `511010`、`TLT`、`SOXX`）。
+
+## 多标的权重组合（阶段 1：buy & hold）
+
+每位投资者的持仓从「单个标的」扩展为「多个标的 + 权重」（权重省略 = 等权）：
+
+```yaml
+investors:
+  - {nickname: "investor01", symbol: "600519", market: cn, type: stock}   # 旧写法：单标的（等价 weight=1）
+  - nickname: "investor02"                                                # 新写法：多标的权重
+    holdings:
+      - {symbol: "600519", market: cn, type: stock, weight: 0.6}
+      - {symbol: AAPL,    market: us, type: stock, weight: 0.4}
+```
+
+调仓（`switches.yaml`）同理：一条 = 提交**新的目标权重向量**（`holdings: [...]`）；
+旧写法（单个 `symbol`）= 全仓切换到该标的。
+
+**现金腿**：把 `type` 写 `cash`（`symbol` 可省略）即持有现金 —— 现金价格恒为 1（不涨不跌）：
+
+```yaml
+  - nickname: "investor03"
+    holdings:
+      - {symbol: "600519", market: cn, type: stock, weight: 0.6}
+      - {type: cash, weight: 0.4}                     # 40% 现金
+```
+
+现金腿**不需要行情**（不抓价、也不写 `data/prices/cash.csv`）；`holding` 列形如
+`cash:0.4|cn_stock_600519:0.6`，看板显示「现金 40%」。权重照常内部归一化（写 `60/40` 与 `6/4` 等价）。
+
+**口径（阶段 1）**：段内 **buy & hold** —— 按起始权重分配本金后**不再平衡**：
+
+```
+组合收益(t) = Σ wᵢ × Pᵢ(t) / Pᵢ(段起点)
+```
+
+调仓日收盘切换；**当日算旧组合、次交易日起算新组合**；不计费用 / 汇率。
+单标的投资者走同一套代码，结果与旧实现逐行一致（回归用例：`tests/test_weighted_offline.py`）。
+
+- 计算：`src/aggregate.py`（`weighted_path_nav`；`portfolio_nav(rebalance=True)` 为每日再平衡口径，暂未接入管线）
+- 输出：`data/portfolios/{昵称}.csv` 的 `holding` 列 —— 单腿 = 裸 key；多腿 = `key:权重|key:权重`
+- 录入：`tools/admin_ops.py` 的 `append_switch_multi` / `append_member_multi` 可写多标的（单标的函数行为不变）
+- **换手率手续费（阶段 2）**：`src/analysis.py` 的手续费按 **换手率 = ½ Σ|Δ权重|** 计收 ——
+  单标的全仓切换 = 1（与旧口径一致），多标的只调一部分就只按部分收；`switch_days` 的返回也带 `turnover` 列
+- **多标的 What-if（阶段 3）**：调仓复盘页的「不调仓」= 继续持有**当时的旧持仓组合**（buy & hold），
+  多标的按 Σ wᵢ × Pᵢ(t)/Pᵢ(调仓日) 推算；任一条腿缺价 → 该行显示「—（缺价）」
+- **录入台**：`python -m streamlit run tools/admin_app.py` 的「新增投资者 / 追加调仓」均支持多标的
+  （表格填多行 + 权重；只填 1 行 = 单标的，行为与以前一致）
+- **待办**：可选的每日再平衡口径接入管线 / 汇率折算
 
 ## 数据源（免 key 行情端点）
 
@@ -40,8 +89,10 @@
 - **投资者明细**（`app/pages/1_投资者明细.py`）：选一位投资者，看其自起始日**每个交易日**
   持有什么标的、**当日收益**、**截至当日的累计收益**（时间序列），并列出调仓记录。
 - **口径说明**（`app/pages/2_口径说明.py`）：起始日 / 调仓规则 / 收益计算规则，附数字示例。
-- **管理者视角**（`app/pages/3_管理者视角.py`）：hypothetical——每次调仓收万分之一手续费、费用投入 SP500 的累积。
-- **调仓复盘**（`app/pages/4_调仓复盘.py`）：逐次 What-if——「若某次不调仓、继续持旧标的到今天」的市值对比。
+- **管理者视角**（`app/pages/3_管理者视角.py`）：hypothetical——每次调仓按「当日组合市值 × 万分之一 × **换手率**」
+  收手续费，费用投入 SP500 的累积。换手率 = ½ Σ|Δ权重|（单标的全仓切换 = 1）。
+- **调仓复盘**（`app/pages/4_调仓复盘.py`）：逐次 What-if——「若某次不调仓、**继续持有当时的旧持仓组合**到今天」
+  的市值对比（多标的按 buy & hold 加权推算：Σ wᵢ × Pᵢ(t)/Pᵢ(调仓日)）。
 
 ## 目录
 
@@ -50,7 +101,7 @@ investors.yaml               # 公开清单：60 余位投资者的昵称 + **�
 switches.yaml                # 调仓流水（append-only）：每条 = 某投资者某日全仓切换到某标的
 private/                     # 本地私密：roster.csv(真名↔昵称) + investors.private.yaml（gitignore）
 tools/make_investors.py      # 本地匿名化：roster + members -> investors.yaml
-tools/admin_app.py           # 本地管理台（Streamlit）：新增投资者 / 追加调仓
+tools/admin_app.py           # 本地管理台（Streamlit）：新增投资者 / 追加调仓（支持多标的权重）
 tools/admin_ops.py           # 管理台纯文件操作（可单测）
 prototype/
   quote_fetch.py             # 报价端点抓取（新浪/腾讯；A股/美股/港股）
@@ -65,7 +116,7 @@ app/pages/3_管理者视角.py    # 看板「管理者视角」页（手续费 h
 app/pages/4_调仓复盘.py      # 看板「调仓复盘」页（逐次 What-if）
 data/{prices,returns}/*.csv, data/portfolios/*.csv, data/index/equal_weight.csv, meta.json  # 生成物
 tests/                       # 计算层单测（离线）
-src/                         # 配置/计算（portfolio.py 组合收益、analysis.py 附加分析）+【备用后端】
+src/                         # 配置/计算（aggregate.py 多标的权重+现金腿、portfolio.py 单标的、analysis.py 附加分析）+【备用后端】
 ```
 
 ## 隐私与昵称映射（重要）

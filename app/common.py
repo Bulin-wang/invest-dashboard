@@ -31,12 +31,36 @@ PALETTE = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
            "#8c564b", "#e377c2", "#17becf", "#bcbd22", "#7f7f7f"]
 
 
-def holding_label(key: str) -> str:
-    """把 key（market_type_symbol）渲染成给人看的「代码 (市场)」。"""
+def _key_label(key: str) -> str:
+    """把 key（market_type_symbol）渲染成给人看的「代码 (市场)」；现金腿 → 「现金」。"""
+    if str(key) == "cash":
+        return "现金"
     parts = str(key).split("_", 2)
     if len(parts) == 3:
         return f"{parts[2]} ({parts[0].upper()})"
     return str(key)
+
+
+def holding_label(key: str) -> str:
+    """把 `holding` 列的值渲染成人看的标签。
+
+    - 单腿（旧格式）：`cn_stock_600519`            -> `600519 (CN)`
+    - 多腿（权重组合）：`cn_stock_600519:0.6|...`  -> `600519 (CN) 60% + AAPL (US) 40%`
+    """
+    s = str(key)
+    if "|" not in s and ":" not in s:
+        return _key_label(s)
+    out = []
+    for chunk in s.split("|"):
+        k, _, w = chunk.partition(":")
+        label = _key_label(k)
+        if w:
+            try:
+                label = f"{label} {float(w):.0%}"
+            except ValueError:
+                pass
+        out.append(label)
+    return " + ".join(out)
 
 
 def load_price(key: str) -> pd.Series | None:

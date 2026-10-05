@@ -82,7 +82,10 @@ df["switched"] = (df["holding"] != df["holding"].shift()) & (df.index > 0)
 
 # ----------------------------------------------------------------------------- 概览
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("当前持仓", f"{cur.get('symbol', '—')} ({cur.get('market', '').upper()})")
+if cur.get("holding"):                       # 多标的：渲染权重组合
+    c1.metric("当前持仓", holding_label(cur["holding"]))
+else:                                        # 兼容旧 meta
+    c1.metric("当前持仓", f"{cur.get('symbol', '—')} ({cur.get('market', '').upper()})")
 c2.metric("调仓次数", rec.get("n_switches", 0))
 c3.metric("最新市值", f"{float(df['value'].iloc[-1]) / 1e4:,.1f} 万元")
 c4.metric("累计收益", f"{float(df['cum_return'].iloc[-1]):+.2%}")
@@ -139,5 +142,5 @@ if len(holdings) > 1:
             })
         st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
-st.caption("口径：调仓日**收盘价**全仓切换；**当日算旧标的，次交易日起算新标的**；"
-           "不计费用 / 汇率。累计收益 = 各段标的收益连乘。")
+st.caption("口径：调仓日**收盘价**切换（当日算旧组合，次交易日起算新组合）；"
+           "段内 buy & hold：组合收益 = Σ 权重ᵢ × Pᵢ(t)/Pᵢ(段起点)；不计费用 / 汇率。")

@@ -2,9 +2,10 @@
 
 设计（契合「~60 位投资者、每天一次、低时效」）：
 - 数据源：新浪/腾讯报价端点（复用 prototype.quote_fetch），**无 key**；
-- 清单：项目根 investors.yaml（每人**初始持仓** + 基准）；调仓流水 switches.yaml（append-only）；
-- 组合：按每位投资者的**持仓路径**（全仓切换）合成投资者的累计收益
-  （`src.portfolio.portfolio_nav`；调仓日收盘切换，当日算旧标的，无费用 / 不计汇率）；
+- 清单：项目根 investors.yaml（每人**初始持仓**，单标的或 `holdings` 多标的权重 + 基准）；
+  调仓流水 switches.yaml（append-only）；
+- 组合：按每位投资者的**权重路径**合成累计收益（**buy & hold**）
+  （`src.aggregate.weighted_path_nav`；调仓日收盘切换，当日算旧组合，无费用 / 不计汇率）；
 - 存储：增量 append 当日收盘价到 `data/prices/{key}.csv`；
   投资者组合收益写到 `data/portfolios/{Investor}.csv`；
 - 输出：data/prices/*.csv、data/returns/*.csv、data/portfolios/*.csv、data/index/*.csv、data/meta.json。
@@ -36,14 +37,14 @@ from src.config import (  # noqa: E402
     PRICES_DIR,
     RETURNS_DIR,
     Item,
-    investor_segments,
+    investor_weight_segments,
     load_investor_benchmarks,
     load_investor_config,
     load_investors,
     load_switches,
     portfolio_id,
 )
-from src.portfolio import portfolio_nav  # noqa: E402
+from src.aggregate import holding_spec, weighted_path_nav  # noqa: E402
 from src.returns import (  # noqa: E402
     annualized_return,
     calmar_ratio,
@@ -94,8 +95,11 @@ def _instruments(segments_by_inv, benchmarks) -> list[Item]:
     """
     uniq: dict[str, Item] = {}
     for segs in segments_by_inv.values():
-        for _date, it in segs:
-            uniq.setdefault(it.key, it)
+        for _date, legs in segs:
+            for it, _w in legs:
+                if it.type == "cash":
+                    continue                       # 现金腿不需要行情
+                uniq.setdefault(it.key, it)
     for b in benchmarks:
         uniq.setdefault(b.key, b)
     return list(uniq.values())
@@ -112,7 +116,7 @@ def run() -> dict:
     cfg = load_investor_config()
     principal = cfg["principal"]
 
-    segments_by_inv = investor_segments(investors, switches)
+    segments_by_inv = investor_weight_segments(investors, switches)
     items = _instruments(segments_by_inv, benchmarks)
     # 新增标的（本地尚无/过短历史）自动补种，避免其只有单日数据把收益/指数带偏
     try:
@@ -183,31 +187,56 @@ def run() -> dict:
             }
             print(f"[ERR] {key:14s} {it.name:8s} -> {type(e).__name__}: {e}")
 
-    # --- 投资者层：按持仓路径（全仓切换）合成组合收益 ---
+    # --- 投资者层：按权重路径（buy & hold，支持现金腿）合成组合收益 ---
+    # 全现金组合也需要一根日期轴：借用任一标的（含基准）的交易日历
+    cal_hint = next((s for s in (_price_series(it.key) for it in items)
+                     if s is not None and not s.empty), None)
     for inv in investors:
         nick = inv.nickname
         segs = segments_by_inv[nick]
         try:
             series: dict[str, pd.Series] = {}
-            for _d, it in segs:
-                s = _price_series(it.key)
-                if s is None:
-                    raise ValueError(f"缺 {it.key} 的价格数据")
-                series[it.key] = s
-            df = portfolio_nav(series, [(d, it.key) for d, it in segs], principal)
+            weight_segs: list[tuple[str, dict[str, float]]] = []
+            for d, legs in segs:
+                wd: dict[str, float] = {}
+                for it, w in legs:
+                    if it.type != "cash":          # 现金腿不需要行情
+                        s = _price_series(it.key)
+                        if s is None:
+                            raise ValueError(f"缺 {it.key} 的价格数据")
+                        series[it.key] = s
+                    wd[it.key] = w
+                weight_segs.append((d, wd))
+            df = weighted_path_nav(series, weight_segs, principal, calendar_hint=cal_hint)
             df.to_csv(PORTFOLIOS_DIR / f"{portfolio_id(nick)}.csv", index=False)
 
-            current = segs[-1][1]
+            last_legs = segs[-1][1]
+            cur_spec = holding_spec({it.key: w for it, w in last_legs})
             meta["portfolios"].append({
                 "nickname": nick,
                 "principal": inv.principal,
                 "holdings": [
-                    {"date": d, "key": it.key, "symbol": it.symbol,
-                     "market": it.market, "type": it.type}
-                    for d, it in segs
+                    {
+                        "date": d,
+                        "key": holding_spec({it.key: w for it, w in legs}),
+                        "symbol": "+".join(it.symbol for it, _ in legs),
+                        "market": legs[0][0].market,
+                        "type": legs[0][0].type if len(legs) == 1 else "multi",
+                        "legs": [
+                            {"key": it.key, "symbol": it.symbol, "market": it.market,
+                             "type": it.type, "weight": round(float(w), 6)}
+                            for it, w in legs
+                        ],
+                    }
+                    for d, legs in segs
                 ],
                 "n_switches": len(segs) - 1,
-                "current": {"symbol": current.symbol, "market": current.market, "type": current.type},
+                "current": {
+                    "holding": cur_spec,
+                    "symbol": "+".join(it.symbol for it, _ in last_legs),
+                    "market": last_legs[0][0].market,
+                    "type": last_legs[0][0].type if len(last_legs) == 1 else "multi",
+                },
                 "first_date": str(df["date"].iloc[0].date()),
                 "last_date": str(df["date"].iloc[-1].date()),
                 "cum_return": float(df["cum_return"].iloc[-1]),
@@ -216,7 +245,7 @@ def run() -> dict:
                 "max_drawdown": _safe(max_drawdown(df["nav"])),
                 "status": "ok",
             })
-            print(f"[inv] {nick:8s} {len(segs) - 1} 次调仓 · 当前 {current.symbol:>7s} "
+            print(f"[inv] {nick:8s} {len(segs) - 1} 次调仓 · 当前 {cur_spec} "
                   f"· cum={df['cum_return'].iloc[-1]:+.2%}")
         except Exception as e:  # noqa: BLE001
             meta["portfolios"].append({

@@ -53,7 +53,8 @@ def _load_tushare_url() -> str | None:
 TUSHARE_MCP_URL = _load_tushare_url()
 
 VALID_MARKETS = {"cn", "us", "hk"}
-VALID_TYPES = {"stock", "etf", "bond", "index"}
+VALID_TYPES = {"stock", "etf", "bond", "index", "cash"}
+CASH_KEY = "cash"        # 现金腿的固定 key：不抓行情、价格恒为 1
 
 
 @dataclass
@@ -73,7 +74,10 @@ class Item:
 
         含 ``type`` 是为了消歧：同一 market 下不同品种可有相同代码
         （如 ``cn_stock_000001`` 平安银行 vs ``cn_index_000001`` 上证指数）。
+        **现金腿**固定为 ``cash``。
         """
+        if self.type == "cash":
+            return CASH_KEY
         safe = self.symbol.replace("^", "").replace("=", "_")
         return f"{self.market}_{self.type}_{safe}"
 
@@ -98,6 +102,81 @@ def _parse(entry: dict) -> Item:
         start_date=str(start) if start else None,
         weight=entry.get("weight"),
     )
+
+
+def _parse_leg(entry: dict, default_name: str) -> Item:
+    """解析一条「持仓腿」（`holdings` 列表的元素，或单标的的扁平写法）。
+
+    **现金腿**：`type: cash`（`symbol` 可省略，`market` 无意义，一律记 cn）。
+    """
+    typ = str(entry.get("type", "stock")).lower()
+    market = str(entry.get("market") or "cn").lower()
+    if typ == "cash":
+        symbol, market = str(entry.get("symbol") or "CASH"), "cn"
+    else:
+        if market not in VALID_MARKETS:
+            raise ValueError(f"未知 market={market!r}（应为 cn/us/hk）")
+        if not entry.get("symbol"):
+            raise ValueError("持仓腿缺少 symbol")
+        symbol = str(entry["symbol"])
+    if typ not in VALID_TYPES:
+        raise ValueError(f"未知 type={typ!r}（应为 {sorted(VALID_TYPES)}）")
+    start = entry.get("start_date")
+    weight = entry.get("weight")
+    return Item(
+        name=str(entry.get("name") or default_name),
+        symbol=symbol,
+        market=market,
+        type=typ,
+        start_date=str(start) if start else None,
+        weight=float(weight) if weight is not None else None,
+    )
+
+
+def _parse_legs(entry: dict, owner: str) -> list[Item]:
+    """一条 entry 的持仓腿：`holdings: [...]` = 多标的；否则按扁平 symbol/market/type = 单标的。
+
+    兼容旧写法：单标的 entry 不写 holdings，等价于一条 ``weight=1.0`` 的腿。
+    """
+    raw = entry.get("holdings")
+    if raw:
+        legs = [_parse_leg(h, owner) for h in raw]
+        keys = [it.key for it in legs]
+        if len(set(keys)) != len(keys):
+            raise ValueError(f"{owner} 的 holdings 有重复标的：{keys}")
+    else:
+        legs = [_parse_leg(entry, owner)]
+    if not legs:
+        raise ValueError(f"{owner} 的 holdings 为空")
+    return legs
+
+
+def normalized_weights(legs: list[Item]) -> dict[str, float]:
+    """腿列表 → {key: 权重}，归一化到和为 1。
+
+    权重缺失 = 等权：全部未给 → 等分；部分给出 → 剩余份额由未给的腿等分。
+    """
+    if not legs:
+        raise ValueError("没有持仓腿")
+    given = {it.key: float(it.weight) for it in legs if it.weight is not None}
+    rest = [it.key for it in legs if it.weight is None]
+    if any(v < 0 for v in given.values()):
+        raise ValueError(f"权重不能为负：{given!r}")
+    if rest:
+        share = max(0.0, 1.0 - sum(given.values())) / len(rest)
+        raw = {it.key: (float(it.weight) if it.weight is not None else share) for it in legs}
+    else:
+        raw = given
+    total = sum(raw.values())
+    if total <= 0:
+        raise ValueError(f"权重非法（需要至少一个正权重）：{raw!r}")
+    return {k: v / total for k, v in raw.items()}
+
+
+def holding_spec(legs: list[Item]) -> str:
+    """腿列表 → `holding` 列字符串（单腿 = 裸 key，兼容旧格式）。"""
+    from src.aggregate import holding_spec as _spec
+    return _spec(normalized_weights(legs))
 
 
 def _load(path: Path) -> dict:
@@ -135,13 +214,16 @@ class Investor:
     type: str = "stock"    # stock / etf / bond / index
     start_date: str | None = None
     principal: float = DEFAULT_PRINCIPAL
+    holdings: list[Item] | None = None   # 多标的持仓腿（单标的时为空，见 .legs）
 
     @property
     def key(self) -> str:
         """用于文件名 / 列名的稳定键，如 cn_stock_600519、us_index_GSPC（与 Item.key 同构）。
 
-        含 ``type`` 以消歧：同一 market 下不同品种可有相同代码。
+        含 ``type`` 以消歧：同一 market 下不同品种可有相同代码；**现金腿**固定为 ``cash``。
         """
+        if self.type == "cash":
+            return CASH_KEY
         safe = self.symbol.replace("^", "").replace("=", "_")
         return f"{self.market}_{self.type}_{safe}"
 
@@ -153,6 +235,24 @@ class Investor:
     @property
     def is_benchmark(self) -> bool:
         return False
+
+    @property
+    def legs(self) -> list[Item]:
+        """持仓腿列表：多标的取 holdings；单标的视为一条 weight=1 的腿。"""
+        if self.holdings:
+            return list(self.holdings)
+        return [Item(name=self.nickname, symbol=self.symbol, market=self.market,
+                     type=self.type, start_date=self.start_date, weight=1.0)]
+
+    @property
+    def weights(self) -> dict[str, float]:
+        """{key: 归一化权重}。"""
+        return normalized_weights(self.legs)
+
+    @property
+    def holding_spec(self) -> str:
+        """`holding` 列字符串（单标的 = 裸 key）。"""
+        return holding_spec(self.legs)
 
 
 def load_investor_config(path: Path = INVESTORS_PATH) -> dict:
@@ -173,20 +273,18 @@ def load_investors(path: Path = INVESTORS_PATH) -> list[Investor]:
     default_principal = float(cfg.get("principal", DEFAULT_PRINCIPAL))
     out: list[Investor] = []
     for h in cfg.get("investors", []):
-        market = str(h["market"]).lower()
-        typ = str(h.get("type", "stock")).lower()
-        if market not in VALID_MARKETS:
-            raise ValueError(f"未知 market={market!r}（应为 cn/us/hk）")
-        if typ not in VALID_TYPES:
-            raise ValueError(f"未知 type={typ!r}（应为 {sorted(VALID_TYPES)}）")
+        nick = str(h["nickname"])
+        legs = _parse_legs(h, nick)
+        first = legs[0]
         start = h.get("start_date", default_start)
         out.append(Investor(
-            nickname=str(h["nickname"]),
-            symbol=str(h["symbol"]),
-            market=market,
-            type=typ,
+            nickname=nick,
+            symbol=first.symbol,
+            market=first.market,
+            type=first.type,
             start_date=str(start) if start else None,
             principal=float(h.get("principal", default_principal)),
+            holdings=legs if len(legs) > 1 else None,
         ))
     if not out:
         raise ValueError(f"{path} 里没有 investors 条目")
@@ -209,15 +307,33 @@ class Switch:
     symbol: str
     market: str            # cn / us / hk
     type: str = "stock"
+    holdings: list[Item] | None = None   # 多标的调仓（单标的时为 None，见 .legs）
 
     @property
     def key(self) -> str:
+        if self.type == "cash":          # 现金腿固定 key
+            return CASH_KEY
         safe = self.symbol.replace("^", "").replace("=", "_")
         return f"{self.market}_{self.type}_{safe}"
 
     def item(self, name: str | None = None) -> Item:
         return Item(name=name or self.nickname, symbol=self.symbol,
                     market=self.market, type=self.type)
+
+    @property
+    def legs(self) -> list[Item]:
+        """调仓后的持仓腿（单标的 = 一条 weight=1 的腿）。"""
+        if self.holdings:
+            return list(self.holdings)
+        return [self.item()]
+
+    @property
+    def weights(self) -> dict[str, float]:
+        return normalized_weights(self.legs)
+
+    @property
+    def holding_spec(self) -> str:
+        return holding_spec(self.legs)
 
 
 def portfolio_id(nickname: str) -> str:
@@ -232,14 +348,12 @@ def load_switches(path: Path = SWITCHES_PATH) -> list[Switch]:
     cfg = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     out: list[Switch] = []
     for s in cfg.get("switches", []):
-        market = str(s["market"]).lower()
-        typ = str(s.get("type", "stock")).lower()
-        if market not in VALID_MARKETS:
-            raise ValueError(f"未知 market={market!r}（应为 cn/us/hk）")
-        if typ not in VALID_TYPES:
-            raise ValueError(f"未知 type={typ!r}（应为 {sorted(VALID_TYPES)}）")
-        out.append(Switch(date=str(s["date"]), nickname=str(s["nickname"]),
-                          symbol=str(s["symbol"]), market=market, type=typ))
+        nick = str(s["nickname"])
+        legs = _parse_legs(s, nick)
+        first = legs[0]
+        out.append(Switch(date=str(s["date"]), nickname=nick,
+                          symbol=first.symbol, market=first.market, type=first.type,
+                          holdings=legs if len(legs) > 1 else None))
     return out
 
 
@@ -263,3 +377,31 @@ def investor_segments(investors: list[Investor],
             segs.append((s.date, s.item(inv.nickname)))
         out[inv.nickname] = segs
     return out
+
+
+def investor_weight_segments(
+        investors: list[Investor],
+        switches: list[Switch]) -> dict[str, list[tuple[str, list[tuple[Item, float]]]]]:
+    """把「初始持仓 + 调仓流水」合成为每位投资者的**权重路径**。
+
+    返回 {nickname: [(日期, [(Item, weight), ...]), ...]}，按日期升序；
+    首段 = investors.yaml 的初始持仓（date = 该投资者 start_date）；
+    每段权重已归一化到和为 1。单标的投资者的结果与 `investor_segments` 一一对应。
+    """
+    by_nick: dict[str, list[Switch]] = {}
+    for s in switches:
+        by_nick.setdefault(s.nickname, []).append(s)
+    out: dict[str, list[tuple[str, list[tuple[Item, float]]]]] = {}
+    for inv in investors:
+        segs: list[tuple[str, list[tuple[Item, float]]]] = [
+            (inv.start_date, _legs_weighted(inv.legs))]
+        for s in sorted(by_nick.get(inv.nickname, []), key=lambda x: x.date):
+            segs.append((s.date, _legs_weighted(s.legs)))
+        out[inv.nickname] = segs
+    return out
+
+
+def _legs_weighted(legs: list[Item]) -> list[tuple[Item, float]]:
+    """[(Item, 归一化权重), ...]（顺序与传入腿一致）。"""
+    w = normalized_weights(legs)
+    return [(it, w[it.key]) for it in legs]

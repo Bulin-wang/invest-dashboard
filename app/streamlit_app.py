@@ -24,7 +24,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from common import PALETTE, UNIT, load_all
+from common import PALETTE, UNIT, holding_label, load_all
 
 st.set_page_config(page_title="投资组合价值看板", page_icon="📈", layout="wide")
 
@@ -39,7 +39,8 @@ PF_META = {p["nickname"]: p for p in meta.get("portfolios", [])}
 # ----------------------------------------------------------------------------- 顶部
 st.title("📈 投资组合价值看板")
 st.caption(f"口径：每人本金 **{PRINCIPAL / 1e4:,.0f} 万元**，自 {cfg.get('start_date')} 起按持仓路径"
-           "（全仓切换）计算**组合收益**；调仓日收盘切换、不计费用/汇率。Y 轴单位为**万元**，起点 100 万。")
+           "（支持**多标的权重**，buy & hold）计算**组合收益**；调仓日收盘切换、"
+           "不计费用/汇率。Y 轴单位为**万元**，起点 100 万。")
 
 if not portfolios:
     st.warning(
@@ -185,7 +186,10 @@ for inv in selected:
         continue
     rec = PF_META.get(inv.nickname, {})
     cur = rec.get("current", {})
-    cur_label = f"{cur.get('symbol', '')} ({cur.get('market', '').upper()})".strip()
+    if cur.get("holding"):                       # 多标的：渲染成「代码 (市场) 权重 + ...」
+        cur_label = holding_label(cur["holding"])
+    else:                                        # 兼容旧 meta（无 holding 字段）
+        cur_label = f"{cur.get('symbol', '')} ({cur.get('market', '').upper()})".strip()
     rows.append({
         "昵称": inv.nickname,
         "当前持仓": cur_label,
@@ -211,5 +215,6 @@ st.dataframe(
     })
 
 st.caption("说明：全部为**价格**口径（未复权收盘价，不含分红 / 汇率）。"
-           "组合收益 = 各段标的收益**连乘**（调仓日收盘全仓切换，当日算旧标的、次日起算新标的）。"
+           "组合收益 = 各段按权重 **Σ wᵢ × Pᵢ(t)/Pᵢ(段起点)**（buy & hold，段内不再平衡）；"
+           "调仓日收盘切换，当日算旧组合、次日起算新组合。"
            "年化按实际天数几何折算；最大回撤基于组合净值序列。仅展示起始日及之后的数据。")

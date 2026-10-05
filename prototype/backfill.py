@@ -35,7 +35,7 @@ from prototype import daily_close  # noqa: E402
 from prototype.quote_fetch import Item, tencent_code  # noqa: E402
 from src.config import (  # noqa: E402
     PRICES_DIR,
-    investor_segments,
+    investor_weight_segments,
     load_investor_benchmarks,
     load_investors,
     load_switches,
@@ -123,7 +123,7 @@ def seed_missing(items, days: int = 400, min_rows: int = 5) -> int:
 def run(days: int) -> None:
     PRICES_DIR.mkdir(parents=True, exist_ok=True)
     investors = load_investors()
-    segments_by_inv = investor_segments(investors, load_switches())
+    segments_by_inv = investor_weight_segments(investors, load_switches())
     items = daily_close._instruments(segments_by_inv, load_investor_benchmarks())
     print(f"回填 {len(items)} 个标的，各取最近 {days} 个交易日（未复权）…\n")
     for it in items:

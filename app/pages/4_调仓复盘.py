@@ -1,6 +1,7 @@
 """调仓复盘 · What-if（Streamlit）—— 逐次评价每位投资者的调仓行为。
 
-对每次调仓：假设"这次不换、继续持旧标的到今天"，对比实际今日市值。
+对每次调仓：假设"这次不换、**继续持有当时的旧持仓组合**到今天"，对比实际今日市值。
+组合按 **buy & hold** 推算（多标的 = Σ 权重ᵢ × Pᵢ(t)/Pᵢ(调仓日)）。
 这是 hypothetical 对照，不改主口径。
 """
 from __future__ import annotations
@@ -19,7 +20,12 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from common import UNIT, ensure_holding, holding_label, load_all, load_price
-from src.analysis import counterfactual_curve, switch_counterfactuals, switch_days
+from src.analysis import (
+    counterfactual_curve,
+    parse_holding,
+    switch_counterfactuals,
+    switch_days,
+)
 
 st.set_page_config(page_title="调仓复盘", page_icon="🔍", layout="wide")
 
@@ -27,7 +33,8 @@ investors, benchmarks, cfg, portfolios, bench_frames, meta, index_df = load_all(
 PF_META = {p["nickname"]: p for p in meta.get("portfolios", [])}
 
 st.title("🔍 调仓复盘 · What-if")
-st.caption("逐次评价：对每次调仓，假设「这次不换、继续持旧标的到今天」，与实际今日市值对比。")
+st.caption("逐次评价：对每次调仓，假设「这次不换、继续持有当时的旧持仓组合到今天」（buy & hold），"
+           "与实际今日市值对比。")
 
 if not portfolios:
     st.warning("还没有数据。请先运行 `python -m prototype.backfill` / `python -m prototype.daily_close`。")
@@ -46,9 +53,13 @@ if sw.empty:
     st.info(f"{nick} 没有调仓记录（一直持初始标的）。")
     st.stop()
 
-# 载入涉及的标的收盘价
+# 载入涉及的标的收盘价（多标的组合展开成各条腿）
+needed: set[str] = set()
+for col in ("old_key", "new_key"):
+    for spec in sw[col]:
+        needed.update(parse_holding(spec))
 price_by_key: dict[str, pd.Series] = {}
-for k in set(sw["old_key"]).union(sw["new_key"]):
+for k in sorted(needed):
     p = load_price(k)
     if p is not None:
         price_by_key[k] = p
@@ -93,7 +104,7 @@ fig = go.Figure()
 fig.add_trace(go.Scatter(x=df["date"], y=df["value"] / 1e4, name="实际", mode="lines",
                          line=dict(color="#111111", width=3)))
 for _, r in cf.iterrows():
-    curve = counterfactual_curve(df, r["switch_date"], r["old_key"], price_by_key.get(r["old_key"]))
+    curve = counterfactual_curve(df, r["switch_date"], r["old_key"], price_by_key)
     if not curve.empty:
         fig.add_trace(go.Scatter(
             x=curve.index, y=curve / 1e4,
@@ -107,4 +118,5 @@ st.plotly_chart(fig, use_container_width=True)
 
 st.caption("口径（逐次 what-if）：对第 k 次调仓，假设该次不换仓、**之后一直持该旧标的到今天**，"
            "从调仓当日组合市值按旧标的涨跌推算到今天的市值；与「实际今日市值」对比。"
-           "差异 > 0 表示该次调仓（相对一直持有旧标的）更赚。")
+           "差异 > 0 表示该次调仓（相对一直持有旧标的）更赚。"
+           "（多标的组合同样按 buy & hold 推算：Σ 权重ᵢ × Pᵢ(t)/Pᵢ(调仓日)；任一条腿缺价则显示「—（缺价）」。）")

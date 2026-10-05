@@ -2,9 +2,12 @@
 
 输入（都在 private/，已 gitignore）：
 - `private/roster.csv`            —— **权威身份映射**：`real_name,nickname`（手动维护、稳定不重排）
-- `private/investors.private.yaml` —— `members: [{real_name, symbol, market, type}]` + 顶层参数 + benchmarks
+- `private/investors.private.yaml` —— 两种成员写法（可混用）+ 顶层参数 + benchmarks：
+    * 单标的：`{real_name, symbol, market, type}`
+    * 多标的：`{real_name, holdings: [{symbol, market, type, weight}, ...]}`（weight 省略 = 等权）
 输出（公开）：
-- `investors.yaml` —— 只含 `{nickname, symbol, market, type}` + benchmarks，**不含真实姓名**
+- `investors.yaml` —— 只含 `{nickname, symbol, market, type}` 或
+  `{nickname, holdings: [...]}` + benchmarks，**不含真实姓名**
 
 隐私：真名只留在 private/；`investors.yaml` 对外只出现昵称。
 维护：加人 = 往 roster.csv 追加一行（分配一个没用过的昵称）+ 往 members 追加一行（真名 + 初始标的）；
@@ -95,12 +98,23 @@ def build(members_path: Path = DEFAULT_MEMBERS,
         if nk in seen:
             raise SystemExit(f"昵称重复：{nk}（real_name={rn}）")
         seen.add(nk)
-        investors.append({
-            "nickname": nk,
-            "symbol": str(m["symbol"]),
-            "market": str(m["market"]).lower(),
-            "type": str(m.get("type", "stock")),
-        })
+        if m.get("holdings"):
+            legs = []
+            for h in m["holdings"]:
+                leg = {"symbol": str(h["symbol"]),
+                       "market": str(h["market"]).lower(),
+                       "type": str(h.get("type", "stock"))}
+                if h.get("weight") is not None:
+                    leg["weight"] = float(h["weight"])
+                legs.append(leg)
+            investors.append({"nickname": nk, "holdings": legs})
+        else:
+            investors.append({
+                "nickname": nk,
+                "symbol": str(m["symbol"]),
+                "market": str(m["market"]).lower(),
+                "type": str(m.get("type", "stock")),
+            })
 
     lines = [HEADER.rstrip("\n")]
     lines.append(f"base_currency: {cfg.get('base_currency', 'CNY')}")
@@ -109,7 +123,13 @@ def build(members_path: Path = DEFAULT_MEMBERS,
     lines.append("")
     lines.append("investors:")
     for rec in investors:
-        lines.append("  - " + _fmt_flow(rec))
+        if "holdings" in rec:
+            lines.append('  - nickname: "%s"' % rec["nickname"])
+            lines.append("    holdings:")
+            for leg in rec["holdings"]:
+                lines.append("      - " + _fmt_flow(leg))
+        else:
+            lines.append("  - " + _fmt_flow(rec))
     benches = cfg.get("benchmarks", [])
     if benches:
         lines.append("")

@@ -70,10 +70,15 @@ if ev.empty:
     st.info("暂无调仓记录。")
 else:
     agg = (ev.groupby("nickname")
-             .agg(调仓次数=("fee", "size"), 手续费合计=("fee", "sum"))
+             .agg(调仓次数=("fee", "size"),
+                  平均换手=("turnover", "mean"),
+                  手续费合计=("fee", "sum"))
              .sort_values("手续费合计", ascending=False))
     st.dataframe(agg, use_container_width=True,
-                 column_config={"手续费合计": st.column_config.NumberColumn(format="%.0f")})
+                 column_config={"平均换手": st.column_config.NumberColumn(format="%.0%%"),
+                                "手续费合计": st.column_config.NumberColumn(format="%.0f")})
 
-st.caption("口径：每次调仓按**调仓当日组合市值 × 万分之几**收手续费；费用**自调仓日（次交易日起）**"
-           "投入并跟踪 SP500 收益累乘；管理者初始本金 0（只累积费用）。不含汇率折算。")
+st.caption("口径：每次调仓按**调仓当日组合市值 × 万分之几 × 换手率**收手续费。"
+           "换手率 = ½ Σ|Δ权重|（单标的全仓切换 = 1；多标的只调一部分就只按部分收）；"
+           "费用**自调仓日（次交易日起）**投入并跟踪 SP500 收益累乘；"
+           "管理者初始本金 0（只累积费用）。不含汇率折算。")

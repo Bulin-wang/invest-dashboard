@@ -1,5 +1,8 @@
 """本地管理台（Streamlit）—— 辅助维护「投资者名单」与「调仓流水」。
 
+支持**多标的权重**：初始持仓 / 调仓都可以在表格里填多行（一行 = 一个标的 + 权重）。
+（只填 1 行 = 原来的单标的写法，行为与以前一致。）
+
 ⚠️ **仅本地使用**：本页会写入 `private/` 与 `switches.yaml`，**切勿部署到公网 / Streamlit Cloud**。
 
 运行：
@@ -23,7 +26,7 @@ from tools import admin_ops, make_investors
 ROSTER_PATH = PRIVATE_DIR / "roster.csv"
 MEMBERS_PATH = PRIVATE_DIR / "investors.private.yaml"
 MARKETS = ["cn", "us", "hk"]
-TYPES = ["stock", "etf", "bond", "index"]
+TYPES = ["stock", "etf", "bond", "index", "cash"]     # cash = 现金腿（价格恒为 1）
 
 st.set_page_config(page_title="本地管理台", page_icon="⚙️", layout="wide")
 st.title("⚙️ 投资组合 · 本地管理台")
@@ -45,6 +48,26 @@ def disp(nk: str) -> str:
     return f"{nk}（{rn}）" if rn else nk
 
 
+def hold_text(inv) -> str:
+    """某投资者持仓的短文本（多标的带权重）。"""
+    if not inv.holdings:
+        return f"{inv.symbol} ({inv.market}/{inv.type})"
+    w = inv.weights
+    return " + ".join(f"{it.symbol} ({it.market}) {w[it.key]:.0%}" for it in inv.holdings)
+
+
+def legs_editor(key: str):
+    """持仓/调仓的表格录入：一行 = 一个标的（可加行 + 权重）。"""
+    seed = pd.DataFrame([{"代码": "", "市场": "cn", "类型": "stock", "权重": 1.0}])
+    return st.data_editor(
+        seed, num_rows="dynamic", hide_index=True, key=key,
+        column_config={
+            "市场": st.column_config.SelectboxColumn("市场", options=MARKETS, required=True),
+            "类型": st.column_config.SelectboxColumn("类型", options=TYPES, required=True),
+            "权重": st.column_config.NumberColumn("权重", min_value=0.0, step=0.1, format="%.2f"),
+        })
+
+
 auto_nk = admin_ops.next_nickname([i.nickname for i in investors])
 
 c1, c2, c3 = st.columns(3)
@@ -60,15 +83,15 @@ with tab_add:
     with st.form("add_investor"):
         real_name = st.text_input("真实姓名（仅本地私密）", key="a_name")
         nickname = st.text_input("昵称（留空 = 自动）", value=auto_nk, key="a_nick")
-        col1, col2, col3 = st.columns(3)
-        symbol = col1.text_input("初始标的代码", placeholder="600519 / AAPL / 00700", key="a_sym")
-        market = col2.selectbox("市场", MARKETS, key="a_mkt")
-        type_ = col3.selectbox("类型", TYPES, key="a_typ")
+        st.markdown("**初始持仓**：1 行 = 单标的；多行 + 权重 = 权重组合（权重可留空 = 等权）；"
+                    "类型选 `cash` = 现金腿（代码可留空）")
+        legs_df = legs_editor("a_legs")
         submitted = st.form_submit_button("提交")
 
     if submitted:
         rn = real_name.strip()
         nk = nickname.strip() or auto_nk
+        legs = admin_ops.legs_from_rows(legs_df.to_dict("records"))
         existing_real = {r for r, _ in admin_ops.read_roster(ROSTER_PATH)}
         existing_nicks = {i.nickname for i in investors} | {n for _, n in admin_ops.read_roster(ROSTER_PATH)}
         errs = []
@@ -76,20 +99,25 @@ with tab_add:
             errs.append("真实姓名不能为空")
         if rn in existing_real:
             errs.append(f"真实姓名「{rn}」已存在")
-        if not symbol.strip():
-            errs.append("标的代码不能为空")
+        if not legs:
+            errs.append("初始持仓至少要填一行（代码不能为空）")
         if nk in existing_nicks:
             errs.append(f"昵称「{nk}」已被占用")
         if errs:
             st.error("；".join(errs))
         else:
             admin_ops.append_roster(ROSTER_PATH, rn, nk)
-            admin_ops.append_member(MEMBERS_PATH, rn, symbol.strip(), market, type_)
+            if len(legs) == 1:
+                s1, m1, t1, _w1 = legs[0]
+                admin_ops.append_member(MEMBERS_PATH, rn, s1, m1, t1)   # 单标的：旧写法
+                hold = f"{s1}（{m1}/{t1}）"
+            else:
+                admin_ops.append_member_multi(MEMBERS_PATH, rn, legs)   # 多标的：holdings
+                hold = " + ".join(f"{s1} ({m1}) {w1:.0%}" for s1, m1, _t1, w1 in legs)
             make_investors.build()          # 重生成公开的 investors.yaml
             n = len(load_investors())
             st.session_state["flash"] = (
-                f"✅ 已新增 {nk}（{rn}） · 初始持仓 {symbol.strip()}（{market}/{type_}）"
-                f" → investors.yaml 现 {n} 人")
+                f"✅ 已新增 {nk}（{rn}） · 初始持仓 {hold} → investors.yaml 现 {n} 人")
             st.rerun()
 
 # ----------------------------------------------------------------- 追加调仓
@@ -100,30 +128,36 @@ with tab_switch:
     else:
         with st.form("add_switch"):
             pick = st.selectbox("投资者", investors, format_func=lambda it: disp(it.nickname), key="s_inv")
-            date = st.date_input("生效日（该日收盘全仓切换；逢非交易日自动顺延）", key="s_date")
-            col1, col2, col3 = st.columns(3)
-            symbol = col1.text_input("目标标的代码", placeholder="600519 / AAPL / 00700", key="s_sym")
-            market = col2.selectbox("市场", MARKETS, key="s_mkt")
-            type_ = col3.selectbox("类型", TYPES, key="s_typ")
+            st.caption(f"当前持仓：{hold_text(pick)}")
+            date = st.date_input("生效日（该日收盘切换；逢非交易日自动顺延）", key="s_date")
+            st.markdown("**目标持仓**：1 行 = 全仓切换到该标的；多行 + 权重 = 调仓到权重组合；"
+                        "`类型=cash` = 现金腿（代码可留空，可用来减仓/空仓）")
+            legs_df2 = legs_editor("s_legs")
             submitted2 = st.form_submit_button("提交")
 
         if submitted2:
-            if not symbol.strip():
-                st.error("目标标的代码不能为空")
+            legs2 = admin_ops.legs_from_rows(legs_df2.to_dict("records"))
+            if not legs2:
+                st.error("目标持仓至少要填一行（代码不能为空）")
             else:
-                admin_ops.append_switch(SWITCHES_PATH, date.isoformat(), pick.nickname,
-                                        symbol.strip(), market, type_)
+                if len(legs2) == 1:
+                    s2, m2, t2, _w2 = legs2[0]
+                    admin_ops.append_switch(SWITCHES_PATH, date.isoformat(),
+                                            pick.nickname, s2, m2, t2)   # 单标的：旧写法
+                    tgt = f"{s2}（{m2}/{t2}）"
+                else:
+                    admin_ops.append_switch_multi(SWITCHES_PATH, date.isoformat(),
+                                                  pick.nickname, legs2)  # 多标的：holdings
+                    tgt = " + ".join(f"{s2} ({m2}) {w2:.0%}" for s2, m2, _t2, w2 in legs2)
                 st.session_state["flash"] = (
-                    f"✅ 已追加：{disp(pick.nickname)} 于 {date.isoformat()} 切换至 "
-                    f"{symbol.strip()}（{market}/{type_}）")
+                    f"✅ 已追加：{disp(pick.nickname)} 于 {date.isoformat()} 调仓至 {tgt}")
                 st.rerun()
 
 # ----------------------------------------------------------------- 当前名单
 st.divider()
 with st.expander("当前名单（真名 ↔ 昵称 ↔ 初始标的）"):
-    sym = {i.nickname: (i.symbol, i.market, i.type) for i in investors}
+    hold = {i.nickname: hold_text(i) for i in investors}
     rows = []
     for rn, nk in admin_ops.read_roster(ROSTER_PATH):
-        s = sym.get(nk, ("—", "", ""))
-        rows.append({"真实姓名": rn, "昵称": nk, "初始标的": s[0], "市场": s[1], "类型": s[2]})
+        rows.append({"真实姓名": rn, "昵称": nk, "初始持仓": hold.get(nk, "—")})
     st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
