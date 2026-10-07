@@ -362,6 +362,9 @@ def daily_snapshot(item) -> dict:
     prev = round(unit / (1.0 + pct / 100.0), 4) if (unit and pct is not None and pct != -100) else None
 
     latest = {
+        # key 必须与 quote_fetch.snapshot() 同构：daily_close 统一按
+        # `{market}_{type}_{symbol}` 取报价（见 test_quote_key_collision_offline.py）
+        "key": f"{item.market}_{item.type}_{item.symbol}",
         "symbol": str(item.symbol),
         "name": name or item.name,
         "market": item.market,

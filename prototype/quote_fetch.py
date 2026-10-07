@@ -180,7 +180,15 @@ def tencent_quotes(items: list[Item]) -> dict[str, dict]:
 
 
 def snapshot(items: list[Item]) -> pd.DataFrame:
-    """主源新浪，缺失的用腾讯补齐。"""
+    """主源新浪，缺失的用腾讯补齐。
+
+    返回的行带 ``key = {market}_{type}_{symbol}``（= ``src.config.Item.key``），
+    调用方**必须按 key 而不是 (market, symbol) 建索引** —— 否则同号不同品种
+    （如 ``cn_stock_000001`` 平安银行 11 元 vs ``cn_index_000001`` 上证指数 3800 点）
+    会互相覆盖，把股票价格写成指数点位。两个端点本身是靠 ``type`` 映射到
+    ``sh``/``sz`` 前缀区分的（``sz000001`` 平安银行 / ``sh000001`` 上证指数），
+    上游不存在撞车。
+    """
     sina = sina_quotes(items)
     missing = [it for it in items if not (sina.get(sina_code(it)) or {}).get("close")]
     tencent = tencent_quotes(missing) if missing else {}
@@ -188,14 +196,16 @@ def snapshot(items: list[Item]) -> pd.DataFrame:
     rows = []
     for it in items:
         q = sina.get(sina_code(it)) or tencent.get(tencent_code(it))
+        k = f"{it.market}_{it.type}_{it.symbol}"
         if not q or q.get("close") is None:
-            rows.append({"symbol": it.symbol, "name": it.name, "market": it.market,
-                         "type": it.type, "close": None, "prev_close": None,
+            rows.append({"key": k, "symbol": it.symbol, "name": it.name,
+                         "market": it.market, "type": it.type,
+                         "close": None, "prev_close": None,
                          "pct_chg": None, "date": None, "source": None})
             continue
         prev = q.get("prev_close")
         pct = (q["close"] / prev - 1) if (prev and q["close"]) else None
-        rows.append({"symbol": it.symbol, "name": q.get("name") or it.name,
+        rows.append({"key": k, "symbol": it.symbol, "name": q.get("name") or it.name,
                      "market": it.market, "type": it.type,
                      "close": q["close"], "prev_close": prev, "pct_chg": pct,
                      "date": q.get("date"), "source": q["source"]})

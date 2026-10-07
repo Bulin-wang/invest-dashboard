@@ -180,7 +180,6 @@ def run() -> dict:
     except Exception as e:  # noqa: BLE001
         print(f"[warn] 历史补种跳过：{e}")
     snap = qf.snapshot(items)                  # 一次批量拿全部标的的当日收盘价
-    quotes = {(r["market"], r["symbol"]): r for _, r in snap.iterrows()}
 
     # 不在行情端点里的品种（场外基金 / 加密货币）：各自走专用接口，
     # 再把结果并进同一张 snap —— 后续逻辑完全不用区分来源
@@ -198,7 +197,13 @@ def run() -> dict:
                                "pct_chg": None, "date": None, "source": None})
     if extra_rows:
         snap = pd.concat([snap, pd.DataFrame(extra_rows)], ignore_index=True)
-        quotes = {(r["market"], r["symbol"]): r for _, r in snap.iterrows()}
+
+    # ⚠️ 键必须带上 **type**，即 `{market}_{type}_{symbol}`（= Item.key）：
+    # 光用 (market, symbol) 会让**同号不同品种**互相覆盖 —— 例如平安银行
+    # （cn_stock_000001，11 元）与上证指数（cn_index_000001，3800 点）同号，
+    # 后写的那条会把前一条挤掉，于是股票价格被写成指数点位。
+    # 详见回归用例 tests/test_quote_key_collision_offline.py
+    quotes = {f'{r["market"]}_{r["type"]}_{r["symbol"]}': r for _, r in snap.iterrows()}
 
     meta: dict = {
         "updated_at": datetime.now(timezone.utc).isoformat(),
@@ -216,7 +221,7 @@ def run() -> dict:
     # --- 标的层：抓当日收盘 + 增量 append + 单标的收益 ---
     for it in items:
         key = it.key
-        q = quotes.get((it.market, it.symbol))
+        q = quotes.get(key)                      # 键含 type，同号不同品种不会串
         try:
             if q is None or pd.isna(q.get("close")) or not q.get("date"):
                 raise ValueError("本次未取到报价")

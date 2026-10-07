@@ -377,6 +377,9 @@ def daily_snapshot(item) -> dict:
         pass
 
     return {
+        # key 必须与 quote_fetch.snapshot() 同构：daily_close 统一按
+        # `{market}_{type}_{symbol}` 取报价（见 test_quote_key_collision_offline.py）
+        "key": f"{item.market}_{item.type}_{item.symbol}",
         "symbol": str(item.symbol),
         "name": pair,
         "market": item.market,
