@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-06T14:26:09.647367+00:00",
+  "updated_at": "2026-10-07T07:13:07.324207+00:00",
   "base_currency": "CNY",
   "caliber": "price_return",
   "source": "sina/tencent",
   "principal": 1000000.0,
   "base_date": "2026-09-24",
   "n_investors": 56,
-  "n_switches": 84,
+  "n_switches": 0,
   "items": {
     "cn_stock_600519": {
       "name": "investor01",
@@ -29,827 +29,969 @@
       "status": "ok"
     },
     "cn_stock_601318": {
-      "name": "investor01",
+      "name": "investor02",
       "symbol": "601318",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 50.52,
+      "base_close": 53.25,
       "last_close": 53.43,
-      "cum_return": 0.05760095011876487,
-      "market_value": 1057600.9501187648,
-      "annualized": 0.0349164353662792,
-      "max_drawdown": -0.3645048439181916,
-      "calmar": 0.09579141662686859,
-      "n_obs": 402,
+      "cum_return": 0.0033802816901409294,
+      "market_value": 1003380.281690141,
+      "annualized": 0.2280501179025458,
+      "max_drawdown": -0.015962441314554043,
+      "calmar": 14.286669150953559,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_stock_600036": {
-      "name": "investor01",
-      "symbol": "600036",
-      "market": "cn",
+    "us_stock_NVDA": {
+      "name": "investor03",
+      "symbol": "NVDA",
+      "market": "us",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 40.98,
-      "last_close": 41.35,
-      "cum_return": 0.009028794533919138,
-      "market_value": 1009028.7945339192,
-      "annualized": 0.0055235356609408814,
-      "max_drawdown": -0.2640961857379768,
-      "calmar": 0.020914863444567357,
-      "n_obs": 402,
-      "appended": false,
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 224.58,
+      "last_close": 239.24,
+      "cum_return": 0.06527740671475635,
+      "market_value": 1065277.4067147563,
+      "annualized": 4.910125465399409,
+      "max_drawdown": -0.007209647819627629,
+      "calmar": 681.0492812189835,
+      "n_obs": 11,
+      "appended": true,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_000858": {
-      "name": "investor03",
+      "name": "investor04",
       "symbol": "000858",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 126.26,
+      "base_close": 69.67,
       "last_close": 70.19,
-      "cum_return": -0.44408363693964836,
-      "market_value": 555916.3630603517,
-      "annualized": -0.3021971717040307,
-      "max_drawdown": -0.5115767045454547,
-      "calmar": -0.5907172258215676,
-      "n_obs": 402,
+      "cum_return": 0.007463757714941899,
+      "market_value": 1007463.7577149419,
+      "annualized": 0.5725036622206843,
+      "max_drawdown": -0.012918042198937885,
+      "calmar": 44.318144607683294,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_600030": {
-      "name": "investor03",
+      "name": "investor05",
       "symbol": "600030",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 27.97,
+      "base_close": 26.29,
       "last_close": 25.89,
-      "cum_return": -0.07436539149088306,
-      "market_value": 925634.6085091169,
-      "annualized": -0.046253442604369144,
-      "max_drawdown": -0.2571428571428571,
-      "calmar": -0.17987449901699112,
-      "n_obs": 402,
+      "cum_return": -0.015214910612400101,
+      "market_value": 984785.0893875998,
+      "annualized": -0.6067564201521698,
+      "max_drawdown": -0.0178775199695701,
+      "calmar": -33.93963039532046,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_stock_600276": {
-      "name": "investor05",
-      "symbol": "600276",
+    "cn_etf_159736": {
+      "name": "investor06",
+      "symbol": "159736",
       "market": "cn",
-      "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "type": "etf",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 44.19,
-      "last_close": 47.26,
-      "cum_return": 0.06947273138719168,
-      "market_value": 1069472.7313871917,
-      "annualized": 0.04202044318744358,
-      "max_drawdown": -0.4112046364012695,
-      "calmar": 0.10218864153671263,
-      "n_obs": 402,
+      "base_close": 0.576,
+      "last_close": 0.581,
+      "cum_return": 0.00868055555555558,
+      "market_value": 1008680.5555555556,
+      "annualized": 0.6924014193046801,
+      "max_drawdown": -0.00868055555555558,
+      "calmar": 79.76464350389892,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_000333": {
-      "name": "investor05",
+      "name": "investor07",
       "symbol": "000333",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 73.7,
+      "base_close": 82.65,
       "last_close": 80.46,
-      "cum_return": 0.0917232021709633,
-      "market_value": 1091723.2021709634,
-      "annualized": 0.05525330355805358,
-      "max_drawdown": -0.14420382165605083,
-      "calmar": 0.38316115983279236,
-      "n_obs": 402,
+      "cum_return": -0.026497277676951092,
+      "market_value": 973502.7223230489,
+      "annualized": -0.8050042060719351,
+      "max_drawdown": -0.026497277676951092,
+      "calmar": -30.38063818805717,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_000651": {
-      "name": "investor07",
+      "name": "investor08",
       "symbol": "000651",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 43.66,
+      "base_close": 38.5,
       "last_close": 38.27,
-      "cum_return": -0.12345396243701312,
-      "market_value": 876546.0375629868,
-      "annualized": -0.07757658312611682,
-      "max_drawdown": -0.23738317757009353,
-      "calmar": -0.3267989919092322,
-      "n_obs": 402,
+      "cum_return": -0.005974025974025854,
+      "market_value": 994025.9740259742,
+      "annualized": -0.30563634731653844,
+      "max_drawdown": -0.010389610389610393,
+      "calmar": -29.417498429216813,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_stock_600887": {
-      "name": "investor07",
-      "symbol": "600887",
-      "market": "cn",
+    "hk_stock_01810": {
+      "name": "investor10",
+      "symbol": "01810",
+      "market": "hk",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 26.95,
-      "last_close": 27.3,
-      "cum_return": 0.012987012987013102,
-      "market_value": 1012987.0129870131,
-      "annualized": 0.007939013625939184,
-      "max_drawdown": -0.22659780503550675,
-      "calmar": 0.03503570400734985,
-      "n_obs": 402,
+      "start_date": "2025-02-21",
+      "first_date": "2025-02-21",
+      "last_date": "2026-10-07",
+      "base_close": 51.7,
+      "last_close": 23.98,
+      "cum_return": -0.5361702127659574,
+      "market_value": 463829.78723404254,
+      "annualized": -0.37698529183805574,
+      "max_drawdown": -0.6438902743142144,
+      "calmar": -0.5854806430172749,
+      "n_obs": 401,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_stock_601166": {
-      "name": "investor09",
-      "symbol": "601166",
-      "market": "cn",
-      "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 20.35,
-      "last_close": 18.04,
-      "cum_return": -0.11351351351351358,
-      "market_value": 886486.4864864864,
-      "annualized": -0.07117988188434232,
-      "max_drawdown": -0.3412887828162291,
-      "calmar": -0.2085620315352408,
-      "n_obs": 402,
+    "us_crypto_ONDO": {
+      "name": "ONDOUSDT",
+      "symbol": "ONDO",
+      "market": "us",
+      "type": "crypto",
+      "start_date": "2025-04-11",
+      "first_date": "2025-04-11",
+      "last_date": "2026-10-06",
+      "base_close": 0.8938,
+      "last_close": 0.4914,
+      "cum_return": -0.4502125755202506,
+      "market_value": 549787.4244797494,
+      "annualized": -0.3312842823811645,
+      "max_drawdown": -0.8030793456390517,
+      "calmar": -0.4125174980282234,
+      "n_obs": 544,
       "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
+      "caliber": "utc_daily_close",
+      "status": "ok",
+      "pair": "ONDOUSDT"
     },
-    "cn_stock_600900": {
-      "name": "investor09",
-      "symbol": "600900",
-      "market": "cn",
-      "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 27.9,
-      "last_close": 28.55,
-      "cum_return": 0.023297491039426577,
-      "market_value": 1023297.4910394265,
-      "annualized": 0.014213823993021624,
-      "max_drawdown": -0.1755062680810029,
-      "calmar": 0.08098755758661222,
-      "n_obs": 402,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "cn_stock_601899": {
+    "cn_etf_510300": {
       "name": "investor11",
-      "symbol": "601899",
+      "symbol": "510300",
       "market": "cn",
-      "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "type": "etf",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 17.28,
-      "last_close": 29.79,
-      "cum_return": 0.7239583333333333,
-      "market_value": 1723958.3333333333,
-      "annualized": 0.3962140854872662,
-      "max_drawdown": -0.4223245109321059,
-      "calmar": 0.9381744966987312,
-      "n_obs": 402,
+      "base_close": 4.515,
+      "last_close": 4.437,
+      "cum_return": -0.017275747508305517,
+      "market_value": 982724.2524916945,
+      "annualized": -0.6538389824363359,
+      "max_drawdown": -0.021926910299003177,
+      "calmar": -29.819020259596726,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
+      "status": "ok"
+    },
+    "cn_futures_SC2611": {
+      "name": "investor12",
+      "symbol": "SC2611",
+      "market": "cn",
+      "type": "futures",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-09-30",
+      "base_close": 743.5,
+      "last_close": 711.0,
+      "cum_return": -0.04371217215870882,
+      "market_value": 956287.8278412912,
+      "annualized": -0.9341838124759612,
+      "max_drawdown": -0.04371217215870882,
+      "calmar": -21.37125121771929,
+      "n_obs": 4,
+      "appended": false,
+      "caliber": "settlement_price",
       "status": "ok"
     },
     "cn_stock_002594": {
-      "name": "investor11",
+      "name": "investor13",
       "symbol": "002594",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 329.9,
+      "base_close": 84.34,
       "last_close": 83.39,
-      "cum_return": -0.7472264322521975,
-      "market_value": 252773.56774780242,
-      "annualized": -0.5695004368535462,
-      "max_drawdown": -0.8069135802469136,
-      "calmar": -0.7057762451826384,
-      "n_obs": 402,
+      "cum_return": -0.011263931705003616,
+      "market_value": 988736.0682949964,
+      "annualized": -0.4982146709439742,
+      "max_drawdown": -0.027507706900640305,
+      "calmar": -18.11182127043738,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_300750": {
-      "name": "investor13",
+      "name": "investor14",
       "symbol": "300750",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 251.8,
+      "base_close": 293.5,
       "last_close": 291.37,
-      "cum_return": 0.15714853057982525,
-      "market_value": 1157148.5305798252,
-      "annualized": 0.09357129073497772,
-      "max_drawdown": -0.37652173913043474,
-      "calmar": 0.24851497539312792,
-      "n_obs": 402,
+      "cum_return": -0.007257240204429305,
+      "market_value": 992742.7597955707,
+      "annualized": -0.35814660875302895,
+      "max_drawdown": -0.02282793867120947,
+      "calmar": -15.68895965209169,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_601012": {
-      "name": "investor13",
+      "name": "investor15",
       "symbol": "601012",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 15.68,
+      "base_close": 11.04,
       "last_close": 11.27,
-      "cum_return": -0.28125,
-      "market_value": 718750.0,
-      "annualized": -0.18321865585389174,
-      "max_drawdown": -0.5258771929824562,
-      "calmar": -0.3484057842759576,
-      "n_obs": 402,
+      "cum_return": 0.02083333333333348,
+      "market_value": 1020833.3333333335,
+      "annualized": 2.5085368841994855,
+      "max_drawdown": -0.02083333333333326,
+      "calmar": 120.40977044157573,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_600309": {
-      "name": "investor15",
+      "name": "investor16",
       "symbol": "600309",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 71.16,
+      "base_close": 69.45,
       "last_close": 68.96,
-      "cum_return": -0.030916245081506477,
-      "market_value": 969083.7549184936,
-      "annualized": -0.019061618342158138,
-      "max_drawdown": -0.29018235793044955,
-      "calmar": -0.06568841220432428,
-      "n_obs": 402,
+      "cum_return": -0.007055435565154866,
+      "market_value": 992944.5644348451,
+      "annualized": -0.35015535879025794,
+      "max_drawdown": -0.02577393808495332,
+      "calmar": -13.585636686024193,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_stock_601888": {
-      "name": "investor15",
-      "symbol": "601888",
-      "market": "cn",
+    "us_stock_RGTI": {
+      "name": "investor17",
+      "symbol": "RGTI",
+      "market": "us",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 60.97,
-      "last_close": 51.54,
-      "cum_return": -0.15466622929309493,
-      "market_value": 845333.770706905,
-      "annualized": -0.09784679346158753,
-      "max_drawdown": -0.4769309989701339,
-      "calmar": -0.2051592236044083,
-      "n_obs": 402,
-      "appended": false,
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 16.5,
+      "last_close": 15.17,
+      "cum_return": -0.08060606060606057,
+      "market_value": 919393.9393939395,
+      "annualized": -0.9056946424454242,
+      "max_drawdown": -0.09063625450180057,
+      "calmar": -9.992630955722378,
+      "n_obs": 10,
+      "appended": true,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_000001": {
-      "name": "investor17",
+      "name": "investor18",
       "symbol": "000001",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 11.42,
+      "base_close": 11.3,
       "last_close": 3848.9273,
-      "cum_return": 336.0339141856392,
-      "market_value": 337033914.1856392,
-      "annualized": 34.40367090891087,
-      "max_drawdown": -0.2374810318664643,
-      "calmar": 144.86913181451928,
-      "n_obs": 402,
+      "cum_return": 339.61303539823007,
+      "market_value": 340613035.3982301,
+      "annualized": 1.4171129953829586e+154,
+      "max_drawdown": 0.0,
+      "calmar": null,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_stock_600028": {
-      "name": "investor17",
-      "symbol": "600028",
-      "market": "cn",
-      "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 6.11,
-      "last_close": 5.29,
-      "cum_return": -0.13420621931260235,
-      "market_value": 865793.7806873977,
-      "annualized": -0.08452738830905504,
-      "max_drawdown": -0.42966751918158574,
-      "calmar": -0.19672743350500307,
-      "n_obs": 402,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "cn_stock_601857": {
+    "cn_stock_600887": {
       "name": "investor19",
-      "symbol": "601857",
+      "symbol": "600887",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 8.29,
-      "last_close": 11.25,
-      "cum_return": 0.3570566948130278,
-      "market_value": 1357056.6948130277,
-      "annualized": 0.20575970450225833,
-      "max_drawdown": -0.34441087613293064,
-      "calmar": 0.5974251069319955,
-      "n_obs": 402,
+      "base_close": 26.9,
+      "last_close": 27.3,
+      "cum_return": 0.014869888475836479,
+      "market_value": 1014869.8884758365,
+      "annualized": 1.4560154442056432,
+      "max_drawdown": 0.0,
+      "calmar": null,
+      "n_obs": 4,
       "appended": false,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "us_etf_QQQ": {
+      "name": "investor20",
+      "symbol": "QQQ",
+      "market": "us",
+      "type": "etf",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 741.1,
+      "last_close": 759.66,
+      "cum_return": 0.025043853730940313,
+      "market_value": 1025043.8537309403,
+      "annualized": 1.003647933542804,
+      "max_drawdown": -0.010705171255876555,
+      "calmar": 93.75356167159455,
+      "n_obs": 11,
+      "appended": true,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_601988": {
-      "name": "investor19",
+      "name": "investor21",
       "symbol": "601988",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 5.38,
+      "base_close": 6.62,
       "last_close": 6.74,
-      "cum_return": 0.2527881040892195,
-      "market_value": 1252788.1040892196,
-      "annualized": 0.14810838202652965,
-      "max_drawdown": -0.16216216216216217,
-      "calmar": 0.9133350224969328,
-      "n_obs": 402,
+      "cum_return": 0.01812688821752273,
+      "market_value": 1018126.8882175228,
+      "annualized": 1.9849777238542332,
+      "max_drawdown": 0.0,
+      "calmar": null,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_601398": {
-      "name": "investor21",
+      "name": "investor22",
       "symbol": "601398",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 6.82,
+      "base_close": 8.13,
       "last_close": 8.29,
-      "cum_return": 0.2155425219941347,
-      "market_value": 1215542.5219941346,
-      "annualized": 0.12706812323626981,
-      "max_drawdown": -0.16726835138387486,
-      "calmar": 0.7596662619376994,
-      "n_obs": 402,
+      "cum_return": 0.019680196801967753,
+      "market_value": 1019680.1968019678,
+      "annualized": 2.275254742848589,
+      "max_drawdown": 0.0,
+      "calmar": null,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_601628": {
-      "name": "investor21",
+      "name": "investor23",
       "symbol": "601628",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 39.75,
+      "base_close": 37.43,
       "last_close": 36.68,
-      "cum_return": -0.07723270440251573,
-      "market_value": 922767.2955974842,
-      "annualized": -0.04806508792468667,
-      "max_drawdown": -0.36331569664902996,
-      "calmar": -0.132295654627657,
-      "n_obs": 402,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "cn_stock_000725": {
-      "name": "investor23",
-      "symbol": "000725",
-      "market": "cn",
-      "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 4.5,
-      "last_close": 5.73,
-      "cum_return": 0.27333333333333343,
-      "market_value": 1273333.3333333335,
-      "annualized": 0.15961081401777433,
-      "max_drawdown": -0.42087912087912094,
-      "calmar": 0.37923196019888933,
-      "n_obs": 402,
+      "cum_return": -0.020037403152551425,
+      "market_value": 979962.5968474486,
+      "annualized": -0.7083390369953511,
+      "max_drawdown": -0.021640395404755597,
+      "calmar": -32.73225945029127,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_002415": {
-      "name": "investor23",
+      "name": "investor25",
       "symbol": "002415",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 31.22,
+      "base_close": 32.63,
       "last_close": 32.51,
-      "cum_return": 0.04131966688020494,
-      "market_value": 1041319.6668802049,
-      "annualized": 0.025123392866795102,
-      "max_drawdown": -0.18941421349985121,
-      "calmar": 0.13263731587289165,
-      "n_obs": 402,
+      "cum_return": -0.00367759730309547,
+      "market_value": 996322.4026969045,
+      "annualized": -0.20091376199483624,
+      "max_drawdown": -0.015936254980079778,
+      "calmar": -12.607338565175898,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_300059": {
-      "name": "investor25",
+      "name": "investor26",
       "symbol": "300059",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 23.94,
+      "base_close": 18.28,
       "last_close": 17.8,
-      "cum_return": -0.2564745196324144,
-      "market_value": 743525.4803675856,
-      "annualized": -0.16607782455849063,
-      "max_drawdown": -0.3995157384987893,
-      "calmar": -0.41569782753125234,
-      "n_obs": 402,
+      "cum_return": -0.026258205689277947,
+      "market_value": 973741.794310722,
+      "annualized": -0.8020675550873021,
+      "max_drawdown": -0.027899343544857902,
+      "calmar": -28.74861746469767,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_stock_600585": {
-      "name": "investor25",
-      "symbol": "600585",
-      "market": "cn",
+    "us_stock_FTHY": {
+      "name": "investor27",
+      "symbol": "FTHY",
+      "market": "us",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 24.02,
-      "last_close": 17.6,
-      "cum_return": -0.2672772689425478,
-      "market_value": 732722.7310574523,
-      "annualized": -0.1735240461195472,
-      "max_drawdown": -0.3838792786161208,
-      "calmar": -0.4520276445894627,
-      "n_obs": 402,
-      "appended": false,
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 12.89,
+      "last_close": 12.73,
+      "cum_return": -0.01241272304111718,
+      "market_value": 987587.2769588828,
+      "annualized": -0.2959686011019297,
+      "max_drawdown": -0.03230769230769226,
+      "calmar": -9.160932891250217,
+      "n_obs": 10,
+      "appended": true,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_601668": {
-      "name": "investor27",
+      "name": "investor28",
       "symbol": "601668",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 5.49,
+      "base_close": 4.26,
       "last_close": 4.36,
-      "cum_return": -0.20582877959927137,
-      "market_value": 794171.2204007286,
-      "annualized": -0.13171194230112737,
-      "max_drawdown": -0.3115823817292005,
-      "calmar": -0.42271947974131474,
-      "n_obs": 402,
+      "cum_return": 0.023474178403755985,
+      "market_value": 1023474.178403756,
+      "annualized": 3.10611103237198,
+      "max_drawdown": -0.009389671361502372,
+      "calmar": 330.800824947615,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_stock_601088": {
-      "name": "investor27",
-      "symbol": "601088",
+    "cn_etf_588710": {
+      "name": "investor29",
+      "symbol": "588710",
       "market": "cn",
-      "type": "stock",
-      "start_date": "2025-01-20",
-      "first_date": "2025-01-20",
+      "type": "etf",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 38.74,
-      "last_close": 47.92,
-      "cum_return": 0.23696437790397518,
-      "market_value": 1236964.377903975,
-      "annualized": 0.1339264725255387,
-      "max_drawdown": -0.23089046493301812,
-      "calmar": 0.5800433229860361,
-      "n_obs": 402,
+      "base_close": 1.015,
+      "last_close": 0.94,
+      "cum_return": -0.07389162561576346,
+      "market_value": 926108.3743842365,
+      "annualized": -0.9906558937954866,
+      "max_drawdown": -0.07389162561576346,
+      "calmar": -13.406876429365601,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_stock_000002": {
-      "name": "investor29",
+      "name": "investor30",
       "symbol": "000002",
       "market": "cn",
       "type": "stock",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 7.24,
+      "base_close": 3.76,
       "last_close": 4.3,
-      "cum_return": -0.40607734806629836,
-      "market_value": 593922.6519337016,
-      "annualized": -0.27333602921647515,
-      "max_drawdown": -0.6298619824341279,
-      "calmar": -0.4339617834373122,
-      "n_obs": 402,
+      "cum_return": 0.1436170212765957,
+      "market_value": 1143617.0212765958,
+      "annualized": 3529.4671384069047,
+      "max_drawdown": -0.013297872340425454,
+      "calmar": 265415.9288082008,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_etf_510300": {
-      "name": "investor29",
-      "symbol": "510300",
+    "cn_stock_603259": {
+      "name": "investor32",
+      "symbol": "603259",
       "market": "cn",
-      "type": "etf",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "type": "stock",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 3.976,
-      "last_close": 4.437,
-      "cum_return": 0.1159456740442657,
-      "market_value": 1115945.6740442656,
-      "annualized": 0.0695408029834883,
-      "max_drawdown": -0.1325869180907483,
-      "calmar": 0.5244921896132432,
-      "n_obs": 402,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "cn_etf_510500": {
-      "name": "investor31",
-      "symbol": "510500",
-      "market": "cn",
-      "type": "etf",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 5.859,
-      "last_close": 7.48,
-      "cum_return": 0.276668373442567,
-      "market_value": 1276668.373442567,
-      "annualized": 0.16147116629274438,
-      "max_drawdown": -0.20208831846856656,
-      "calmar": 0.7990128648522556,
-      "n_obs": 402,
+      "base_close": 162.4,
+      "last_close": 167.34,
+      "cum_return": 0.030418719211822598,
+      "market_value": 1030418.7192118226,
+      "annualized": 5.1974268154726895,
+      "max_drawdown": -0.010714285714285787,
+      "calmar": 485.0931694441144,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_etf_510050": {
-      "name": "investor31",
+      "name": "investor33",
       "symbol": "510050",
       "market": "cn",
       "type": "etf",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 2.671,
+      "base_close": 2.959,
       "last_close": 2.937,
-      "cum_return": 0.09958816922500935,
-      "market_value": 1099588.1692250094,
-      "annualized": 0.05990574562933948,
-      "max_drawdown": -0.11344667697063382,
-      "calmar": 0.5280520084766022,
-      "n_obs": 402,
+      "cum_return": -0.007434944237918351,
+      "market_value": 992565.0557620816,
+      "annualized": -0.3651034159693374,
+      "max_drawdown": -0.0125042244001351,
+      "calmar": -29.198405617656114,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_etf_159915": {
-      "name": "investor33",
-      "symbol": "159915",
-      "market": "cn",
+    "us_etf_SOXX": {
+      "name": "investor34",
+      "symbol": "SOXX",
+      "market": "us",
       "type": "etf",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 2.113,
-      "last_close": 3.16,
-      "cum_return": 0.49550402271651683,
-      "market_value": 1495504.0227165169,
-      "annualized": 0.2797232188629071,
-      "max_drawdown": -0.2812286689419796,
-      "calmar": 0.9946468826071814,
-      "n_obs": 402,
-      "appended": false,
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 566.07,
+      "last_close": 589.45,
+      "cum_return": 0.041302312434857935,
+      "market_value": 1041302.312434858,
+      "annualized": 2.1177508011111876,
+      "max_drawdown": -0.02076203115177766,
+      "calmar": 102.00113782845683,
+      "n_obs": 10,
+      "appended": true,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_etf_588000": {
-      "name": "investor33",
+      "name": "investor35",
       "symbol": "588000",
       "market": "cn",
       "type": "etf",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 1.08,
+      "base_close": 1.713,
       "last_close": 1.617,
-      "cum_return": 0.497222222222222,
-      "market_value": 1497222.222222222,
-      "annualized": 0.28062406261028117,
-      "max_drawdown": -0.3118600682593856,
-      "calmar": 0.8998396754562232,
-      "n_obs": 402,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "cn_etf_512880": {
-      "name": "investor35",
-      "symbol": "512880",
-      "market": "cn",
-      "type": "etf",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 1.12,
-      "last_close": 1.029,
-      "cum_return": -0.08125000000000016,
-      "market_value": 918749.9999999999,
-      "annualized": -0.050606993461296046,
-      "max_drawdown": -0.2596153846153847,
-      "calmar": -0.19493064148054767,
-      "n_obs": 402,
+      "cum_return": -0.05604203152364273,
+      "market_value": 943957.9684763573,
+      "annualized": -0.970129465679774,
+      "max_drawdown": -0.05604203152364273,
+      "calmar": -17.310747653223466,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_bond_511010": {
-      "name": "investor35",
+      "name": "investor37",
       "symbol": "511010",
       "market": "cn",
       "type": "bond",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 141.248,
+      "base_close": 140.715,
       "last_close": 140.729,
-      "cum_return": -0.003674388309922838,
-      "market_value": 996325.6116900771,
-      "annualized": -0.0022534002771852357,
-      "max_drawdown": -0.014178693867185732,
-      "calmar": -0.15892862193748059,
-      "n_obs": 402,
+      "cum_return": 9.949188075197846e-05,
+      "market_value": 1000099.491880752,
+      "annualized": 0.006074643234344368,
+      "max_drawdown": -0.00022030345023638098,
+      "calmar": 27.573981378078297,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_bond_511260": {
-      "name": "investor37",
-      "symbol": "511260",
-      "market": "cn",
-      "type": "bond",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 136.512,
-      "last_close": 134.797,
-      "cum_return": -0.012562998124706959,
-      "market_value": 987437.0018752931,
-      "annualized": -0.0077178855986533845,
-      "max_drawdown": -0.024901780367757587,
-      "calmar": -0.3099330844892671,
-      "n_obs": 402,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "cn_etf_518880": {
-      "name": "investor37",
-      "symbol": "518880",
+    "cn_etf_511100": {
+      "name": "investor38",
+      "symbol": "511100",
       "market": "cn",
       "type": "etf",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 6.584,
-      "last_close": 8.6,
-      "cum_return": 0.30619684082624543,
-      "market_value": 1306196.8408262455,
-      "annualized": 0.17786146703746386,
-      "max_drawdown": -0.3051915322580646,
-      "calmar": 0.5827863758915411,
-      "n_obs": 402,
+      "base_close": 111.239,
+      "last_close": 111.18,
+      "cum_return": -0.0005303895216605126,
+      "market_value": 999469.6104783395,
+      "annualized": -0.03178008019271472,
+      "max_drawdown": -0.0014280710263249174,
+      "calmar": -22.25385124891124,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_etf_513100": {
+    "cn_stock_600600": {
       "name": "investor39",
-      "symbol": "513100",
+      "symbol": "600600",
       "market": "cn",
-      "type": "etf",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "type": "stock",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 1.607,
-      "last_close": 2.35,
-      "cum_return": 0.4623522090852521,
-      "market_value": 1462352.2090852521,
-      "annualized": 0.26226263821114015,
-      "max_drawdown": -0.22580645161290325,
-      "calmar": 1.1614488263636207,
-      "n_obs": 402,
+      "base_close": 49.89,
+      "last_close": 50.02,
+      "cum_return": 0.0026057326117459034,
+      "market_value": 1002605.732611746,
+      "annualized": 0.17165545226112866,
+      "max_drawdown": -0.007416315894968717,
+      "calmar": 23.14565003596745,
+      "n_obs": 4,
+      "appended": false,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "cn_stock_688256": {
+      "name": "investor40",
+      "symbol": "688256",
+      "market": "cn",
+      "type": "stock",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-09-30",
+      "base_close": 1091.48,
+      "last_close": 1009.01,
+      "cum_return": -0.07555795800197895,
+      "market_value": 924442.0419980211,
+      "annualized": -0.9916261337581733,
+      "max_drawdown": -0.07555795800197895,
+      "calmar": -13.124046228620967,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_etf_513050": {
-      "name": "investor39",
+      "name": "investor41",
       "symbol": "513050",
       "market": "cn",
       "type": "etf",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 1.313,
+      "base_close": 1.025,
       "last_close": 1.005,
-      "cum_return": -0.2345773038842346,
-      "market_value": 765422.6961157654,
-      "annualized": -0.15111158085692344,
-      "max_drawdown": -0.46381766381766376,
-      "calmar": -0.32579953857973054,
-      "n_obs": 402,
+      "cum_return": -0.019512195121951237,
+      "market_value": 980487.8048780487,
+      "annualized": -0.6986690757255196,
+      "max_drawdown": -0.019512195121951237,
+      "calmar": -35.806790130932846,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_etf_512480": {
-      "name": "investor41",
-      "symbol": "512480",
+    "cn_etf_515120": {
+      "name": "investor42",
+      "symbol": "515120",
       "market": "cn",
       "type": "etf",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
       "last_date": "2026-09-30",
-      "base_close": 1.061,
-      "last_close": 0.955,
-      "cum_return": -0.09990574929311968,
-      "market_value": 900094.2507068804,
-      "annualized": -0.0624681019167348,
-      "max_drawdown": -0.6935108153078202,
-      "calmar": -0.09007516615152979,
-      "n_obs": 402,
+      "base_close": 0.63,
+      "last_close": 0.654,
+      "cum_return": 0.03809523809523818,
+      "market_value": 1038095.2380952382,
+      "annualized": 8.737320867316413,
+      "max_drawdown": -0.0031746031746031633,
+      "calmar": 2752.25607320468,
+      "n_obs": 4,
       "appended": false,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "cn_stock_002837": {
+      "name": "investor43",
+      "symbol": "002837",
+      "market": "cn",
+      "type": "stock",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-09-30",
+      "base_close": 57.22,
+      "last_close": 53.95,
+      "cum_return": -0.057147850401957245,
+      "market_value": 942852.1495980427,
+      "annualized": -0.9721866129740759,
+      "max_drawdown": -0.057147850401957245,
+      "calmar": -17.01177920317331,
+      "n_obs": 4,
+      "appended": false,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "cn_index_399001": {
+      "name": "investor44",
+      "symbol": "399001",
+      "market": "cn",
+      "type": "index",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-09-30",
+      "base_close": 13316.97,
+      "last_close": 12911.601,
+      "cum_return": -0.030440032529922223,
+      "market_value": 969559.9674700778,
+      "annualized": -0.8476882641888007,
+      "max_drawdown": -0.034408728111574916,
+      "calmar": -24.635849992480335,
+      "n_obs": 4,
+      "appended": false,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "us_stock_AAPL": {
+      "name": "investor45",
+      "symbol": "AAPL",
+      "market": "us",
+      "type": "stock",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 335.92,
+      "last_close": 333.63,
+      "cum_return": -0.006817099309359476,
+      "market_value": 993182.9006906406,
+      "annualized": -0.17485001350068086,
+      "max_drawdown": -0.03421585011874406,
+      "calmar": -5.110205150357928,
+      "n_obs": 11,
+      "appended": true,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "us_etf_VOO": {
+      "name": "investor46",
+      "symbol": "VOO",
+      "market": "us",
+      "type": "etf",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 706.99,
+      "last_close": 716.2,
+      "cum_return": 0.013027058374234457,
+      "market_value": 1013027.0583742345,
+      "annualized": 0.4385659109523028,
+      "max_drawdown": -0.013970370995652681,
+      "calmar": 31.392574405416745,
+      "n_obs": 9,
+      "appended": true,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "us_stock_MSFT": {
+      "name": "investor48",
+      "symbol": "MSFT",
+      "market": "us",
+      "type": "stock",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 497.93,
+      "last_close": 529.3,
+      "cum_return": 0.06300082340891278,
+      "market_value": 1063000.8234089129,
+      "annualized": 4.565345539601492,
+      "max_drawdown": -0.013968266268864937,
+      "calmar": 326.83694967768344,
+      "n_obs": 11,
+      "appended": true,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "us_stock_GOOGL": {
+      "name": "investor49",
+      "symbol": "GOOGL",
+      "market": "us",
+      "type": "stock",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 342.36,
+      "last_close": 347.68,
+      "cum_return": 0.015539198504498142,
+      "market_value": 1015539.1985044981,
+      "annualized": 0.5422375330404738,
+      "max_drawdown": -0.01697279702394805,
+      "calmar": 31.94744698091863,
+      "n_obs": 11,
+      "appended": true,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "us_etf_NVDU": {
+      "name": "investor50",
+      "symbol": "NVDU",
+      "market": "us",
+      "type": "etf",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 141.06,
+      "last_close": 159.26,
+      "cum_return": 0.1290231107330213,
+      "market_value": 1129023.1107330213,
+      "annualized": 29.25149714106583,
+      "max_drawdown": -0.03308995913992896,
+      "calmar": 883.9991919412394,
+      "n_obs": 9,
+      "appended": true,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "cn_fund_002910": {
+      "name": "易方达供给改革混合",
+      "symbol": "002910",
+      "market": "cn",
+      "type": "fund",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-27",
+      "last_date": "2026-09-29",
+      "base_close": 7.8674,
+      "last_close": 7.9474,
+      "cum_return": 0.010168543610341363,
+      "market_value": 1010168.5436103414,
+      "annualized": 5.344905142955634,
+      "max_drawdown": 0.0,
+      "calmar": null,
+      "n_obs": 3,
+      "appended": false,
+      "caliber": "cumulative_nav",
+      "status": "ok",
+      "unit_nav": 7.9474
+    },
+    "us_stock_JPM": {
+      "name": "investor54",
+      "symbol": "JPM",
+      "market": "us",
+      "type": "stock",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 338.56,
+      "last_close": 331.28,
+      "cum_return": -0.02150283553875243,
+      "market_value": 978497.1644612476,
+      "annualized": -0.45704946200459273,
+      "max_drawdown": -0.03564974057016268,
+      "calmar": -12.820555064210586,
+      "n_obs": 11,
+      "appended": true,
+      "caliber": "price_return",
+      "status": "ok"
+    },
+    "us_etf_SPY": {
+      "name": "investor55",
+      "symbol": "SPY",
+      "market": "us",
+      "type": "etf",
+      "start_date": "2026-09-24",
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-07",
+      "base_close": 767.18,
+      "last_close": 779.09,
+      "cum_return": 0.015524388018457236,
+      "market_value": 1015524.3880184572,
+      "annualized": 0.5416057252837163,
+      "max_drawdown": -0.011304855124132929,
+      "calmar": 47.90912571073368,
+      "n_obs": 11,
+      "appended": true,
       "caliber": "price_return",
       "status": "ok"
     },
     "cn_index_000300": {
-      "name": "investor41",
+      "name": "沪深300",
       "symbol": "000300",
       "market": "cn",
       "type": "index",
@@ -868,286 +1010,6 @@
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_index_399001": {
-      "name": "investor43",
-      "symbol": "399001",
-      "market": "cn",
-      "type": "index",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 10557.62,
-      "last_close": 12911.601,
-      "cum_return": 0.22296511903250926,
-      "market_value": 1222965.1190325092,
-      "annualized": 0.13128089204444837,
-      "max_drawdown": -0.2146129180027485,
-      "calmar": 0.6117101117033742,
-      "n_obs": 402,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "cn_index_399006": {
-      "name": "investor43",
-      "symbol": "399006",
-      "market": "cn",
-      "type": "index",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 2152.73,
-      "last_close": 3142.162,
-      "cum_return": 0.4596173231199452,
-      "market_value": 1459617.3231199451,
-      "annualized": 0.2608154058409564,
-      "max_drawdown": -0.2818327580804164,
-      "calmar": 0.9254261556299888,
-      "n_obs": 402,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "cn_index_000905": {
-      "name": "investor45",
-      "symbol": "000905",
-      "market": "cn",
-      "type": "index",
-      "start_date": "2025-02-11",
-      "first_date": "2025-02-11",
-      "last_date": "2026-09-30",
-      "base_close": 5858.28,
-      "last_close": 7446.4786,
-      "cum_return": 0.2711032248373244,
-      "market_value": 1271103.2248373243,
-      "annualized": 0.15836576215420495,
-      "max_drawdown": -0.19064639069555256,
-      "calmar": 0.8306779980277872,
-      "n_obs": 402,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_stock_AAPL": {
-      "name": "investor45",
-      "symbol": "AAPL",
-      "market": "us",
-      "type": "stock",
-      "start_date": "2025-02-25",
-      "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
-      "base_close": 247.04,
-      "last_close": 333.93,
-      "cum_return": 0.3517244170984457,
-      "market_value": 1351724.4170984458,
-      "annualized": 0.20588044270803918,
-      "max_drawdown": -0.3020563471502591,
-      "calmar": 0.6815961480379791,
-      "n_obs": 407,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_stock_MSFT": {
-      "name": "investor47",
-      "symbol": "MSFT",
-      "market": "us",
-      "type": "stock",
-      "start_date": "2025-02-25",
-      "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
-      "base_close": 397.9,
-      "last_close": 524.44,
-      "cum_return": 0.3180196029153055,
-      "market_value": 1318019.6029153054,
-      "annualized": 0.18711360909981867,
-      "max_drawdown": -0.34910620399579395,
-      "calmar": 0.5359790429335166,
-      "n_obs": 407,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_stock_GOOGL": {
-      "name": "investor47",
-      "symbol": "GOOGL",
-      "market": "us",
-      "type": "stock",
-      "start_date": "2025-02-25",
-      "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
-      "base_close": 175.42,
-      "last_close": 344.81,
-      "cum_return": 0.9656253562877666,
-      "market_value": 1965625.3562877665,
-      "annualized": 0.5216503721840153,
-      "max_drawdown": -0.2109433212458398,
-      "calmar": 2.472940926041778,
-      "n_obs": 407,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_stock_AMZN": {
-      "name": "investor49",
-      "symbol": "AMZN",
-      "market": "us",
-      "type": "stock",
-      "start_date": "2025-02-25",
-      "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
-      "base_close": 212.8,
-      "last_close": 251.585,
-      "cum_return": 0.18226033834586453,
-      "market_value": 1182260.3383458646,
-      "annualized": 0.10960258871465323,
-      "max_drawdown": -0.21940751108000933,
-      "calmar": 0.4995389090152226,
-      "n_obs": 407,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_stock_NVDA": {
-      "name": "investor49",
-      "symbol": "NVDA",
-      "market": "us",
-      "type": "stock",
-      "start_date": "2025-02-25",
-      "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
-      "base_close": 126.63,
-      "last_close": 236.27,
-      "cum_return": 0.8658295822474928,
-      "market_value": 1865829.5822474929,
-      "annualized": 0.4731890566628243,
-      "max_drawdown": -0.2816118220597197,
-      "calmar": 1.68028832455222,
-      "n_obs": 407,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_stock_TSLA": {
-      "name": "investor51",
-      "symbol": "TSLA",
-      "market": "us",
-      "type": "stock",
-      "start_date": "2025-02-25",
-      "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
-      "base_close": 302.8,
-      "last_close": 377.0246,
-      "cum_return": 0.24512747688243075,
-      "market_value": 1245127.4768824307,
-      "annualized": 0.14589360852517919,
-      "max_drawdown": -0.3910345390707929,
-      "calmar": 0.37309647600916046,
-      "n_obs": 407,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_stock_META": {
-      "name": "investor51",
-      "symbol": "META",
-      "market": "us",
-      "type": "stock",
-      "start_date": "2025-02-25",
-      "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
-      "base_close": 657.5,
-      "last_close": 742.435,
-      "cum_return": 0.12917870722433444,
-      "market_value": 1129178.7072243344,
-      "annualized": 0.07838733093988592,
-      "max_drawdown": -0.33453164556962023,
-      "calmar": 0.23431962858525004,
-      "n_obs": 407,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_stock_JPM": {
-      "name": "investor53",
-      "symbol": "JPM",
-      "market": "us",
-      "type": "stock",
-      "start_date": "2025-02-25",
-      "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
-      "base_close": 257.4,
-      "last_close": 332.47,
-      "cum_return": 0.29164724164724176,
-      "market_value": 1291647.2416472419,
-      "annualized": 0.17230240218844273,
-      "max_drawdown": -0.20544114868694485,
-      "calmar": 0.838694698163903,
-      "n_obs": 407,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_etf_SPY": {
-      "name": "investor53",
-      "symbol": "SPY",
-      "market": "us",
-      "type": "etf",
-      "start_date": "2025-02-25",
-      "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
-      "base_close": 594.24,
-      "last_close": 772.99,
-      "cum_return": 0.3008043887991383,
-      "market_value": 1300804.3887991384,
-      "annualized": 0.1774580962386596,
-      "max_drawdown": -0.16493423487065617,
-      "calmar": 1.0759324550044134,
-      "n_obs": 407,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_etf_QQQ": {
-      "name": "investor55",
-      "symbol": "QQQ",
-      "market": "us",
-      "type": "etf",
-      "start_date": "2025-02-25",
-      "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
-      "base_close": 513.32,
-      "last_close": 752.95,
-      "cum_return": 0.46682381360554803,
-      "market_value": 1466823.813605548,
-      "annualized": 0.2686726273085074,
-      "max_drawdown": -0.19142568407960192,
-      "calmar": 1.4035348944960975,
-      "n_obs": 407,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_bond_TLT": {
-      "name": "investor55",
-      "symbol": "TLT",
-      "market": "us",
-      "type": "bond",
-      "start_date": "2025-02-25",
-      "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
-      "base_close": 91.42,
-      "last_close": 76.81,
-      "cum_return": -0.15981185736162762,
-      "market_value": 840188.1426383724,
-      "annualized": -0.10252012651066678,
-      "max_drawdown": -0.17275175013462563,
-      "calmar": -0.5934534754685422,
-      "n_obs": 407,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
     "us_index_GSPC": {
       "name": "标普500",
       "symbol": "^GSPC",
@@ -1155,16 +1017,16 @@
       "type": "index",
       "start_date": "2025-02-25",
       "first_date": "2025-02-25",
-      "last_date": "2026-10-06",
+      "last_date": "2026-10-07",
       "base_close": 5955.25,
-      "last_close": 7758.5498,
-      "cum_return": 0.30280841274505677,
-      "market_value": 1302808.4127450567,
-      "annualized": 0.1785845739710059,
+      "last_close": 7818.9302,
+      "cum_return": 0.3129474329373241,
+      "market_value": 1312947.432937324,
+      "annualized": 0.18393375530489675,
       "max_drawdown": -0.16341171848503866,
-      "calmar": 1.092850473800974,
-      "n_obs": 407,
-      "appended": false,
+      "calmar": 1.1255848540735895,
+      "n_obs": 408,
+      "appended": true,
       "caliber": "price_return",
       "status": "ok"
     }
@@ -1189,53 +1051,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_601318",
-          "symbol": "601318",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601318",
-              "symbol": "601318",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_600036",
-          "symbol": "600036",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600036",
-              "symbol": "600036",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600036",
-        "symbol": "600036",
+        "holding": "cn_stock_600519",
+        "symbol": "600519",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.023129483637706283,
-      "market_value": 1023129.4836377063,
-      "annualized": 3.0227706467753386,
-      "max_drawdown": -0.003198818897637845,
+      "last_date": "2026-10-07",
+      "cum_return": 0.01759094583670162,
+      "market_value": 1017590.9458367017,
+      "annualized": 0.6322202103496286,
+      "max_drawdown": -0.006672669389330199,
       "status": "ok"
     },
     {
@@ -1257,37 +1087,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_600036",
-          "symbol": "600036",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600036",
-              "symbol": "600036",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600036",
-        "symbol": "600036",
+        "holding": "cn_stock_601318",
+        "symbol": "601318",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.0012291597353146777,
-      "market_value": 1001229.1597353147,
-      "annualized": 0.07764612703230345,
-      "max_drawdown": -0.019110199253262627,
+      "last_date": "2026-10-07",
+      "cum_return": 0.0033802816901409294,
+      "market_value": 1003380.281690141,
+      "annualized": 0.09945297166376554,
+      "max_drawdown": -0.015962441314554043,
       "status": "ok"
     },
     {
@@ -1296,66 +1110,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_600036",
-          "symbol": "600036",
-          "market": "cn",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
           "type": "stock",
           "legs": [
             {
-              "key": "cn_stock_600036",
-              "symbol": "600036",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_000858",
-          "symbol": "000858",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_000858",
-              "symbol": "000858",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_600030",
-          "symbol": "600030",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600030",
-              "symbol": "600030",
-              "market": "cn",
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
               "type": "stock",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600030",
-        "symbol": "600030",
-        "market": "cn",
+        "holding": "us_stock_NVDA",
+        "symbol": "NVDA",
+        "market": "us",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.003153959654707328,
-      "market_value": 996846.0403452928,
-      "annualized": -0.1749412705575053,
-      "max_drawdown": -0.005849178767266872,
+      "last_date": "2026-10-07",
+      "cum_return": 0.06527740671475635,
+      "market_value": 1065277.4067147563,
+      "annualized": 4.910125465399409,
+      "max_drawdown": -0.007209647819627629,
       "status": "ok"
     },
     {
@@ -1377,37 +1159,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_600030",
-          "symbol": "600030",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600030",
-              "symbol": "600030",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600030",
-        "symbol": "600030",
+        "holding": "cn_stock_000858",
+        "symbol": "000858",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.01281506748578709,
-      "market_value": 987184.9325142129,
-      "annualized": -0.5439528066178474,
-      "max_drawdown": -0.015484165410699968,
+      "last_date": "2026-10-07",
+      "cum_return": 0.007463757714941899,
+      "market_value": 1007463.7577149419,
+      "annualized": 0.23235154776341194,
+      "max_drawdown": -0.012918042198937885,
       "status": "ok"
     },
     {
@@ -1429,53 +1195,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_600276",
-          "symbol": "600276",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600276",
-              "symbol": "600276",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_000333",
-          "symbol": "000333",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_000333",
-              "symbol": "000333",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_000333",
-        "symbol": "000333",
+        "holding": "cn_stock_600030",
+        "symbol": "600030",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.03184350907792077,
-      "market_value": 968156.4909220792,
-      "annualized": -0.8605443687389973,
-      "max_drawdown": -0.03184350907792077,
+      "last_date": "2026-10-07",
+      "cum_return": -0.015214910612400101,
+      "market_value": 984785.0893875998,
+      "annualized": -0.34998892336252596,
+      "max_drawdown": -0.0178775199695701,
       "status": "ok"
     },
     {
@@ -1484,50 +1218,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_600276",
-          "symbol": "600276",
+          "key": "cn_etf_159736",
+          "symbol": "159736",
           "market": "cn",
-          "type": "stock",
+          "type": "etf",
           "legs": [
             {
-              "key": "cn_stock_600276",
-              "symbol": "600276",
+              "key": "cn_etf_159736",
+              "symbol": "159736",
               "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_000333",
-          "symbol": "000333",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_000333",
-              "symbol": "000333",
-              "market": "cn",
-              "type": "stock",
+              "type": "etf",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_000333",
-        "symbol": "000333",
+        "holding": "cn_etf_159736",
+        "symbol": "159736",
         "market": "cn",
-        "type": "stock"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.027310929395518047,
-      "market_value": 972689.0706044821,
-      "annualized": -0.8146812147572171,
-      "max_drawdown": -0.027310929395518047,
+      "last_date": "2026-10-07",
+      "cum_return": 0.00868055555555558,
+      "market_value": 1008680.5555555556,
+      "annualized": 0.2748617728810978,
+      "max_drawdown": -0.00868055555555558,
       "status": "ok"
     },
     {
@@ -1549,53 +1267,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_000651",
-          "symbol": "000651",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_000651",
-              "symbol": "000651",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_600887",
-          "symbol": "600887",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600887",
-              "symbol": "600887",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600887",
-        "symbol": "600887",
+        "holding": "cn_stock_000333",
+        "symbol": "000333",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.0020458548107800123,
-      "market_value": 1002045.85481078,
-      "annualized": 0.13248483581203319,
-      "max_drawdown": -0.007864488808227654,
+      "last_date": "2026-10-07",
+      "cum_return": -0.026497277676951092,
+      "market_value": 973502.7223230489,
+      "annualized": -0.5297602441432714,
+      "max_drawdown": -0.026497277676951092,
       "status": "ok"
     },
     {
@@ -1617,37 +1303,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_600887",
-          "symbol": "600887",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600887",
-              "symbol": "600887",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600887",
-        "symbol": "600887",
+        "holding": "cn_stock_000651",
+        "symbol": "000651",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.007365553425486837,
-      "market_value": 1007365.5534254868,
-      "annualized": 0.5631997655525847,
-      "max_drawdown": -0.0025974025974025983,
+      "last_date": "2026-10-07",
+      "cum_return": -0.005974025974025965,
+      "market_value": 994025.9740259742,
+      "annualized": -0.15494242700745442,
+      "max_drawdown": -0.010389610389610393,
       "status": "ok"
     },
     {
@@ -1656,66 +1326,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_600887",
-          "symbol": "600887",
-          "market": "cn",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
           "type": "stock",
           "legs": [
             {
-              "key": "cn_stock_600887",
-              "symbol": "600887",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_601166",
-          "symbol": "601166",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601166",
-              "symbol": "601166",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_600900",
-          "symbol": "600900",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600900",
-              "symbol": "600900",
-              "market": "cn",
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
               "type": "stock",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600900",
-        "symbol": "600900",
-        "market": "cn",
+        "holding": "us_stock_NVDA",
+        "symbol": "NVDA",
+        "market": "us",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.004832713754646889,
-      "market_value": 1004832.713754647,
-      "annualized": 0.341090193335321,
-      "max_drawdown": -0.0059544658493868585,
+      "last_date": "2026-10-07",
+      "cum_return": 0.06527740671475635,
+      "market_value": 1065277.4067147563,
+      "annualized": 4.910125465399409,
+      "max_drawdown": -0.007209647819627629,
       "status": "ok"
     },
     {
@@ -1724,50 +1362,41 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_601166",
-          "symbol": "601166",
-          "market": "cn",
-          "type": "stock",
+          "key": "hk_stock_01810:0.7|us_crypto_ONDO:0.3",
+          "symbol": "01810+ONDO",
+          "market": "hk",
+          "type": "multi",
           "legs": [
             {
-              "key": "cn_stock_601166",
-              "symbol": "601166",
-              "market": "cn",
+              "key": "hk_stock_01810",
+              "symbol": "01810",
+              "market": "hk",
               "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_600900",
-          "symbol": "600900",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
+              "weight": 0.7
+            },
             {
-              "key": "cn_stock_600900",
-              "symbol": "600900",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
+              "key": "us_crypto_ONDO",
+              "symbol": "ONDO",
+              "market": "us",
+              "type": "crypto",
+              "weight": 0.3
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600900",
-        "symbol": "600900",
-        "market": "cn",
-        "type": "stock"
+        "holding": "hk_stock_01810:0.7|us_crypto_ONDO:0.3",
+        "symbol": "01810+ONDO",
+        "market": "hk",
+        "type": "multi"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.00615212527964204,
-      "market_value": 993847.8747203579,
-      "annualized": -0.3131692591063392,
-      "max_drawdown": -0.012069958509150158,
+      "last_date": "2026-10-07",
+      "cum_return": -0.0860587426377104,
+      "market_value": 913941.2573622896,
+      "annualized": -0.920208971905463,
+      "max_drawdown": -0.10384774050715584,
       "status": "ok"
     },
     {
@@ -1776,66 +1405,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_600900",
-          "symbol": "600900",
+          "key": "cn_etf_510300",
+          "symbol": "510300",
           "market": "cn",
-          "type": "stock",
+          "type": "etf",
           "legs": [
             {
-              "key": "cn_stock_600900",
-              "symbol": "600900",
+              "key": "cn_etf_510300",
+              "symbol": "510300",
               "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_601899",
-          "symbol": "601899",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601899",
-              "symbol": "601899",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_002594",
-          "symbol": "002594",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_002594",
-              "symbol": "002594",
-              "market": "cn",
-              "type": "stock",
+              "type": "etf",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_002594",
-        "symbol": "002594",
+        "holding": "cn_etf_510300",
+        "symbol": "510300",
         "market": "cn",
-        "type": "stock"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.007182696041891923,
-      "market_value": 1007182.6960418919,
-      "annualized": 0.5460198595309731,
-      "max_drawdown": -0.015956808638272313,
+      "last_date": "2026-10-07",
+      "cum_return": -0.017275747508305517,
+      "market_value": 982724.2524916945,
+      "annualized": -0.38714300099749177,
+      "max_drawdown": -0.021926910299003177,
       "status": "ok"
     },
     {
@@ -1844,50 +1441,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_601899",
-          "symbol": "601899",
+          "key": "cn_futures_SC2611",
+          "symbol": "SC2611",
           "market": "cn",
-          "type": "stock",
+          "type": "futures",
           "legs": [
             {
-              "key": "cn_stock_601899",
-              "symbol": "601899",
+              "key": "cn_futures_SC2611",
+              "symbol": "SC2611",
               "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_002594",
-          "symbol": "002594",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_002594",
-              "symbol": "002594",
-              "market": "cn",
-              "type": "stock",
+              "type": "futures",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_002594",
-        "symbol": "002594",
+        "holding": "cn_futures_SC2611",
+        "symbol": "SC2611",
         "market": "cn",
-        "type": "stock"
+        "type": "futures"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.01918964424376024,
-      "market_value": 980810.3557562397,
-      "annualized": -0.6925747954530929,
-      "max_drawdown": -0.03530320926817643,
+      "last_date": "2026-10-07",
+      "cum_return": -0.04371217215870882,
+      "market_value": 956287.8278412912,
+      "annualized": -0.7151507355626776,
+      "max_drawdown": -0.04371217215870882,
       "status": "ok"
     },
     {
@@ -1909,53 +1490,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_300750",
-          "symbol": "300750",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_300750",
-              "symbol": "300750",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_601012",
-          "symbol": "601012",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601012",
-              "symbol": "601012",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_601012",
-        "symbol": "601012",
+        "holding": "cn_stock_002594",
+        "symbol": "002594",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.0303154909964225,
-      "market_value": 1030315.4909964225,
-      "annualized": 5.159744884639154,
-      "max_drawdown": -0.011738202513635332,
+      "last_date": "2026-10-07",
+      "cum_return": -0.011263931705003616,
+      "market_value": 988736.0682949964,
+      "annualized": -0.2725929267895264,
+      "max_drawdown": -0.027507706900640305,
       "status": "ok"
     },
     {
@@ -1977,37 +1526,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_601012",
-          "symbol": "601012",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601012",
-              "symbol": "601012",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_601012",
-        "symbol": "601012",
+        "holding": "cn_stock_300750",
+        "symbol": "300750",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.03718945956721864,
-      "market_value": 1037189.4595672187,
-      "annualized": 8.233397002183803,
-      "max_drawdown": -0.005144804088585975,
+      "last_date": "2026-10-07",
+      "cum_return": -0.007257240204429305,
+      "market_value": 992742.7597955707,
+      "annualized": -0.1850626290175965,
+      "max_drawdown": -0.02282793867120947,
       "status": "ok"
     },
     {
@@ -2029,52 +1562,20 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_600309",
-          "symbol": "600309",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600309",
-              "symbol": "600309",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_601888",
-          "symbol": "601888",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601888",
-              "symbol": "601888",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_601888",
-        "symbol": "601888",
+        "holding": "cn_stock_601012",
+        "symbol": "601012",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.006374286276826124,
-      "market_value": 993625.7137231738,
-      "annualized": -0.3224532194938289,
+      "last_date": "2026-10-07",
+      "cum_return": 0.02083333333333348,
+      "market_value": 1020833.3333333335,
+      "annualized": 0.7848290948150707,
       "max_drawdown": -0.02083333333333326,
       "status": "ok"
     },
@@ -2097,37 +1598,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_601888",
-          "symbol": "601888",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601888",
-              "symbol": "601888",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_601888",
-        "symbol": "601888",
+        "holding": "cn_stock_600309",
+        "symbol": "600309",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.014036112787291222,
-      "market_value": 1014036.1127872913,
-      "annualized": 1.3361571300764017,
-      "max_drawdown": -0.0007199424046074876,
+      "last_date": "2026-10-07",
+      "cum_return": -0.007055435565154977,
+      "market_value": 992944.5644348451,
+      "annualized": -0.18039536830621472,
+      "max_drawdown": -0.02577393808495332,
       "status": "ok"
     },
     {
@@ -2136,66 +1621,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_601888",
-          "symbol": "601888",
-          "market": "cn",
+          "key": "us_stock_RGTI",
+          "symbol": "RGTI",
+          "market": "us",
           "type": "stock",
           "legs": [
             {
-              "key": "cn_stock_601888",
-              "symbol": "601888",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_000001",
-          "symbol": "000001",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_000001",
-              "symbol": "000001",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_600028",
-          "symbol": "600028",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600028",
-              "symbol": "600028",
-              "market": "cn",
+              "key": "us_stock_RGTI",
+              "symbol": "RGTI",
+              "market": "us",
               "type": "stock",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600028",
-        "symbol": "600028",
-        "market": "cn",
+        "holding": "us_stock_RGTI",
+        "symbol": "RGTI",
+        "market": "us",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.03491217269052371,
-      "market_value": 965087.8273094763,
-      "annualized": -0.8850507197967954,
-      "max_drawdown": -0.03673653531303667,
+      "last_date": "2026-10-07",
+      "cum_return": -0.08060606060606057,
+      "market_value": 919393.9393939395,
+      "annualized": -0.9056946424454242,
+      "max_drawdown": -0.09063625450180057,
       "status": "ok"
     },
     {
@@ -2217,37 +1670,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_600028",
-          "symbol": "600028",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600028",
-              "symbol": "600028",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600028",
-        "symbol": "600028",
+        "holding": "cn_stock_000001",
+        "symbol": "000001",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.022181146025878062,
-      "market_value": 977818.853974122,
-      "annualized": -0.7447413184088792,
-      "max_drawdown": -0.02402957486136781,
+      "last_date": "2026-10-07",
+      "cum_return": 339.61303539823007,
+      "market_value": 340613035.3982301,
+      "annualized": 1.4021745104999922e+71,
+      "max_drawdown": 0.0,
       "status": "ok"
     },
     {
@@ -2256,46 +1693,14 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_600028",
-          "symbol": "600028",
+          "key": "cn_stock_600887",
+          "symbol": "600887",
           "market": "cn",
           "type": "stock",
           "legs": [
             {
-              "key": "cn_stock_600028",
-              "symbol": "600028",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_601857",
-          "symbol": "601857",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601857",
-              "symbol": "601857",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_601988",
-          "symbol": "601988",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601988",
-              "symbol": "601988",
+              "key": "cn_stock_600887",
+              "symbol": "600887",
               "market": "cn",
               "type": "stock",
               "weight": 1.0
@@ -2303,18 +1708,18 @@
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_601988",
-        "symbol": "601988",
+        "holding": "cn_stock_600887",
+        "symbol": "600887",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.03378922419170083,
-      "market_value": 1033789.2241917009,
-      "annualized": 6.560457168064297,
+      "last_date": "2026-10-07",
+      "cum_return": 0.014869888475836479,
+      "market_value": 1014869.8884758365,
+      "annualized": 0.5139330100725745,
       "max_drawdown": 0.0,
       "status": "ok"
     },
@@ -2324,50 +1729,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_601857",
-          "symbol": "601857",
-          "market": "cn",
-          "type": "stock",
+          "key": "us_etf_QQQ",
+          "symbol": "QQQ",
+          "market": "us",
+          "type": "etf",
           "legs": [
             {
-              "key": "cn_stock_601857",
-              "symbol": "601857",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_601988",
-          "symbol": "601988",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601988",
-              "symbol": "601988",
-              "market": "cn",
-              "type": "stock",
+              "key": "us_etf_QQQ",
+              "symbol": "QQQ",
+              "market": "us",
+              "type": "etf",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_601988",
-        "symbol": "601988",
-        "market": "cn",
-        "type": "stock"
+        "holding": "us_etf_QQQ",
+        "symbol": "QQQ",
+        "market": "us",
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.03887270398148712,
-      "market_value": 1038872.7039814871,
-      "annualized": 9.191360695007505,
-      "max_drawdown": 0.0,
+      "last_date": "2026-10-07",
+      "cum_return": 0.025043853730940313,
+      "market_value": 1025043.8537309403,
+      "annualized": 1.003647933542804,
+      "max_drawdown": -0.010705171255876555,
       "status": "ok"
     },
     {
@@ -2389,53 +1778,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_601398",
-          "symbol": "601398",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601398",
-              "symbol": "601398",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_601628",
-          "symbol": "601628",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601628",
-              "symbol": "601628",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_601628",
-        "symbol": "601628",
+        "holding": "cn_stock_601988",
+        "symbol": "601988",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.0009407708734052722,
-      "market_value": 999059.2291265948,
-      "annualized": -0.05568585033015794,
-      "max_drawdown": -0.0040794125645908785,
+      "last_date": "2026-10-07",
+      "cum_return": 0.01812688821752273,
+      "market_value": 1018126.8882175228,
+      "annualized": 0.6565463124215172,
+      "max_drawdown": 0.0,
       "status": "ok"
     },
     {
@@ -2457,37 +1814,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_601628",
-          "symbol": "601628",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601628",
-              "symbol": "601628",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_601628",
-        "symbol": "601628",
+        "holding": "cn_stock_601398",
+        "symbol": "601398",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 6.3557883334119936e-06,
-      "market_value": 1000006.3557883335,
-      "annualized": 0.0003869822435635939,
-      "max_drawdown": -0.0040794125645909896,
+      "last_date": "2026-10-07",
+      "cum_return": 0.019680196801967753,
+      "market_value": 1019680.1968019678,
+      "annualized": 0.7290415249225446,
+      "max_drawdown": 0.0,
       "status": "ok"
     },
     {
@@ -2509,53 +1850,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_000725",
-          "symbol": "000725",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_000725",
-              "symbol": "000725",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_002415",
-          "symbol": "002415",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_002415",
-              "symbol": "002415",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_002415",
-        "symbol": "002415",
+        "holding": "cn_stock_601628",
+        "symbol": "601628",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.006941730699959958,
-      "market_value": 993058.2693000401,
-      "annualized": -0.345609748338511,
-      "max_drawdown": -0.01916022678485718,
+      "last_date": "2026-10-07",
+      "cum_return": -0.020037403152551425,
+      "market_value": 979962.5968474486,
+      "annualized": -0.4337336479002225,
+      "max_drawdown": -0.021640395404755597,
       "status": "ok"
     },
     {
@@ -2564,50 +1873,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_000725",
-          "symbol": "000725",
+          "key": "cn_etf_510300",
+          "symbol": "510300",
           "market": "cn",
-          "type": "stock",
+          "type": "etf",
           "legs": [
             {
-              "key": "cn_stock_000725",
-              "symbol": "000725",
+              "key": "cn_etf_510300",
+              "symbol": "510300",
               "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_002415",
-          "symbol": "002415",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_002415",
-              "symbol": "002415",
-              "market": "cn",
-              "type": "stock",
+              "type": "etf",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_002415",
-        "symbol": "002415",
+        "holding": "cn_etf_510300",
+        "symbol": "510300",
         "market": "cn",
-        "type": "stock"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.0022430582132075827,
-      "market_value": 1002243.0582132075,
-      "annualized": 0.1461325294424234,
-      "max_drawdown": -0.010088446655610706,
+      "last_date": "2026-10-07",
+      "cum_return": -0.017275747508305517,
+      "market_value": 982724.2524916945,
+      "annualized": -0.38714300099749177,
+      "max_drawdown": -0.021926910299003177,
       "status": "ok"
     },
     {
@@ -2629,53 +1922,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_300059",
-          "symbol": "300059",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_300059",
-              "symbol": "300059",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_600585",
-          "symbol": "600585",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600585",
-              "symbol": "600585",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600585",
-        "symbol": "600585",
+        "holding": "cn_stock_002415",
+        "symbol": "002415",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.03437632434346827,
-      "market_value": 1034376.3243434683,
-      "annualized": 6.826327904596722,
-      "max_drawdown": -0.014403922770456767,
+      "last_date": "2026-10-07",
+      "cum_return": -0.00367759730309547,
+      "market_value": 996322.4026969045,
+      "annualized": -0.09833912804223988,
+      "max_drawdown": -0.015936254980079778,
       "status": "ok"
     },
     {
@@ -2697,37 +1958,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_600585",
-          "symbol": "600585",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_600585",
-              "symbol": "600585",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600585",
-        "symbol": "600585",
+        "holding": "cn_stock_300059",
+        "symbol": "300059",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.0259541825365448,
-      "market_value": 1025954.1825365449,
-      "annualized": 3.7578960510328754,
-      "max_drawdown": -0.0224288840262582,
+      "last_date": "2026-10-07",
+      "cum_return": -0.026258205689277947,
+      "market_value": 973741.794310722,
+      "annualized": -0.5265048515384974,
+      "max_drawdown": -0.027899343544857902,
       "status": "ok"
     },
     {
@@ -2736,66 +1981,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_600585",
-          "symbol": "600585",
-          "market": "cn",
+          "key": "us_stock_FTHY",
+          "symbol": "FTHY",
+          "market": "us",
           "type": "stock",
           "legs": [
             {
-              "key": "cn_stock_600585",
-              "symbol": "600585",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_601668",
-          "symbol": "601668",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601668",
-              "symbol": "601668",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_stock_601088",
-          "symbol": "601088",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601088",
-              "symbol": "601088",
-              "market": "cn",
+              "key": "us_stock_FTHY",
+              "symbol": "FTHY",
+              "market": "us",
               "type": "stock",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_601088",
-        "symbol": "601088",
-        "market": "cn",
+        "holding": "us_stock_FTHY",
+        "symbol": "FTHY",
+        "market": "us",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.019071637745444625,
-      "market_value": 980928.3622545553,
-      "annualized": -0.6903150240711167,
-      "max_drawdown": -0.03176311488646777,
+      "last_date": "2026-10-07",
+      "cum_return": -0.01241272304111718,
+      "market_value": 987587.2769588828,
+      "annualized": -0.2959686011019297,
+      "max_drawdown": -0.03230769230769226,
       "status": "ok"
     },
     {
@@ -2817,37 +2030,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_601088",
-          "symbol": "601088",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601088",
-              "symbol": "601088",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_stock_601088",
-        "symbol": "601088",
+        "holding": "cn_stock_601668",
+        "symbol": "601668",
         "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.019011222393949034,
-      "market_value": 980988.777606051,
-      "annualized": -0.6891517819251698,
-      "max_drawdown": -0.031703481202708605,
+      "last_date": "2026-10-07",
+      "cum_return": 0.023474178403755985,
+      "market_value": 1023474.178403756,
+      "annualized": 0.9192071653146519,
+      "max_drawdown": -0.009389671361502372,
       "status": "ok"
     },
     {
@@ -2856,46 +2053,14 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_601088",
-          "symbol": "601088",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_601088",
-              "symbol": "601088",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_stock_000002",
-          "symbol": "000002",
-          "market": "cn",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "cn_stock_000002",
-              "symbol": "000002",
-              "market": "cn",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_etf_510300",
-          "symbol": "510300",
+          "key": "cn_etf_588710",
+          "symbol": "588710",
           "market": "cn",
           "type": "etf",
           "legs": [
             {
-              "key": "cn_etf_510300",
-              "symbol": "510300",
+              "key": "cn_etf_588710",
+              "symbol": "588710",
               "market": "cn",
               "type": "etf",
               "weight": 1.0
@@ -2903,19 +2068,19 @@
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_etf_510300",
-        "symbol": "510300",
+        "holding": "cn_etf_588710",
+        "symbol": "588710",
         "market": "cn",
         "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.01205721407140703,
-      "market_value": 1012057.2140714071,
-      "annualized": 1.0742367640194237,
-      "max_drawdown": -0.0002263980076974148,
+      "last_date": "2026-10-07",
+      "cum_return": -0.07389162561576346,
+      "market_value": 926108.3743842365,
+      "annualized": -0.8843021941780853,
+      "max_drawdown": -0.07389162561576346,
       "status": "ok"
     },
     {
@@ -2937,37 +2102,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_etf_510300",
-          "symbol": "510300",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_510300",
-              "symbol": "510300",
-              "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_etf_510300",
-        "symbol": "510300",
+        "holding": "cn_stock_000002",
+        "symbol": "000002",
         "market": "cn",
-        "type": "etf"
+        "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.008830124422564478,
-      "market_value": 991169.8755774355,
-      "annualized": -0.41720578642844464,
-      "max_drawdown": -0.013521259736318236,
+      "last_date": "2026-10-07",
+      "cum_return": 0.1436170212765957,
+      "market_value": 1143617.0212765958,
+      "annualized": 42.397129403965884,
+      "max_drawdown": -0.013297872340425454,
       "status": "ok"
     },
     {
@@ -2989,53 +2138,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_etf_510500",
-          "symbol": "510500",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_510500",
-              "symbol": "510500",
-              "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_etf_510050",
-          "symbol": "510050",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_510050",
-              "symbol": "510050",
-              "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_etf_510050",
-        "symbol": "510050",
+        "holding": "cn_etf_510300",
+        "symbol": "510300",
         "market": "cn",
         "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.016683380290657968,
-      "market_value": 983316.619709342,
-      "annualized": -0.6409048999545532,
-      "max_drawdown": -0.02170542635658923,
+      "last_date": "2026-10-07",
+      "cum_return": -0.017275747508305517,
+      "market_value": 982724.2524916945,
+      "annualized": -0.38714300099749177,
+      "max_drawdown": -0.021926910299003177,
       "status": "ok"
     },
     {
@@ -3044,50 +2161,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_etf_510500",
-          "symbol": "510500",
+          "key": "cn_stock_603259",
+          "symbol": "603259",
           "market": "cn",
-          "type": "etf",
+          "type": "stock",
           "legs": [
             {
-              "key": "cn_etf_510500",
-              "symbol": "510500",
+              "key": "cn_stock_603259",
+              "symbol": "603259",
               "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_etf_510050",
-          "symbol": "510050",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_510050",
-              "symbol": "510050",
-              "market": "cn",
-              "type": "etf",
+              "type": "stock",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_etf_510050",
-        "symbol": "510050",
+        "holding": "cn_stock_603259",
+        "symbol": "603259",
         "market": "cn",
-        "type": "etf"
+        "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.022458428956798615,
-      "market_value": 977541.5710432015,
-      "annualized": -0.7491105208470571,
-      "max_drawdown": -0.027450980392156876,
+      "last_date": "2026-10-07",
+      "cum_return": 0.030418719211822598,
+      "market_value": 1030418.7192118226,
+      "annualized": 1.320791012650417,
+      "max_drawdown": -0.010714285714285787,
       "status": "ok"
     },
     {
@@ -3109,53 +2210,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_etf_159915",
-          "symbol": "159915",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_159915",
-              "symbol": "159915",
-              "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_etf_588000",
-          "symbol": "588000",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_588000",
-              "symbol": "588000",
-              "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_etf_588000",
-        "symbol": "588000",
+        "holding": "cn_etf_510050",
+        "symbol": "510050",
         "market": "cn",
         "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.028131059558745286,
-      "market_value": 971868.9404412548,
-      "annualized": -0.8239569377004097,
-      "max_drawdown": -0.028131059558745286,
+      "last_date": "2026-10-07",
+      "cum_return": -0.007434944237918351,
+      "market_value": 992565.0557620816,
+      "annualized": -0.18915126830954865,
+      "max_drawdown": -0.0125042244001351,
       "status": "ok"
     },
     {
@@ -3164,50 +2233,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_etf_159915",
-          "symbol": "159915",
-          "market": "cn",
+          "key": "us_etf_SOXX",
+          "symbol": "SOXX",
+          "market": "us",
           "type": "etf",
           "legs": [
             {
-              "key": "cn_etf_159915",
-              "symbol": "159915",
-              "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_etf_588000",
-          "symbol": "588000",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_588000",
-              "symbol": "588000",
-              "market": "cn",
+              "key": "us_etf_SOXX",
+              "symbol": "SOXX",
+              "market": "us",
               "type": "etf",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_etf_588000",
-        "symbol": "588000",
-        "market": "cn",
+        "holding": "us_etf_SOXX",
+        "symbol": "SOXX",
+        "market": "us",
         "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.06128933022837346,
-      "market_value": 938710.6697716266,
-      "annualized": -0.9787249523820016,
-      "max_drawdown": -0.06128933022837346,
+      "last_date": "2026-10-07",
+      "cum_return": 0.041302312434857935,
+      "market_value": 1041302.312434858,
+      "annualized": 2.1177508011111876,
+      "max_drawdown": -0.02076203115177766,
       "status": "ok"
     },
     {
@@ -3229,53 +2282,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_etf_512880",
-          "symbol": "512880",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_512880",
-              "symbol": "512880",
-              "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_bond_511010",
-          "symbol": "511010",
-          "market": "cn",
-          "type": "bond",
-          "legs": [
-            {
-              "key": "cn_bond_511010",
-              "symbol": "511010",
-              "market": "cn",
-              "type": "bond",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_bond_511010",
-        "symbol": "511010",
+        "holding": "cn_etf_588000",
+        "symbol": "588000",
         "market": "cn",
-        "type": "bond"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.040557186510811416,
-      "market_value": 959442.8134891887,
-      "annualized": -0.9195710572400116,
-      "max_drawdown": -0.040863981319322895,
+      "last_date": "2026-10-07",
+      "cum_return": -0.05604203152364273,
+      "market_value": 943957.9684763573,
+      "annualized": -0.8021819137871056,
+      "max_drawdown": -0.05604203152364273,
       "status": "ok"
     },
     {
@@ -3284,50 +2305,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_etf_512880",
-          "symbol": "512880",
-          "market": "cn",
-          "type": "etf",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
+          "type": "stock",
           "legs": [
             {
-              "key": "cn_etf_512880",
-              "symbol": "512880",
-              "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_bond_511010",
-          "symbol": "511010",
-          "market": "cn",
-          "type": "bond",
-          "legs": [
-            {
-              "key": "cn_bond_511010",
-              "symbol": "511010",
-              "market": "cn",
-              "type": "bond",
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
+              "type": "stock",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_bond_511010",
-        "symbol": "511010",
-        "market": "cn",
-        "type": "bond"
+        "holding": "us_stock_NVDA",
+        "symbol": "NVDA",
+        "market": "us",
+        "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.019763037816930895,
-      "market_value": 980236.9621830691,
-      "annualized": -0.703326219233398,
-      "max_drawdown": -0.02007648183556432,
+      "last_date": "2026-10-07",
+      "cum_return": 0.06527740671475635,
+      "market_value": 1065277.4067147563,
+      "annualized": 4.910125465399409,
+      "max_drawdown": -0.007209647819627629,
       "status": "ok"
     },
     {
@@ -3349,53 +2354,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_bond_511260",
-          "symbol": "511260",
-          "market": "cn",
-          "type": "bond",
-          "legs": [
-            {
-              "key": "cn_bond_511260",
-              "symbol": "511260",
-              "market": "cn",
-              "type": "bond",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_etf_518880",
-          "symbol": "518880",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_518880",
-              "symbol": "518880",
-              "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_etf_518880",
-        "symbol": "518880",
+        "holding": "cn_bond_511010",
+        "symbol": "511010",
         "market": "cn",
-        "type": "etf"
+        "type": "bond"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.0035137010186703233,
-      "market_value": 1003513.7010186703,
-      "annualized": 0.23803029291378963,
-      "max_drawdown": -0.005937997793249661,
+      "last_date": "2026-10-07",
+      "cum_return": 9.949188075197846e-05,
+      "market_value": 1000099.491880752,
+      "annualized": 0.0027991103548379304,
+      "max_drawdown": -0.00022030345023638098,
       "status": "ok"
     },
     {
@@ -3404,30 +2377,14 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_bond_511260",
-          "symbol": "511260",
-          "market": "cn",
-          "type": "bond",
-          "legs": [
-            {
-              "key": "cn_bond_511260",
-              "symbol": "511260",
-              "market": "cn",
-              "type": "bond",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_etf_518880",
-          "symbol": "518880",
+          "key": "cn_etf_511100",
+          "symbol": "511100",
           "market": "cn",
           "type": "etf",
           "legs": [
             {
-              "key": "cn_etf_518880",
-              "symbol": "518880",
+              "key": "cn_etf_511100",
+              "symbol": "511100",
               "market": "cn",
               "type": "etf",
               "weight": 1.0
@@ -3435,19 +2392,19 @@
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_etf_518880",
-        "symbol": "518880",
+        "holding": "cn_etf_511100",
+        "symbol": "511100",
         "market": "cn",
         "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": 0.003518994320252933,
-      "market_value": 1003518.994320253,
-      "annualized": 0.23842788905452172,
-      "max_drawdown": -0.00593275434718199,
+      "last_date": "2026-10-07",
+      "cum_return": -0.0005303895216605126,
+      "market_value": 999469.6104783395,
+      "annualized": -0.014795316513996792,
+      "max_drawdown": -0.0014280710263249174,
       "status": "ok"
     },
     {
@@ -3456,66 +2413,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_etf_518880",
-          "symbol": "518880",
+          "key": "cn_stock_600600",
+          "symbol": "600600",
           "market": "cn",
-          "type": "etf",
+          "type": "stock",
           "legs": [
             {
-              "key": "cn_etf_518880",
-              "symbol": "518880",
+              "key": "cn_stock_600600",
+              "symbol": "600600",
               "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_etf_513100",
-          "symbol": "513100",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_513100",
-              "symbol": "513100",
-              "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_etf_513050",
-          "symbol": "513050",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_513050",
-              "symbol": "513050",
-              "market": "cn",
-              "type": "etf",
+              "type": "stock",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_etf_513050",
-        "symbol": "513050",
+        "holding": "cn_stock_600600",
+        "symbol": "600600",
         "market": "cn",
-        "type": "etf"
+        "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.037484585606555876,
-      "market_value": 962515.4143934441,
-      "annualized": -0.9022890284520875,
-      "max_drawdown": -0.037484585606555876,
+      "last_date": "2026-10-07",
+      "cum_return": 0.0026057326117459034,
+      "market_value": 1002605.732611746,
+      "annualized": 0.07585516266078707,
+      "max_drawdown": -0.007416315894968717,
       "status": "ok"
     },
     {
@@ -3524,50 +2449,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_etf_513100",
-          "symbol": "513100",
+          "key": "cn_stock_688256",
+          "symbol": "688256",
           "market": "cn",
-          "type": "etf",
+          "type": "stock",
           "legs": [
             {
-              "key": "cn_etf_513100",
-              "symbol": "513100",
+              "key": "cn_stock_688256",
+              "symbol": "688256",
               "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_etf_513050",
-          "symbol": "513050",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_513050",
-              "symbol": "513050",
-              "market": "cn",
-              "type": "etf",
+              "type": "stock",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_etf_513050",
-        "symbol": "513050",
+        "holding": "cn_stock_688256",
+        "symbol": "688256",
         "market": "cn",
-        "type": "etf"
+        "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.01618615780994015,
-      "market_value": 983813.8421900598,
-      "annualized": -0.6296822422390123,
-      "max_drawdown": -0.01618615780994015,
+      "last_date": "2026-10-07",
+      "cum_return": -0.07555795800197895,
+      "market_value": 924442.0419980211,
+      "annualized": -0.890010691783318,
+      "max_drawdown": -0.07555795800197895,
       "status": "ok"
     },
     {
@@ -3589,53 +2498,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_etf_512480",
-          "symbol": "512480",
-          "market": "cn",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "cn_etf_512480",
-              "symbol": "512480",
-              "market": "cn",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_index_000300",
-          "symbol": "000300",
-          "market": "cn",
-          "type": "index",
-          "legs": [
-            {
-              "key": "cn_index_000300",
-              "symbol": "000300",
-              "market": "cn",
-              "type": "index",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_index_000300",
-        "symbol": "000300",
+        "holding": "cn_etf_513050",
+        "symbol": "513050",
         "market": "cn",
-        "type": "index"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.0015823553434161086,
-      "market_value": 998417.6446565839,
-      "annualized": -0.09190127008724391,
-      "max_drawdown": -0.006829268292682822,
+      "last_date": "2026-10-07",
+      "cum_return": -0.019512195121951237,
+      "market_value": 980487.8048780487,
+      "annualized": -0.4251445773062632,
+      "max_drawdown": -0.019512195121951237,
       "status": "ok"
     },
     {
@@ -3644,50 +2521,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_etf_512480",
-          "symbol": "512480",
+          "key": "cn_etf_515120",
+          "symbol": "515120",
           "market": "cn",
           "type": "etf",
           "legs": [
             {
-              "key": "cn_etf_512480",
-              "symbol": "512480",
+              "key": "cn_etf_515120",
+              "symbol": "515120",
               "market": "cn",
               "type": "etf",
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_index_000300",
-          "symbol": "000300",
-          "market": "cn",
-          "type": "index",
-          "legs": [
-            {
-              "key": "cn_index_000300",
-              "symbol": "000300",
-              "market": "cn",
-              "type": "index",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_index_000300",
-        "symbol": "000300",
+        "holding": "cn_etf_515120",
+        "symbol": "515120",
         "market": "cn",
-        "type": "index"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.0369723049070414,
-      "market_value": 963027.6950929586,
-      "annualized": -0.8990722611116205,
-      "max_drawdown": -0.04203323558162264,
+      "last_date": "2026-10-07",
+      "cum_return": 0.03809523809523818,
+      "market_value": 1038095.2380952382,
+      "annualized": 1.8589254944933091,
+      "max_drawdown": -0.0031746031746031633,
       "status": "ok"
     },
     {
@@ -3696,66 +2557,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_index_000300",
-          "symbol": "000300",
+          "key": "cn_stock_002837",
+          "symbol": "002837",
           "market": "cn",
-          "type": "index",
+          "type": "stock",
           "legs": [
             {
-              "key": "cn_index_000300",
-              "symbol": "000300",
+              "key": "cn_stock_002837",
+              "symbol": "002837",
               "market": "cn",
-              "type": "index",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_index_399001",
-          "symbol": "399001",
-          "market": "cn",
-          "type": "index",
-          "legs": [
-            {
-              "key": "cn_index_399001",
-              "symbol": "399001",
-              "market": "cn",
-              "type": "index",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "cn_index_399006",
-          "symbol": "399006",
-          "market": "cn",
-          "type": "index",
-          "legs": [
-            {
-              "key": "cn_index_399006",
-              "symbol": "399006",
-              "market": "cn",
-              "type": "index",
+              "type": "stock",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_index_399006",
-        "symbol": "399006",
+        "holding": "cn_stock_002837",
+        "symbol": "002837",
         "market": "cn",
-        "type": "index"
+        "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.021432578313342998,
-      "market_value": 978567.421686657,
-      "annualized": -0.7325687827456275,
-      "max_drawdown": -0.02216195028766832,
+      "last_date": "2026-10-07",
+      "cum_return": -0.057147850401957245,
+      "market_value": 942852.1495980427,
+      "annualized": -0.8085905705124146,
+      "max_drawdown": -0.057147850401957245,
       "status": "ok"
     },
     {
@@ -3777,36 +2606,20 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_index_399006",
-          "symbol": "399006",
-          "market": "cn",
-          "type": "index",
-          "legs": [
-            {
-              "key": "cn_index_399006",
-              "symbol": "399006",
-              "market": "cn",
-              "type": "index",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "cn_index_399006",
-        "symbol": "399006",
+        "holding": "cn_index_399001",
+        "symbol": "399001",
         "market": "cn",
         "type": "index"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "cum_return": -0.03368849104105409,
-      "market_value": 966311.5089589459,
-      "annualized": -0.8758328724935253,
+      "last_date": "2026-10-07",
+      "cum_return": -0.030440032529922223,
+      "market_value": 969559.9674700778,
+      "annualized": -0.5804342623989984,
       "max_drawdown": -0.034408728111574916,
       "status": "ok"
     },
@@ -3816,38 +2629,6 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_index_399006",
-          "symbol": "399006",
-          "market": "cn",
-          "type": "index",
-          "legs": [
-            {
-              "key": "cn_index_399006",
-              "symbol": "399006",
-              "market": "cn",
-              "type": "index",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "cn_index_000905",
-          "symbol": "000905",
-          "market": "cn",
-          "type": "index",
-          "legs": [
-            {
-              "key": "cn_index_000905",
-              "symbol": "000905",
-              "market": "cn",
-              "type": "index",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
           "key": "us_stock_AAPL",
           "symbol": "AAPL",
           "market": "us",
@@ -3863,7 +2644,7 @@
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
         "holding": "us_stock_AAPL",
         "symbol": "AAPL",
@@ -3871,11 +2652,11 @@
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": -0.04191312621159393,
-      "market_value": 958086.873788406,
-      "annualized": -0.7283489769841781,
-      "max_drawdown": -0.05491026195340065,
+      "last_date": "2026-10-07",
+      "cum_return": -0.006817099309359476,
+      "market_value": 993182.9006906406,
+      "annualized": -0.17485001350068086,
+      "max_drawdown": -0.03421585011874406,
       "status": "ok"
     },
     {
@@ -3884,50 +2665,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_index_000905",
-          "symbol": "000905",
-          "market": "cn",
-          "type": "index",
-          "legs": [
-            {
-              "key": "cn_index_000905",
-              "symbol": "000905",
-              "market": "cn",
-              "type": "index",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "us_stock_AAPL",
-          "symbol": "AAPL",
+          "key": "us_etf_VOO",
+          "symbol": "VOO",
           "market": "us",
-          "type": "stock",
+          "type": "etf",
           "legs": [
             {
-              "key": "us_stock_AAPL",
-              "symbol": "AAPL",
+              "key": "us_etf_VOO",
+              "symbol": "VOO",
               "market": "us",
-              "type": "stock",
+              "type": "etf",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "us_stock_AAPL",
-        "symbol": "AAPL",
+        "holding": "us_etf_VOO",
+        "symbol": "VOO",
         "market": "us",
-        "type": "stock"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": -0.020934119095786796,
-      "market_value": 979065.8809042132,
-      "annualized": -0.47478429801903343,
-      "max_drawdown": -0.03421585011874395,
+      "last_date": "2026-10-07",
+      "cum_return": 0.013027058374234457,
+      "market_value": 1013027.0583742345,
+      "annualized": 0.4385659109523028,
+      "max_drawdown": -0.013970370995652681,
       "status": "ok"
     },
     {
@@ -3936,66 +2701,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "us_stock_AAPL",
-          "symbol": "AAPL",
+          "key": "us_etf_QQQ",
+          "symbol": "QQQ",
           "market": "us",
-          "type": "stock",
+          "type": "etf",
           "legs": [
             {
-              "key": "us_stock_AAPL",
-              "symbol": "AAPL",
+              "key": "us_etf_QQQ",
+              "symbol": "QQQ",
               "market": "us",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "us_stock_MSFT",
-          "symbol": "MSFT",
-          "market": "us",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "us_stock_MSFT",
-              "symbol": "MSFT",
-              "market": "us",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "us_stock_GOOGL",
-          "symbol": "GOOGL",
-          "market": "us",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "us_stock_GOOGL",
-              "symbol": "GOOGL",
-              "market": "us",
-              "type": "stock",
+              "type": "etf",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "us_stock_GOOGL",
-        "symbol": "GOOGL",
+        "holding": "us_etf_QQQ",
+        "symbol": "QQQ",
         "market": "us",
-        "type": "stock"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": 0.007680238187669719,
-      "market_value": 1007680.2381876697,
-      "annualized": 0.2622225880432456,
-      "max_drawdown": -0.026445664496824617,
+      "last_date": "2026-10-07",
+      "cum_return": 0.025043853730940313,
+      "market_value": 1025043.8537309403,
+      "annualized": 1.003647933542804,
+      "max_drawdown": -0.010705171255876555,
       "status": "ok"
     },
     {
@@ -4017,37 +2750,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "us_stock_GOOGL",
-          "symbol": "GOOGL",
-          "market": "us",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "us_stock_GOOGL",
-              "symbol": "GOOGL",
-              "market": "us",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "us_stock_GOOGL",
-        "symbol": "GOOGL",
+        "holding": "us_stock_MSFT",
+        "symbol": "MSFT",
         "market": "us",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": 0.0393142619750253,
-      "market_value": 1039314.2619750254,
-      "annualized": 2.2339505199838263,
-      "max_drawdown": -0.016972797023947828,
+      "last_date": "2026-10-07",
+      "cum_return": 0.06300082340891278,
+      "market_value": 1063000.8234089129,
+      "annualized": 4.565345539601492,
+      "max_drawdown": -0.013968266268864937,
       "status": "ok"
     },
     {
@@ -4069,53 +2786,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "us_stock_AMZN",
-          "symbol": "AMZN",
-          "market": "us",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "us_stock_AMZN",
-              "symbol": "AMZN",
-              "market": "us",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "us_stock_NVDA",
-          "symbol": "NVDA",
-          "market": "us",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "us_stock_NVDA",
-              "symbol": "NVDA",
-              "market": "us",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "us_stock_NVDA",
-        "symbol": "NVDA",
+        "holding": "us_stock_GOOGL",
+        "symbol": "GOOGL",
         "market": "us",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": 0.022460598246216268,
-      "market_value": 1022460.5982462163,
-      "annualized": 0.9661552503609505,
-      "max_drawdown": -0.02120661197100715,
+      "last_date": "2026-10-07",
+      "cum_return": 0.015539198504498142,
+      "market_value": 1015539.1985044981,
+      "annualized": 0.5422375330404738,
+      "max_drawdown": -0.01697279702394805,
       "status": "ok"
     },
     {
@@ -4124,50 +2809,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "us_stock_AMZN",
-          "symbol": "AMZN",
+          "key": "us_etf_NVDU",
+          "symbol": "NVDU",
           "market": "us",
-          "type": "stock",
+          "type": "etf",
           "legs": [
             {
-              "key": "us_stock_AMZN",
-              "symbol": "AMZN",
+              "key": "us_etf_NVDU",
+              "symbol": "NVDU",
               "market": "us",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "us_stock_NVDA",
-          "symbol": "NVDA",
-          "market": "us",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "us_stock_NVDA",
-              "symbol": "NVDA",
-              "market": "us",
-              "type": "stock",
+              "type": "etf",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "us_stock_NVDA",
-        "symbol": "NVDA",
+        "holding": "us_etf_NVDU",
+        "symbol": "NVDU",
         "market": "us",
-        "type": "stock"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": 0.05098304790237096,
-      "market_value": 1050983.047902371,
-      "annualized": 3.542756455637333,
-      "max_drawdown": -0.00720964781962774,
+      "last_date": "2026-10-07",
+      "cum_return": 0.1290231107330213,
+      "market_value": 1129023.1107330213,
+      "annualized": 29.25149714106583,
+      "max_drawdown": -0.03308995913992896,
       "status": "ok"
     },
     {
@@ -4189,53 +2858,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "us_stock_TSLA",
-          "symbol": "TSLA",
-          "market": "us",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "us_stock_TSLA",
-              "symbol": "TSLA",
-              "market": "us",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "us_stock_META",
-          "symbol": "META",
-          "market": "us",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "us_stock_META",
-              "symbol": "META",
-              "market": "us",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "us_stock_META",
-        "symbol": "META",
+        "holding": "us_stock_NVDA",
+        "symbol": "NVDA",
         "market": "us",
         "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": -0.0012277642299632907,
-      "market_value": 998772.2357700367,
-      "annualized": -0.036702547101939875,
-      "max_drawdown": -0.03939695251404163,
+      "last_date": "2026-10-07",
+      "cum_return": 0.06527740671475635,
+      "market_value": 1065277.4067147563,
+      "annualized": 4.910125465399409,
+      "max_drawdown": -0.007209647819627629,
       "status": "ok"
     },
     {
@@ -4244,50 +2881,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "us_stock_TSLA",
-          "symbol": "TSLA",
-          "market": "us",
-          "type": "stock",
+          "key": "cn_fund_002910",
+          "symbol": "002910",
+          "market": "cn",
+          "type": "fund",
           "legs": [
             {
-              "key": "us_stock_TSLA",
-              "symbol": "TSLA",
-              "market": "us",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "us_stock_META",
-          "symbol": "META",
-          "market": "us",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "us_stock_META",
-              "symbol": "META",
-              "market": "us",
-              "type": "stock",
+              "key": "cn_fund_002910",
+              "symbol": "002910",
+              "market": "cn",
+              "type": "fund",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "us_stock_META",
-        "symbol": "META",
-        "market": "us",
-        "type": "stock"
+        "holding": "cn_fund_002910",
+        "symbol": "002910",
+        "market": "cn",
+        "type": "fund"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": -0.02750924763090301,
-      "market_value": 972490.752369097,
-      "annualized": -0.5721768273549861,
-      "max_drawdown": -0.0626333184583523,
+      "last_date": "2026-10-07",
+      "cum_return": -0.004945598417408492,
+      "market_value": 995054.4015825915,
+      "annualized": -0.1300304189139212,
+      "max_drawdown": -0.014962000275451137,
       "status": "ok"
     },
     {
@@ -4296,66 +2917,34 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "us_stock_META",
-          "symbol": "META",
-          "market": "us",
+          "key": "cn_stock_002837",
+          "symbol": "002837",
+          "market": "cn",
           "type": "stock",
           "legs": [
             {
-              "key": "us_stock_META",
-              "symbol": "META",
-              "market": "us",
+              "key": "cn_stock_002837",
+              "symbol": "002837",
+              "market": "cn",
               "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "us_stock_JPM",
-          "symbol": "JPM",
-          "market": "us",
-          "type": "stock",
-          "legs": [
-            {
-              "key": "us_stock_JPM",
-              "symbol": "JPM",
-              "market": "us",
-              "type": "stock",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "us_etf_SPY",
-          "symbol": "SPY",
-          "market": "us",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "us_etf_SPY",
-              "symbol": "SPY",
-              "market": "us",
-              "type": "etf",
               "weight": 1.0
             }
           ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "us_etf_SPY",
-        "symbol": "SPY",
-        "market": "us",
-        "type": "etf"
+        "holding": "cn_stock_002837",
+        "symbol": "002837",
+        "market": "cn",
+        "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": -0.042435191655075366,
-      "market_value": 957564.8083449246,
-      "annualized": -0.732818500548643,
-      "max_drawdown": -0.05526895588805825,
+      "last_date": "2026-10-07",
+      "cum_return": -0.057147850401957245,
+      "market_value": 942852.1495980427,
+      "annualized": -0.8085905705124146,
+      "max_drawdown": -0.057147850401957245,
       "status": "ok"
     },
     {
@@ -4377,37 +2966,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "us_etf_SPY",
-          "symbol": "SPY",
-          "market": "us",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "us_etf_SPY",
-              "symbol": "SPY",
-              "market": "us",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "us_etf_SPY",
-        "symbol": "SPY",
+        "holding": "us_stock_JPM",
+        "symbol": "JPM",
         "market": "us",
-        "type": "etf"
+        "type": "stock"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": 0.015445990188806658,
-      "market_value": 1015445.9901888067,
-      "annualized": 0.5944732302214675,
-      "max_drawdown": -0.01130485512413304,
+      "last_date": "2026-10-07",
+      "cum_return": -0.02150283553875243,
+      "market_value": 978497.1644612476,
+      "annualized": -0.45704946200459273,
+      "max_drawdown": -0.03564974057016268,
       "status": "ok"
     },
     {
@@ -4429,53 +3002,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "us_etf_QQQ",
-          "symbol": "QQQ",
-          "market": "us",
-          "type": "etf",
-          "legs": [
-            {
-              "key": "us_etf_QQQ",
-              "symbol": "QQQ",
-              "market": "us",
-              "type": "etf",
-              "weight": 1.0
-            }
-          ]
-        },
-        {
-          "date": "2026-09-28",
-          "key": "us_bond_TLT",
-          "symbol": "TLT",
-          "market": "us",
-          "type": "bond",
-          "legs": [
-            {
-              "key": "us_bond_TLT",
-              "symbol": "TLT",
-              "market": "us",
-              "type": "bond",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 2,
+      "n_switches": 0,
       "current": {
-        "holding": "us_bond_TLT",
-        "symbol": "TLT",
+        "holding": "us_etf_SPY",
+        "symbol": "SPY",
         "market": "us",
-        "type": "bond"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": -0.02822734099067825,
-      "market_value": 971772.6590093216,
-      "annualized": -0.5816884806800665,
-      "max_drawdown": -0.0334808471656558,
+      "last_date": "2026-10-07",
+      "cum_return": 0.015524388018457236,
+      "market_value": 1015524.3880184572,
+      "annualized": 0.5416057252837163,
+      "max_drawdown": -0.011304855124132929,
       "status": "ok"
     },
     {
@@ -4497,37 +3038,21 @@
               "weight": 1.0
             }
           ]
-        },
-        {
-          "date": "2026-09-25",
-          "key": "us_bond_TLT",
-          "symbol": "TLT",
-          "market": "us",
-          "type": "bond",
-          "legs": [
-            {
-              "key": "us_bond_TLT",
-              "symbol": "TLT",
-              "market": "us",
-              "type": "bond",
-              "weight": 1.0
-            }
-          ]
         }
       ],
-      "n_switches": 1,
+      "n_switches": 0,
       "current": {
-        "holding": "us_bond_TLT",
-        "symbol": "TLT",
+        "holding": "us_etf_QQQ",
+        "symbol": "QQQ",
         "market": "us",
-        "type": "bond"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
-      "last_date": "2026-10-06",
-      "cum_return": -0.027201374277499357,
-      "market_value": 972798.6257225006,
-      "annualized": -0.5680350672337835,
-      "max_drawdown": -0.03164397377710515,
+      "last_date": "2026-10-07",
+      "cum_return": 0.025043853730940313,
+      "market_value": 1025043.8537309403,
+      "annualized": 1.003647933542804,
+      "max_drawdown": -0.010705171255876555,
       "status": "ok"
     }
   ]
