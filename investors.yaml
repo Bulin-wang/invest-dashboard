@@ -4,8 +4,8 @@
 # 由 `python -m tools.make_investors` 从 private/roster.csv（真名↔昵称）
 # 与 private/investors.private.yaml（真名+标的）合成，请勿手改（会被覆盖）。
 #
-# 口径：每人持有 1 个标的（初始），本金 principal（元），自 start_date 起按标的
-#       未复权价格收益折算市值；调仓见 switches.yaml。
+# 口径：每人有一份**初始持仓**（单个标的，或 `holdings:` 多标的权重组合），本金 principal（元），
+#       自 start_date 起按未复权价格收益折算市值；调仓见 switches.yaml。
 # ==========================================================================
 base_currency: CNY
 start_date: 2026-09-24
@@ -14,57 +14,60 @@ principal: 1000000
 investors:
   - {nickname: "investor01", symbol: "600519", market: "cn", type: "stock"}
   - {nickname: "investor02", symbol: "601318", market: "cn", type: "stock"}
-  - {nickname: "investor03", symbol: "600036", market: "cn", type: "stock"}
+  - {nickname: "investor03", symbol: "NVDA", market: "us", type: "stock"}
   - {nickname: "investor04", symbol: "000858", market: "cn", type: "stock"}
   - {nickname: "investor05", symbol: "600030", market: "cn", type: "stock"}
-  - {nickname: "investor06", symbol: "600276", market: "cn", type: "stock"}
+  - {nickname: "investor06", symbol: "159736", market: "cn", type: "etf"}
   - {nickname: "investor07", symbol: "000333", market: "cn", type: "stock"}
   - {nickname: "investor08", symbol: "000651", market: "cn", type: "stock"}
-  - {nickname: "investor09", symbol: "600887", market: "cn", type: "stock"}
-  - {nickname: "investor10", symbol: "601166", market: "cn", type: "stock"}
-  - {nickname: "investor11", symbol: "600900", market: "cn", type: "stock"}
-  - {nickname: "investor12", symbol: "601899", market: "cn", type: "stock"}
+  - {nickname: "investor09", symbol: "NVDA", market: "us", type: "stock"}
+  - nickname: "investor10"
+    holdings:
+      - {symbol: "01810", market: "hk", type: "stock", weight: 0.7}
+      - {symbol: "ONDO", market: "us", type: "crypto", weight: 0.3}
+  - {nickname: "investor11", symbol: "510300", market: "cn", type: "etf"}
+  - {nickname: "investor12", symbol: "SC2611", market: "cn", type: "futures", expires: "2026-10-30"}
   - {nickname: "investor13", symbol: "002594", market: "cn", type: "stock"}
   - {nickname: "investor14", symbol: "300750", market: "cn", type: "stock"}
   - {nickname: "investor15", symbol: "601012", market: "cn", type: "stock"}
   - {nickname: "investor16", symbol: "600309", market: "cn", type: "stock"}
-  - {nickname: "investor17", symbol: "601888", market: "cn", type: "stock"}
+  - {nickname: "investor17", symbol: "RGTI", market: "us", type: "stock"}
   - {nickname: "investor18", symbol: "000001", market: "cn", type: "stock"}
-  - {nickname: "investor19", symbol: "600028", market: "cn", type: "stock"}
-  - {nickname: "investor20", symbol: "601857", market: "cn", type: "stock"}
+  - {nickname: "investor19", symbol: "600887", market: "cn", type: "stock"}
+  - {nickname: "investor20", symbol: "QQQ", market: "us", type: "etf"}
   - {nickname: "investor21", symbol: "601988", market: "cn", type: "stock"}
   - {nickname: "investor22", symbol: "601398", market: "cn", type: "stock"}
   - {nickname: "investor23", symbol: "601628", market: "cn", type: "stock"}
-  - {nickname: "investor24", symbol: "000725", market: "cn", type: "stock"}
+  - {nickname: "investor24", symbol: "510300", market: "cn", type: "etf"}
   - {nickname: "investor25", symbol: "002415", market: "cn", type: "stock"}
   - {nickname: "investor26", symbol: "300059", market: "cn", type: "stock"}
-  - {nickname: "investor27", symbol: "600585", market: "cn", type: "stock"}
+  - {nickname: "investor27", symbol: "FTHY", market: "us", type: "stock"}
   - {nickname: "investor28", symbol: "601668", market: "cn", type: "stock"}
-  - {nickname: "investor29", symbol: "601088", market: "cn", type: "stock"}
+  - {nickname: "investor29", symbol: "588710", market: "cn", type: "etf"}
   - {nickname: "investor30", symbol: "000002", market: "cn", type: "stock"}
   - {nickname: "investor31", symbol: "510300", market: "cn", type: "etf"}
-  - {nickname: "investor32", symbol: "510500", market: "cn", type: "etf"}
+  - {nickname: "investor32", symbol: "603259", market: "cn", type: "stock"}
   - {nickname: "investor33", symbol: "510050", market: "cn", type: "etf"}
-  - {nickname: "investor34", symbol: "159915", market: "cn", type: "etf"}
+  - {nickname: "investor34", symbol: "SOXX", market: "us", type: "etf"}
   - {nickname: "investor35", symbol: "588000", market: "cn", type: "etf"}
-  - {nickname: "investor36", symbol: "512880", market: "cn", type: "etf"}
+  - {nickname: "investor36", symbol: "NVDA", market: "us", type: "stock"}
   - {nickname: "investor37", symbol: "511010", market: "cn", type: "bond"}
-  - {nickname: "investor38", symbol: "511260", market: "cn", type: "bond"}
-  - {nickname: "investor39", symbol: "518880", market: "cn", type: "etf"}
-  - {nickname: "investor40", symbol: "513100", market: "cn", type: "etf"}
+  - {nickname: "investor38", symbol: "511100", market: "cn", type: "etf"}
+  - {nickname: "investor39", symbol: "600600", market: "cn", type: "stock"}
+  - {nickname: "investor40", symbol: "688256", market: "cn", type: "stock"}
   - {nickname: "investor41", symbol: "513050", market: "cn", type: "etf"}
-  - {nickname: "investor42", symbol: "512480", market: "cn", type: "etf"}
-  - {nickname: "investor43", symbol: "000300", market: "cn", type: "index"}
+  - {nickname: "investor42", symbol: "515120", market: "cn", type: "etf"}
+  - {nickname: "investor43", symbol: "002837", market: "cn", type: "stock"}
   - {nickname: "investor44", symbol: "399001", market: "cn", type: "index"}
-  - {nickname: "investor45", symbol: "399006", market: "cn", type: "index"}
-  - {nickname: "investor46", symbol: "000905", market: "cn", type: "index"}
-  - {nickname: "investor47", symbol: "AAPL", market: "us", type: "stock"}
+  - {nickname: "investor45", symbol: "AAPL", market: "us", type: "stock"}
+  - {nickname: "investor46", symbol: "VOO", market: "us", type: "etf"}
+  - {nickname: "investor47", symbol: "QQQ", market: "us", type: "etf"}
   - {nickname: "investor48", symbol: "MSFT", market: "us", type: "stock"}
   - {nickname: "investor49", symbol: "GOOGL", market: "us", type: "stock"}
-  - {nickname: "investor50", symbol: "AMZN", market: "us", type: "stock"}
+  - {nickname: "investor50", symbol: "NVDU", market: "us", type: "etf"}
   - {nickname: "investor51", symbol: "NVDA", market: "us", type: "stock"}
-  - {nickname: "investor52", symbol: "TSLA", market: "us", type: "stock"}
-  - {nickname: "investor53", symbol: "META", market: "us", type: "stock"}
+  - {nickname: "investor52", symbol: "002910", market: "cn", type: "fund"}
+  - {nickname: "investor53", symbol: "002837", market: "cn", type: "stock"}
   - {nickname: "investor54", symbol: "JPM", market: "us", type: "stock"}
   - {nickname: "investor55", symbol: "SPY", market: "us", type: "etf"}
   - {nickname: "investor56", symbol: "QQQ", market: "us", type: "etf"}

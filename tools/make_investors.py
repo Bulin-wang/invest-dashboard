@@ -38,8 +38,8 @@ HEADER = """\
 # 由 `python -m tools.make_investors` 从 private/roster.csv（真名↔昵称）
 # 与 private/investors.private.yaml（真名+标的）合成，请勿手改（会被覆盖）。
 #
-# 口径：每人持有 1 个标的（初始），本金 principal（元），自 start_date 起按标的
-#       未复权价格收益折算市值；调仓见 switches.yaml。
+# 口径：每人有一份**初始持仓**（单个标的，或 `holdings:` 多标的权重组合），本金 principal（元），
+#       自 start_date 起按未复权价格收益折算市值；调仓见 switches.yaml。
 # ==========================================================================
 """
 
@@ -101,9 +101,16 @@ def build(members_path: Path = DEFAULT_MEMBERS,
         if m.get("holdings"):
             legs = []
             for h in m["holdings"]:
-                leg = {"symbol": str(h["symbol"]),
-                       "market": str(h["market"]).lower(),
-                       "type": str(h.get("type", "stock"))}
+                typ = str(h.get("type", "stock"))
+                # **现金腿**没有 symbol（与 src.config._parse_leg 的兜底保持一致）；
+                # 不做这个兜底会在初始持仓里用 holdings+cash 时 KeyError。
+                sym = str(h.get("symbol") or ("CASH" if typ.lower() == "cash" else ""))
+                if not sym:
+                    raise SystemExit(
+                        f"成员 {rn!r} 的 holdings 有一条既没有 symbol 也不是 cash：{h}")
+                leg = {"symbol": sym,
+                       "market": str(h.get("market") or "cn").lower(),
+                       "type": typ}
                 if h.get("weight") is not None:
                     leg["weight"] = float(h["weight"])
                 if h.get("expires"):
