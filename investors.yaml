@@ -63,7 +63,7 @@ investors:
   - {nickname: "investor46", symbol: "VOO", market: "us", type: "etf"}
   - {nickname: "investor47", symbol: "QQQ", market: "us", type: "etf"}
   - {nickname: "investor48", symbol: "600350", market: "cn", type: "stock"}
-  - {nickname: "investor49", symbol: "GOOGL", market: "us", type: "stock"}
+  - {nickname: "investor49", symbol: "VOO", market: "us", type: "etf"}
   - {nickname: "investor50", symbol: "NVDU", market: "us", type: "etf"}
   - {nickname: "investor51", symbol: "NVDA", market: "us", type: "stock"}
   - {nickname: "investor52", symbol: "002910", market: "cn", type: "fund"}
