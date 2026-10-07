@@ -2,6 +2,8 @@
 
 设计（契合「~60 位投资者、每天一次、低时效」）：
 - 数据源：新浪/腾讯报价端点（复用 prototype.quote_fetch），**无 key**；
+  其中 `type: fund`（**场外开放式基金**）走东方财富净值接口（`prototype.fund_fetch`），
+  `type: crypto`（**加密货币**）走币安公开镜像（`prototype.crypto_fetch`）；
 - 清单：项目根 investors.yaml（每人**初始持仓**，单标的或 `holdings` 多标的权重 + 基准）；
   调仓流水 switches.yaml（append-only）；
 - 组合：按每位投资者的**权重路径**合成累计收益（**buy & hold**）
@@ -11,6 +13,12 @@
 - 输出：data/prices/*.csv、data/returns/*.csv、data/portfolios/*.csv、data/index/*.csv、data/meta.json。
 
 ⚠️ 口径：**价格收益**（未复权），不含分红/除权，不计汇率。
+   例外 1：`type: fund`（场外基金）用**累计净值**（含分红再投）——场外基金没有
+   "未复权原始价"这个概念（单位净值本身就是除权后的价格）。
+   例外 2：`type: crypto`（加密货币）用**UTC 日线收盘价**，且**周末也有数据**
+   （7×24）——组合日历取并集，因此只要有人持有 crypto，看板就会出现周末点位。
+   逐项口径记录在 `meta.json` 的 `items[].caliber`
+   （`price_return` / `cumulative_nav` / `utc_daily_close`）。
 
 用法：
     python -m prototype.daily_close
@@ -53,6 +61,52 @@ from src.returns import (  # noqa: E402
 )
 
 CALIBER = "price_return"   # 价格收益（不含分红再投）
+CALIBER_FUND = "cumulative_nav"   # 场外基金：累计净值（含分红再投）；与 CALIBER 不同，逐项标注
+CALIBER_CRYPTO = "utc_daily_close"  # 加密货币：UTC 日线收盘价（含周末）；逐项标注
+CALIBER_FUTURES = "settlement_price"  # 期货：当日结算价（日线 c）；逐项标注
+# 逐 type 的口径标签（写进 meta.json 的 items[].caliber）
+_CALIBER_BY_TYPE = {
+    "fund": CALIBER_FUND,
+    "crypto": CALIBER_CRYPTO,
+    "futures": CALIBER_FUTURES,
+}
+
+
+def _expired_holdings(df: pd.DataFrame, segs: list, expires_by_key: dict) -> list[tuple]:
+    """到期后未调仓、已按现金处理的持仓 → 供 `daily_close` 提醒主人去滚仓。
+
+    返回 ``[(到期日, 腿key), ...]``。判定依据：该腿有 `expires`，
+    且组合序列里在到期日**之后**仍有日期（即已按现金延续）。
+    """
+    if not expires_by_key or df.empty:
+        return []
+    last_date = pd.Timestamp(df["date"].iloc[-1])
+    last_legs = segs[-1][1]
+    out: list[tuple] = []
+    for it, _w in last_legs:
+        exp = expires_by_key.get(it.key)
+        if exp and last_date > pd.Timestamp(exp):
+            out.append((str(exp), it.key))
+    return out
+
+
+def _snapshot_module(kind: str):
+    """按 type 取「专用快照 + 全量缓存」型抓取模块（fund / crypto）。
+
+    这两个品种都不在 `quote_fetch` 的行情端点里，但都提供
+    `daily_snapshot(item)`（返回与 `quote_fetch.snapshot()` 同构的一行）
+    与 `fetch_history(item)`，因此 daily_close / backfill 可以走同一条通路。
+    """
+    if kind == "fund":
+        from prototype import fund_fetch
+        return fund_fetch
+    if kind == "crypto":
+        from prototype import crypto_fetch
+        return crypto_fetch
+    if kind == "futures":
+        from prototype import futures_fetch
+        return futures_fetch
+    return None
 
 
 def _load_history(path: Path) -> pd.DataFrame:
@@ -128,6 +182,24 @@ def run() -> dict:
     snap = qf.snapshot(items)                  # 一次批量拿全部标的的当日收盘价
     quotes = {(r["market"], r["symbol"]): r for _, r in snap.iterrows()}
 
+    # 不在行情端点里的品种（场外基金 / 加密货币）：各自走专用接口，
+    # 再把结果并进同一张 snap —— 后续逻辑完全不用区分来源
+    extra_rows = []
+    for it in items:
+        mod = _snapshot_module(it.type)
+        if mod is None:
+            continue
+        try:
+            extra_rows.append(mod.daily_snapshot(it))
+        except Exception as e:  # noqa: BLE001
+            print(f"[warn] {it.key:16s} {it.name:12s} 快照失败：{type(e).__name__}: {e}")
+            extra_rows.append({"symbol": it.symbol, "name": it.name, "market": it.market,
+                               "type": it.type, "close": None, "prev_close": None,
+                               "pct_chg": None, "date": None, "source": None})
+    if extra_rows:
+        snap = pd.concat([snap, pd.DataFrame(extra_rows)], ignore_index=True)
+        quotes = {(r["market"], r["symbol"]): r for _, r in snap.iterrows()}
+
     meta: dict = {
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "base_currency": cfg["base_currency"],
@@ -174,10 +246,22 @@ def run() -> dict:
                 "calmar": _safe(calmar_ratio(ret)),
                 "n_obs": int(len(ret)),
                 "appended": bool(added),
-                "caliber": CALIBER,
+                # 口径逐项标注：基金=累计净值（含分红再投）、crypto=UTC 日线收盘，
+                # 其余品种 = price_return（未复权、不含分红）
+                "caliber": _CALIBER_BY_TYPE.get(it.type, CALIBER),
                 "status": "ok",
             }
-            print(f"[ok ] {key:14s} {it.name:8s} {'+1 新行' if added else '无新行(已是最新)'} "
+            if it.type == "fund":
+                fund_name = q.get("name")
+                if fund_name:
+                    meta["items"][key]["name"] = fund_name
+                meta["items"][key]["unit_nav"] = _safe(q.get("unit_nav"))
+            elif it.type == "crypto":
+                if q.get("name"):
+                    meta["items"][key]["name"] = q["name"]      # 交易对，如 BTCUSDT
+                if q.get("pair"):
+                    meta["items"][key]["pair"] = q["pair"]
+            print(f"[ok ] {key:16s} {it.name:12s} {'+1 新行' if added else '无新行(已是最新)'} "
                   f"close={q['close']} n={len(ret)} cum={ret['cum_return'].iloc[-1]:+.2%}")
         except Exception as e:  # noqa: BLE001
             meta["items"][key] = {
@@ -185,12 +269,31 @@ def run() -> dict:
                 "market": it.market, "type": it.type,
                 "status": "error", "error": f"{type(e).__name__}: {e}",
             }
-            print(f"[ERR] {key:14s} {it.name:8s} -> {type(e).__name__}: {e}")
+            print(f"[ERR] {key:16s} {it.name:12s} -> {type(e).__name__}: {e}")
 
     # --- 投资者层：按权重路径（buy & hold，支持现金腿）合成组合收益 ---
-    # 全现金组合也需要一根日期轴：借用任一标的（含基准）的交易日历
-    cal_hint = next((s for s in (_price_series(it.key) for it in items)
-                     if s is not None and not s.empty), None)
+    # 组合日历 = 「该组合各腿价格日期」∪ cal_hint。cal_hint 取**所有标的**（含基准）
+    # 的日期并集，作用是：
+    #   (a) 全现金组合需要一根日期轴；
+    #   (b) 某条腿已到期（期货合约结束等）后，组合曲线仍继续延伸成平线（该腿变现金），
+    #       否则整条曲线会随该腿一起断掉、在看板上"消失"。
+    cal_hint = None
+    _all_dates: list[pd.DatetimeIndex] = []
+    for it in items:
+        s = _price_series(it.key)
+        if s is not None and not s.empty:
+            _all_dates.append(pd.DatetimeIndex(s.index))
+    if _all_dates:
+        cal_hint = pd.DatetimeIndex(sorted(set().union(*_all_dates)))
+
+    # 到期日映射：{key: expires}（期货 = 最后交易日；当日仍有价，次日起视为现金）
+    expires_by_key = {}
+    for _d, legs in (seg for segs in segments_by_inv.values() for seg in segs):
+        for it, _w in legs:
+            if it.expires:
+                expires_by_key[it.key] = it.expires
+    warn_expired: list[tuple] = []
+
     for inv in investors:
         nick = inv.nickname
         segs = segments_by_inv[nick]
@@ -207,8 +310,13 @@ def run() -> dict:
                         series[it.key] = s
                     wd[it.key] = w
                 weight_segs.append((d, wd))
-            df = weighted_path_nav(series, weight_segs, principal, calendar_hint=cal_hint)
+            df = weighted_path_nav(series, weight_segs, principal,
+                                   calendar_hint=cal_hint, expires_by_key=expires_by_key)
             df.to_csv(PORTFOLIOS_DIR / f"{portfolio_id(nick)}.csv", index=False)
+
+            # 到期后未调仓（已按现金延续）→ 提醒去滚仓
+            for exp_date, leg_key in _expired_holdings(df, segs, expires_by_key):
+                warn_expired.append((nick, leg_key, exp_date))
 
             last_legs = segs[-1][1]
             cur_spec = holding_spec({it.key: w for it, w in last_legs})
@@ -260,11 +368,22 @@ def run() -> dict:
     try:
         from prototype import index_build
         index_build.run()
-    except Exception as e:  # noqa: BLE001
-        print(f"[warn] 群体平均指数构建失败：{e}")
+    except KeyboardInterrupt:
+        raise
+    except BaseException as e:  # noqa: BLE001
+        # 注意要连 SystemExit 一起接住：index_build 在"没有可用组合收益"时是
+        # `raise SystemExit(...)`，而 SystemExit 继承自 BaseException，
+        # 只写 `except Exception` 会让它**穿透出去中断整个管线**。
+        print(f"[warn] 群体平均指数构建失败：{type(e).__name__}: {e}")
 
     ok = sum(1 for v in meta["items"].values() if v.get("status") == "ok")
-    pok = sum(1 for v in meta["portfolios"] if v.get("status") == "ok")
+    pok = sum(1 for p in meta["portfolios"] if p.get("status") == "ok")
+    if warn_expired:
+        print(f"\n[提醒] 以下持仓的标的**已到期但未调仓**，余额已按现金处理"
+              f"（持仓冻结不涨不跌）：")
+        for nick, leg_key, exp_date in warn_expired:
+            print(f"        - {nick:12s} {leg_key:22s} 到期日 {exp_date}")
+        print("        若要继续持有，请在 switches.yaml 追加一条滚仓（换到下个合约）。")
     print(f"\n完成：{ok}/{len(items)} 标的、{pok}/{len(investors)} 投资者"
           f" -> {META_PATH.relative_to(META_PATH.parent.parent)}")
     return meta

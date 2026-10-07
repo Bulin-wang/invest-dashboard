@@ -111,7 +111,7 @@ def test_legs_from_rows_cash():
     rows = [{"代码": "600519", "市场": "cn", "类型": "stock", "权重": 0.6},
             {"代码": "", "市场": None, "类型": "cash", "权重": 0.4}]
     assert admin_ops.legs_from_rows(rows) == [
-        ("600519", "cn", "stock", 0.6), ("CASH", "cn", "cash", 0.4)]
+        ("600519", "cn", "stock", 0.6, ""), ("CASH", "cn", "cash", 0.4, "")]
 
 
 def test_parse_holding_with_cash():

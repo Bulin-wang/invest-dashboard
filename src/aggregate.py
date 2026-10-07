@@ -74,36 +74,78 @@ def _last_at(s: pd.Series, ts) -> float | None:
     return None
 
 
+def _clip_expiry(s: pd.Series, expires) -> pd.Series:
+    """把到期标的的价格序列**截断到 ``expires`` 当日**（含）。
+
+    语义：``expires`` 当日仍有价格，**次日起视为现金**。
+    截断后该腿在之后的日期取不到价，`_ratio` 会按现金处理（不涨不跌）——
+    这正是"合约到期而未调仓 → 余额全变现金"。
+    ``expires`` 为空时原样返回（绝大多数标的都不填）。
+    """
+    if not expires:
+        return s
+    try:
+        ts = pd.Timestamp(expires)
+    except (ValueError, TypeError):
+        return s
+    return s.loc[s.index <= ts]
+
+
+def _hint_index(calendar_hint) -> pd.DatetimeIndex | None:
+    """把 ``calendar_hint``（Series / DatetimeIndex / 日期序列）规范化成 DatetimeIndex。"""
+    if calendar_hint is None:
+        return None
+    if isinstance(calendar_hint, pd.DatetimeIndex):
+        idx = calendar_hint
+    elif isinstance(calendar_hint, pd.Series):
+        idx = pd.DatetimeIndex(calendar_hint.dropna().index)
+    else:
+        try:
+            idx = pd.DatetimeIndex(pd.to_datetime(list(calendar_hint)))
+        except (TypeError, ValueError):
+            return None
+    idx = idx.dropna()
+    return idx if len(idx) else None
+
+
 def weighted_path_nav(series_by_key: dict,
                       segments: list,
                       principal: float = 1_000_000.0,
-                      calendar_hint=None) -> pd.DataFrame:
+                      calendar_hint=None,
+                      expires_by_key: dict | None = None) -> pd.DataFrame:
     """按**权重路径**合成投资者组合收益（buy & hold，分段切换）。
 
     入参：
       series_by_key:  {key: 未复权收盘价 Series（日期索引）}；**现金腿不需要行情**
       segments:       [(日期, {key: weight}), ...]；首段 = 初始建仓，其后每条 = 一次调仓
       principal:      本金（元）
-      calendar_hint:  可选；全现金组合借用的交易日历（Series / DatetimeIndex）
+      calendar_hint:  可选；**与各腿价格日期取并集**后作为组合日历。
+                      用于两类场景：(a) 全现金组合需要一个日期轴；
+                      (b) 某条腿已到期（如期货合约结束）后组合曲线仍要继续延伸成平线
+                      （= 该腿变现金），否则整条曲线会随该腿一起**断掉消失**。
+      expires_by_key: 可选；{key: 到期日}。该腿价格序列会被截断到到期日当日，
+                      次日起按现金处理（见 :func:`_clip_expiry`）。
     返回：DataFrame[date, holding, value, nav, cum_return, daily_return]
     """
     if not segments:
         raise ValueError("segments 为空")
     segs = [(str(d), normalize_weights(w)) for d, w in segments]
+    exp = dict(expires_by_key or {})
 
     frames: dict = {}
     for k in sorted({k for _d, w in segs for k in w if not _is_cash(k)}):
         s = series_by_key.get(k)
         if s is None or s.dropna().empty:
             raise ValueError(f"缺少 {k} 的价格数据")
-        frames[k] = s.dropna().sort_index()
+        frames[k] = _clip_expiry(s.dropna().sort_index(), exp.get(k))
 
-    if frames:
-        all_cal = pd.DatetimeIndex(sorted(set().union(*[frames[k].index for k in frames])))
-    elif calendar_hint is not None and len(pd.Series(calendar_hint).dropna()):
-        all_cal = pd.DatetimeIndex(pd.Series(calendar_hint).dropna().sort_index().index)
-    else:
+    cal_parts = [frames[k].index for k in frames]
+    hint = _hint_index(calendar_hint)
+    if hint is not None:
+        cal_parts.append(hint)
+    if not cal_parts:
         raise ValueError("全现金组合需要 calendar_hint 才能确定交易日历")
+    all_cal = pd.DatetimeIndex(sorted(set().union(*cal_parts)))
 
     def _snap(raw):
         cand = all_cal[all_cal >= pd.Timestamp(raw)]
@@ -136,9 +178,10 @@ def weighted_path_nav(series_by_key: dict,
         base_ts = b[i]
         if base_ts is None:              # 调仓日在数据之后 → 该段无数据
             break
-        px_keys = [k for k in weights if not _is_cash(k)]
-        seg_cal = (pd.DatetimeIndex(sorted(set().union(*[frames[k].index for k in px_keys])))
-                   if px_keys else all_cal)      # 纯现金段：借用全局日历
+        # 段内日历用**全局日历**（各腿价格日期 ∪ calendar_hint）。
+        # ⚠️ 这里必须用 all_cal 而不是"本段各腿的价格日期"：否则某条腿的价格序列
+        # 一结束（期货到期等），该段就不再产出任何点位，整条组合曲线会断掉消失。
+        seg_cal = all_cal
         dates = seg_cal[seg_cal >= base_ts] if i == 0 else seg_cal[seg_cal > base_ts]
         end_ts = b[i + 1] if i + 1 < len(segs) else None
         if end_ts is not None:

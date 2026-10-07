@@ -5,6 +5,10 @@
 数据源（与当日报价同口径 —— 都是**未复权**，保证序列连续）：
 - cn（个股/ETF/指数）+ hk（港股）：腾讯 `fqkline` 的 `day`（= 不复权；港股用 `hk` 前缀代码）
 - us（个股/ETF/指数）：新浪 `US_MinKService.getDailyK`（指数用 `.INX`/`.IXIC`/`.DJI`）
+- **fund（场外开放式基金）**：东方财富 `pingzhongdata`（一次拿全量，**累计净值**口径；
+  与上面几类的"未复权"不同，见 prototype/fund_fetch.py）
+- **crypto（加密货币）**：币安公开镜像 `klines`（一次翻页拿全量，UTC 日线收盘价、**含周末**；
+  见 prototype/crypto_fetch.py）
 
 ⚠️ 未复权：跨**拆股**（美股）或**除权除息**（A股）会有跳空 → 适合近期窗口；
    长历史需要复权（另做）。start_date 仍是累计收益的基准。
@@ -70,7 +74,30 @@ def _sina_us_daily(symbol: str, n: int) -> pd.DataFrame:
     return pd.DataFrame(recs)
 
 
+def _snapshot_module(kind: str):
+    """按 type 取「全量历史 + 本地缓存」型抓取模块（fund / crypto / futures 都是这一类）。
+
+    这类数据源的共同点：**一次请求能拿全量历史**，且上网成本高 →
+    因此统一走 `data/{fund_cache,crypto_cache,futures_cache}/` 缓存，补种时优先读缓存。
+    """
+    if kind == "fund":
+        from prototype import fund_fetch
+        return fund_fetch
+    if kind == "crypto":
+        from prototype import crypto_fetch
+        return crypto_fetch
+    if kind == "futures":
+        from prototype import futures_fetch
+        return futures_fetch
+    return None
+
+
 def fetch_history(it: Item, n: int) -> pd.DataFrame:
+    mod = _snapshot_module(it.type)
+    if mod is not None:
+        # 场外基金 / 加密货币：一次拿**全量**历史；
+        # `n`（交易日数）对它无意义，因为这两个端点都不接受区间参数。
+        return mod.fetch_history(it)[1]
     if it.market == "us":
         return _sina_us_daily(it.symbol, n)
     # cn 个股/ETF/指数 与 hk 港股：都走腾讯 fqkline（未复权 day）
@@ -96,6 +123,14 @@ def seed_missing(items, days: int = 400, min_rows: int = 5) -> int:
 
     daily_close 每次会先调用它：这样"往 investors.yaml 加个标的 → 跑 daily_close"
     就能自动补全历史，不会因为某标只有 1 天数据把指数/收益带偏。返回补种数量。
+
+    `fund` / `crypto` / `futures` 优先用本地缓存
+    （`data/fund_cache/`、`data/crypto_cache/`、`data/futures_cache/`）补种，
+    避免重复抓取全量历史。
+
+    契约：这些缓存文件**一旦存在，其内容就是该标的的全量历史**——
+    各 `daily_snapshot()` 只会往里**增量追加**，不会写入"只有最近几天的残缺缓存"，
+    所以这里可以放心直接用它补种。
     """
     seeded = 0
     for it in items:
@@ -109,14 +144,27 @@ def seed_missing(items, days: int = 400, min_rows: int = 5) -> int:
         if rows >= min_rows:
             continue
         try:
-            fetched = fetch_history(it, days)
+            mod = _snapshot_module(it.type)
+            if mod is not None:
+                # 全量型数据源：优先用本地缓存（daily_close 抓当日时已顺手落盘）
+                cached = mod.load_cache(it.key)
+                if cached is not None:
+                    merged = mod.cache_history(cached)
+                    merged.to_csv(path, index=False)
+                    print(f"[seed] {it.key:16s} {it.name:12s} 由缓存补种 "
+                          f"{len(merged)} 行（{cached.get('first_date')} ~ {cached.get('last_date')}）")
+                    seeded += 1
+                    continue
+                fetched = mod.fetch_history(it)[1]
+            else:
+                fetched = fetch_history(it, days)
             existing = pd.read_csv(path, parse_dates=["date"]) if path.exists() else None
             merged = _merge(existing, fetched)
             merged.to_csv(path, index=False)
-            print(f"[seed] {it.key:12s} {it.name:8s} 补种 {len(fetched)} 行 -> 共 {len(merged)} 行")
+            print(f"[seed] {it.key:16s} {it.name:12s} 补种 {len(fetched)} 行 -> 共 {len(merged)} 行")
             seeded += 1
         except Exception as e:  # noqa: BLE001
-            print(f"[warn] {it.key:12s} {it.name:8s} 补种失败：{type(e).__name__}: {e}")
+            print(f"[warn] {it.key:16s} {it.name:12s} 补种失败：{type(e).__name__}: {e}")
     return seeded
 
 

@@ -106,15 +106,20 @@ def build(members_path: Path = DEFAULT_MEMBERS,
                        "type": str(h.get("type", "stock"))}
                 if h.get("weight") is not None:
                     leg["weight"] = float(h["weight"])
+                if h.get("expires"):
+                    leg["expires"] = str(h["expires"])
                 legs.append(leg)
             investors.append({"nickname": nk, "holdings": legs})
         else:
-            investors.append({
+            rec = {
                 "nickname": nk,
                 "symbol": str(m["symbol"]),
                 "market": str(m["market"]).lower(),
                 "type": str(m.get("type", "stock")),
-            })
+            }
+            if m.get("expires"):
+                rec["expires"] = str(m["expires"])
+            investors.append(rec)
 
     lines = [HEADER.rstrip("\n")]
     lines.append(f"base_currency: {cfg.get('base_currency', 'CNY')}")

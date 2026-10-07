@@ -22,6 +22,9 @@ PORTFOLIOS_DIR = DATA_DIR / "portfolios"      # 每个投资者的组合收益�
 INDEX_DIR = DATA_DIR / "index"
 INDEX_PATH = INDEX_DIR / "equal_weight.csv"
 META_PATH = DATA_DIR / "meta.json"
+FUND_CACHE_DIR = DATA_DIR / "fund_cache"      # 开放式基金全量净值缓存（累计净值口径）
+CRYPTO_CACHE_DIR = DATA_DIR / "crypto_cache"  # 加密货币全量日线缓存（UTC 日线收盘价）
+FUTURES_CACHE_DIR = DATA_DIR / "futures_cache"  # 期货全量日线缓存（结算价口径）
 
 # 组合默认参数（可在 investors.yaml 顶层覆盖）
 DEFAULT_PRINCIPAL = 1_000_000.0   # 每人本金（元）
@@ -53,28 +56,53 @@ def _load_tushare_url() -> str | None:
 TUSHARE_MCP_URL = _load_tushare_url()
 
 VALID_MARKETS = {"cn", "us", "hk"}
-VALID_TYPES = {"stock", "etf", "bond", "index", "cash"}
+# type 的取值。注意：它同时是**数据源路由**与**文件名 key** 的一部分
+# （key = {market}_{type}_{symbol}），所以新增类型意味着两件事：
+#   1) 抓取层要给它一个取数分支（见 prototype/fund_fetch.py、prototype/crypto_fetch.py）；
+#   2) 同一标的不同人必须写**同一个** type，否则会各抓一份、各算一套收益。
+# fund   = **场外开放式基金**（无交易所前缀，走东方财富净值接口，累计净值口径）；
+#          场内 ETF/LOF 仍写 etf。
+# crypto = **加密货币现货交易对**（走币安公开镜像，UTC 日线收盘价，**含周末**）。
+#          symbol 写 BTCUSDT 或简写 BTC（自动补 USDT）；key 形如 crypto_BTCUSDT。
+# futures= **期货合约**（走新浪期货接口，结算价口径；**有到期日**，见 `expires`）。
+#          symbol 写合约代码，如 SC2611；目前仅支持上期能源原油 SC。
+VALID_TYPES = {"stock", "etf", "bond", "index", "fund", "crypto", "futures", "cash"}
 CASH_KEY = "cash"        # 现金腿的固定 key：不抓行情、价格恒为 1
+
+
+def _parse_date(v):
+    """可选日期字段：空串 / None → None，否则规范成 ``YYYY-MM-DD`` 字符串。"""
+    if v is None or v == "":
+        return None
+    return str(v)
 
 
 @dataclass
 class Item:
-    """一个标的（持仓或基准）。"""
+    """一个标的（持仓或基准）。
+
+    **``expires``（可选）**：该标的的到期日（期货 = 最后交易日）。
+    规则：**当日仍有价格，次日起视为现金**——持有到期而未调仓，余额自动变现金。
+    语义上只对"到期日事先可知、且到期后不再有价格"的标的成立（期货/期权等衍生品）；
+    股票/ETF/基金/加密通常不需要填。留空 = 永不到期。
+    """
 
     name: str
     symbol: str
     market: str          # cn / us / hk
-    type: str            # stock / etf / bond / index
+    type: str            # stock / etf / bond / index / fund / crypto / futures / cash
     start_date: str | None = None   # 基准可为空
     weight: float | None = None     # 组合权重，预留
+    expires: str | None = None      # 到期日 YYYY-MM-DD（期货的最后交易日）；None = 不到期
 
     @property
     def key(self) -> str:
-        """用于文件名 / 列名的稳定键，如 cn_stock_600519、us_index_GSPC。
+        """用于文件名 / 列名的稳定键，如 cn_stock_600519、us_index_GSPC、cn_fund_002910。
 
         含 ``type`` 是为了消歧：同一 market 下不同品种可有相同代码
         （如 ``cn_stock_000001`` 平安银行 vs ``cn_index_000001`` 上证指数）。
-        **现金腿**固定为 ``cash``。
+        **现金腿**固定为 ``cash``；**场外基金**为 ``cn_fund_{6位代码}``；
+        **期货**为 ``cn_futures_SC2611``。
         """
         if self.type == "cash":
             return CASH_KEY
@@ -101,6 +129,7 @@ def _parse(entry: dict) -> Item:
         type=typ,
         start_date=str(start) if start else None,
         weight=entry.get("weight"),
+        expires=_parse_date(entry.get("expires")),
     )
 
 
@@ -130,6 +159,7 @@ def _parse_leg(entry: dict, default_name: str) -> Item:
         type=typ,
         start_date=str(start) if start else None,
         weight=float(weight) if weight is not None else None,
+        expires=_parse_date(entry.get("expires")),
     )
 
 
@@ -210,17 +240,20 @@ class Investor:
 
     nickname: str          # 展示用昵称（真实姓名映射在本地，不入库）
     symbol: str
-    market: str            # cn / us / hk
-    type: str = "stock"    # stock / etf / bond / index
+    market: str            # cn / us / hk（crypto 统一记 us，仅用于分组，不影响取数）
+    type: str = "stock"    # stock / etf / bond / index / fund / crypto / futures / cash
     start_date: str | None = None
     principal: float = DEFAULT_PRINCIPAL
     holdings: list[Item] | None = None   # 多标的持仓腿（单标的时为空，见 .legs）
+    expires: str | None = None           # 到期日（期货 = 最后交易日）；None = 不到期
 
     @property
     def key(self) -> str:
         """用于文件名 / 列名的稳定键，如 cn_stock_600519、us_index_GSPC（与 Item.key 同构）。
 
         含 ``type`` 以消歧：同一 market 下不同品种可有相同代码；**现金腿**固定为 ``cash``。
+        ``fund`` 的 symbol 会补足 6 位并去掉 sh/sz 前缀（见 prototype.fund_fetch.normalize_code），
+        以保证同一只基金只对应一份价格文件。
         """
         if self.type == "cash":
             return CASH_KEY
@@ -242,7 +275,8 @@ class Investor:
         if self.holdings:
             return list(self.holdings)
         return [Item(name=self.nickname, symbol=self.symbol, market=self.market,
-                     type=self.type, start_date=self.start_date, weight=1.0)]
+                     type=self.type, start_date=self.start_date, weight=1.0,
+                     expires=self.expires)]
 
     @property
     def weights(self) -> dict[str, float]:
@@ -285,6 +319,7 @@ def load_investors(path: Path = INVESTORS_PATH) -> list[Investor]:
             start_date=str(start) if start else None,
             principal=float(h.get("principal", default_principal)),
             holdings=legs if len(legs) > 1 else None,
+            expires=first.expires,
         ))
     if not out:
         raise ValueError(f"{path} 里没有 investors 条目")
@@ -308,6 +343,7 @@ class Switch:
     market: str            # cn / us / hk
     type: str = "stock"
     holdings: list[Item] | None = None   # 多标的调仓（单标的时为 None，见 .legs）
+    expires: str | None = None           # 新标的的到期日（期货 = 最后交易日）
 
     @property
     def key(self) -> str:
@@ -318,7 +354,7 @@ class Switch:
 
     def item(self, name: str | None = None) -> Item:
         return Item(name=name or self.nickname, symbol=self.symbol,
-                    market=self.market, type=self.type)
+                    market=self.market, type=self.type, expires=self.expires)
 
     @property
     def legs(self) -> list[Item]:
@@ -353,7 +389,8 @@ def load_switches(path: Path = SWITCHES_PATH) -> list[Switch]:
         first = legs[0]
         out.append(Switch(date=str(s["date"]), nickname=nick,
                           symbol=first.symbol, market=first.market, type=first.type,
-                          holdings=legs if len(legs) > 1 else None))
+                          holdings=legs if len(legs) > 1 else None,
+                          expires=first.expires))
     return out
 
 
@@ -372,7 +409,7 @@ def investor_segments(investors: list[Investor],
         start = inv.start_date
         segs: list[tuple[str, Item]] = [(start, Item(
             name=inv.nickname, symbol=inv.symbol, market=inv.market,
-            type=inv.type, start_date=start))]
+            type=inv.type, start_date=start, expires=inv.expires))]
         for s in sorted(by_nick.get(inv.nickname, []), key=lambda x: x.date):
             segs.append((s.date, s.item(inv.nickname)))
         out[inv.nickname] = segs

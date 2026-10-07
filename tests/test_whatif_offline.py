@@ -93,11 +93,47 @@ def test_legs_from_rows_filters_and_merges():
         {"代码": "AAPL", "市场": "us", "类型": "stock", "权重": 0.2},        # 重复 → 权重相加
     ]
     assert admin_ops.legs_from_rows(rows) == [
-        ("600519", "cn", "stock", 0.6), ("AAPL", "us", "stock", 0.6000000000000001)]
+        ("600519", "cn", "stock", 0.6, ""),
+        ("AAPL", "us", "stock", 0.6000000000000001, "")]
 
 
 def test_legs_from_rows_defaults():
     rows = [{"代码": "600519", "市场": None, "类型": None, "权重": None},
-            {"代码": "X", "市场": "jp", "类型": "weird", "权重": 0}]
+            {"代码": "X", "市场": "jp", "类型": "stock", "权重": 0}]
     out = admin_ops.legs_from_rows(rows)
-    assert out == [("600519", "cn", "stock", 1.0)]      # 非法 market/type 回落；权重 0 → 丢弃
+    # 非法 market 回落；权重 0 → 丢弃；第 5 项 = 到期日（未填则空）
+    assert out == [("600519", "cn", "stock", 1.0, "")]
+
+
+def test_legs_from_rows_rejects_unknown_type():
+    """未知类型必须**报错**，不能静默变成 stock（会污染 key 与取数分支）。"""
+    rows = [{"代码": "002910", "市场": "cn", "类型": "fnd", "权重": 1.0}]
+    with pytest.raises(ValueError, match="未知的类型"):
+        admin_ops.legs_from_rows(rows)
+    with pytest.raises(ValueError, match="fund"):
+        admin_ops.legs_from_rows(rows)          # 报错信息里应提示正确写法
+
+
+def test_legs_from_rows_accepts_fund():
+    rows = [{"代码": "002910", "市场": "cn", "类型": "fund", "权重": 1.0}]
+    assert admin_ops.legs_from_rows(rows) == [("002910", "cn", "fund", 1.0, "")]
+
+
+def test_legs_from_rows_accepts_futures_with_expiry():
+    """期货：第 5 项带到期日；空值/NaN 要规范成空串。"""
+    rows = [{"代码": "SC2611", "市场": "cn", "类型": "futures", "权重": 0.3,
+             "到期日": "2026-10-30"},
+            {"代码": "SC2612", "市场": "cn", "类型": "futures", "权重": 0.2,
+             "到期日": float("nan")}]
+    assert admin_ops.legs_from_rows(rows) == [
+        ("SC2611", "cn", "futures", 0.3, "2026-10-30"),
+        ("SC2612", "cn", "futures", 0.2, "")]
+
+
+def test_legs_from_rows_expiry_merges_for_same_symbol():
+    """同一标的重复出现：权重相加，到期日取最后一次填的值。"""
+    rows = [{"代码": "SC2611", "市场": "cn", "类型": "futures", "权重": 0.2},
+            {"代码": "SC2611", "市场": "cn", "类型": "futures", "权重": 0.1,
+             "到期日": "2026-10-30"}]
+    assert admin_ops.legs_from_rows(rows) == [("SC2611", "cn", "futures", 0.30000000000000004,
+                                              "2026-10-30")]

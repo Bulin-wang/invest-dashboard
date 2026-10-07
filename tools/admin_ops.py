@@ -13,20 +13,38 @@ import csv
 import re
 from pathlib import Path
 
+from src.config import VALID_TYPES
 
-def legs_from_rows(rows) -> list[tuple[str, str, str, float]]:
-    """把管理台表格的行解析成 legs = [(symbol, market, type, weight), ...]。
 
-    - 代码为空的行忽略；`市场`/`类型` 非法时回落为 cn/stock；权重缺省 1.0（NaN 也算缺省）
+def _leg_parts(leg) -> tuple:
+    """兼容 4 元组 (symbol, market, type, weight) 与 5 元组（多一个 expires）。"""
+    if len(leg) >= 5:
+        return leg[0], leg[1], leg[2], leg[3], (leg[4] or "")
+    return leg[0], leg[1], leg[2], leg[3], ""
+
+
+def legs_from_rows(rows) -> list[tuple[str, str, str, float, str]]:
+    """把管理台表格的行解析成 legs = [(symbol, market, type, weight, expires), ...]。
+
+    - 代码为空的行忽略；`市场` 非法时回落为 cn；权重缺省 1.0（NaN 也算缺省）
+    - **未知 `类型` 直接报错**（不再静默回落成 stock）：静默降级会把「写错的类型」
+      当成股票存进 YAML，而 `{market}_{type}_{symbol}` 的 key 与取数分支都依赖 type，
+      错误会一路带到价格文件与组合收益里。合法取值见 `src.config.VALID_TYPES`
+      （stock / etf / bond / index / fund / crypto / futures / cash）。
     - **现金腿**：`类型=cash`，代码可留空（自动填 CASH）
+    - **到期日**（第 5 项，可空）：期货等有到期日的标的填最后一交易日，如 `2026-10-30`；
+      留空 = 不到期。只在 `类型=futures`（或确有到期日的产品）上才有意义。
     - 同一标的重复出现 → 权重相加（保序）
     """
     out: dict[tuple[str, str, str], float] = {}
+    expires_map: dict[tuple[str, str, str], str] = {}
     order: list[tuple[str, str, str]] = []
     for r in rows:
         typ = str(r.get("类型") or r.get("type") or "stock").strip().lower()
-        if typ not in ("stock", "etf", "bond", "index", "cash"):
-            typ = "stock"
+        if typ not in VALID_TYPES:
+            raise ValueError(
+                f"未知的类型 {typ!r}；合法取值：{', '.join(sorted(VALID_TYPES))}"
+                "（场外开放式基金请写 fund，场内 ETF/LOF 请写 etf，期货请写 futures）")
         mkt = str(r.get("市场") or r.get("market") or "cn").strip().lower()
         if mkt not in ("cn", "us", "hk"):
             mkt = "cn"
@@ -44,12 +62,18 @@ def legs_from_rows(rows) -> list[tuple[str, str, str, float]]:
             w = 1.0
         if w <= 0:
             continue
+        exp = str(r.get("到期日") or r.get("expires") or "").strip()
+        if exp.lower() in ("nan", "none", "nat"):
+            exp = ""
         key = (sym, mkt, typ)
         if key not in out:
             order.append(key)
             out[key] = 0.0
         out[key] += w
-    return [(s, m, t, out[(s, m, t)]) for s, m, t in order]
+        if exp:
+            expires_map[key] = exp             # 同一标的重复出现时取最后一次填的
+    return [(s, m, t, out[(s, m, t)], expires_map.get((s, m, t), ""))
+            for s, m, t in order]
 
 
 def read_roster(path: Path) -> list[tuple[str, str]]:
@@ -89,12 +113,18 @@ def _member_line(real_name: str, symbol: str, market: str, type_: str) -> str:
             f'market: {market}, type: {type_}}}')
 
 
+def _exp_suffix(expires) -> str:
+    """到期日的 YAML 片段；空值不输出（保持旧文件格式不变）。"""
+    return f', expires: "{expires}"' if expires else ""
+
+
 def _member_lines(real_name: str, legs) -> list[str]:
-    """多标的成员的多行写法。legs = [(symbol, market, type, weight), ...]。"""
+    """多标的成员的多行写法。legs = [(symbol, market, type, weight[, expires]), ...]。"""
     out = [f"  - real_name: {real_name}", "    holdings:"]
-    for symbol, market, type_, weight in legs:
+    for leg in legs:
+        symbol, market, type_, weight, exp = _leg_parts(leg)
         out.append(f'      - {{symbol: "{symbol}", market: {market}, '
-                   f'type: {type_}, weight: {weight}}}')
+                   f'type: {type_}, weight: {weight}{_exp_suffix(exp)}}}')
     return out
 
 
@@ -143,9 +173,10 @@ def _switch_line(date: str, nickname: str, symbol: str, market: str, type_: str)
 def _switch_lines(date: str, nickname: str, legs) -> list[str]:
     """多标的调仓（= 提交新的目标权重向量）的多行写法。"""
     out = [f"  - date: {date}", f'    nickname: "{nickname}"', "    holdings:"]
-    for symbol, market, type_, weight in legs:
+    for leg in legs:
+        symbol, market, type_, weight, exp = _leg_parts(leg)
         out.append(f'      - {{symbol: "{symbol}", market: {market}, '
-                   f'type: {type_}, weight: {weight}}}')
+                   f'type: {type_}, weight: {weight}{_exp_suffix(exp)}}}')
     return out
 
 

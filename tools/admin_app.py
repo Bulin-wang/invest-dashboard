@@ -26,7 +26,14 @@ from tools import admin_ops, make_investors
 ROSTER_PATH = PRIVATE_DIR / "roster.csv"
 MEMBERS_PATH = PRIVATE_DIR / "investors.private.yaml"
 MARKETS = ["cn", "us", "hk"]
-TYPES = ["stock", "etf", "bond", "index", "cash"]     # cash = 现金腿（价格恒为 1）
+# fund   = **场外开放式基金**（无交易所前缀、走东方财富净值接口、累计净值口径）
+#          与 etf（场内 ETF/LOF，走行情端点）是两回事，别混用：
+#          同一只基金若有人写 fund、有人写 etf，会各抓一份、各算一套收益。
+# crypto = **加密货币现货交易对**（走币安公开镜像、UTC 日线收盘价、**含周末**）；
+#          代码写 BTCUSDT 或简写 BTC（自动补 USDT）；market 填 us 即可。
+# futures= **期货合约**（新浪期货、结算价口径、**有到期日**）；目前仅支持上期能源原油 SC，
+#          代码写 SC2611；**必须在「到期日」列填最后交易日**，否则到期后不会转现金。
+TYPES = ["stock", "etf", "bond", "index", "fund", "crypto", "futures", "cash"]  # cash = 现金腿（价格恒为 1）
 
 st.set_page_config(page_title="本地管理台", page_icon="⚙️", layout="wide")
 st.title("⚙️ 投资组合 · 本地管理台")
@@ -57,14 +64,18 @@ def hold_text(inv) -> str:
 
 
 def legs_editor(key: str):
-    """持仓/调仓的表格录入：一行 = 一个标的（可加行 + 权重）。"""
-    seed = pd.DataFrame([{"代码": "", "市场": "cn", "类型": "stock", "权重": 1.0}])
+    """持仓/调仓的表格录入：一行 = 一个标的（可加行 + 权重 + 到期日）。"""
+    seed = pd.DataFrame([{"代码": "", "市场": "cn", "类型": "stock",
+                          "权重": 1.0, "到期日": None}])
     return st.data_editor(
         seed, num_rows="dynamic", hide_index=True, key=key,
         column_config={
             "市场": st.column_config.SelectboxColumn("市场", options=MARKETS, required=True),
             "类型": st.column_config.SelectboxColumn("类型", options=TYPES, required=True),
             "权重": st.column_config.NumberColumn("权重", min_value=0.0, step=0.1, format="%.2f"),
+            "到期日": st.column_config.TextColumn(
+                "到期日", help="仅期货等有到期日的标的需填：最后交易日，如 2026-10-30。"
+                              "当天仍有价，次日起余额按现金处理（= 到期未滚仓则不涨不跌）。留空 = 不到期。"),
         })
 
 
