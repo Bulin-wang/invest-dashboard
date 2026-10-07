@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-07T07:31:41.118613+00:00",
+  "updated_at": "2026-10-07T09:10:29.073947+00:00",
   "base_currency": "CNY",
   "caliber": "price_return",
   "source": "sina/tencent",
@@ -304,26 +304,6 @@
       "annualized": 2.5085368841994855,
       "max_drawdown": -0.02083333333333326,
       "calmar": 120.40977044157573,
-      "n_obs": 4,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "cn_stock_600309": {
-      "name": "investor16",
-      "symbol": "600309",
-      "market": "cn",
-      "type": "stock",
-      "start_date": "2026-09-24",
-      "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "base_close": 69.45,
-      "last_close": 68.96,
-      "cum_return": -0.007055435565154866,
-      "market_value": 992944.5644348451,
-      "annualized": -0.35015535879025794,
-      "max_drawdown": -0.02577393808495332,
-      "calmar": -13.585636686024193,
       "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
@@ -669,22 +649,22 @@
       "caliber": "price_return",
       "status": "ok"
     },
-    "cn_bond_511010": {
+    "hk_stock_6869": {
       "name": "investor37",
-      "symbol": "511010",
-      "market": "cn",
-      "type": "bond",
+      "symbol": "6869",
+      "market": "hk",
+      "type": "stock",
       "start_date": "2026-09-24",
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
-      "base_close": 140.715,
-      "last_close": 140.729,
-      "cum_return": 9.949188075197846e-05,
-      "market_value": 1000099.491880752,
-      "annualized": 0.006074643234344368,
-      "max_drawdown": -0.00022030345023638098,
-      "calmar": 27.573981378078297,
-      "n_obs": 4,
+      "last_date": "2026-10-07",
+      "base_close": 187.2,
+      "last_close": 179.7,
+      "cum_return": -0.04006410256410253,
+      "market_value": 959935.8974358975,
+      "annualized": -0.6829884846171637,
+      "max_drawdown": -0.1693376068376068,
+      "calmar": -4.033294773512084,
+      "n_obs": 9,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
@@ -869,42 +849,22 @@
       "caliber": "price_return",
       "status": "ok"
     },
-    "us_stock_MSFT": {
+    "cn_stock_600350": {
       "name": "investor48",
-      "symbol": "MSFT",
-      "market": "us",
+      "symbol": "600350",
+      "market": "cn",
       "type": "stock",
       "start_date": "2026-09-24",
       "first_date": "2026-09-24",
-      "last_date": "2026-10-07",
-      "base_close": 497.93,
-      "last_close": 529.3,
-      "cum_return": 0.06300082340891278,
-      "market_value": 1063000.8234089129,
-      "annualized": 4.565345539601492,
-      "max_drawdown": -0.013968266268864937,
-      "calmar": 326.83694967768344,
-      "n_obs": 11,
-      "appended": false,
-      "caliber": "price_return",
-      "status": "ok"
-    },
-    "us_stock_GOOGL": {
-      "name": "investor49",
-      "symbol": "GOOGL",
-      "market": "us",
-      "type": "stock",
-      "start_date": "2026-09-24",
-      "first_date": "2026-09-24",
-      "last_date": "2026-10-07",
-      "base_close": 342.36,
-      "last_close": 347.68,
-      "cum_return": 0.015539198504498142,
-      "market_value": 1015539.1985044981,
-      "annualized": 0.5422375330404738,
-      "max_drawdown": -0.01697279702394805,
-      "calmar": 31.94744698091863,
-      "n_obs": 11,
+      "last_date": "2026-09-30",
+      "base_close": 10.02,
+      "last_close": 10.16,
+      "cum_return": 0.0139720558882237,
+      "market_value": 1013972.0558882237,
+      "annualized": 1.3271904342969996,
+      "max_drawdown": -0.013861386138613652,
+      "calmar": 95.74730990285641,
+      "n_obs": 4,
       "appended": false,
       "caliber": "price_return",
       "status": "ok"
@@ -1573,15 +1533,15 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_stock_600309",
-          "symbol": "600309",
-          "market": "cn",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
           "type": "stock",
           "legs": [
             {
-              "key": "cn_stock_600309",
-              "symbol": "600309",
-              "market": "cn",
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
               "type": "stock",
               "weight": 1.0
             }
@@ -1590,17 +1550,17 @@
       ],
       "n_switches": 0,
       "current": {
-        "holding": "cn_stock_600309",
-        "symbol": "600309",
-        "market": "cn",
+        "holding": "us_stock_NVDA",
+        "symbol": "NVDA",
+        "market": "us",
         "type": "stock"
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-07",
-      "cum_return": -0.007055435565154977,
-      "market_value": 992944.5644348451,
-      "annualized": -0.18039536830621472,
-      "max_drawdown": -0.02577393808495332,
+      "cum_return": 0.06527740671475635,
+      "market_value": 1065277.4067147563,
+      "annualized": 4.910125465399409,
+      "max_drawdown": -0.007209647819627629,
       "status": "ok"
     },
     {
@@ -2329,16 +2289,16 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "cn_bond_511010",
-          "symbol": "511010",
-          "market": "cn",
-          "type": "bond",
+          "key": "hk_stock_6869",
+          "symbol": "6869",
+          "market": "hk",
+          "type": "stock",
           "legs": [
             {
-              "key": "cn_bond_511010",
-              "symbol": "511010",
-              "market": "cn",
-              "type": "bond",
+              "key": "hk_stock_6869",
+              "symbol": "6869",
+              "market": "hk",
+              "type": "stock",
               "weight": 1.0
             }
           ]
@@ -2346,17 +2306,17 @@
       ],
       "n_switches": 0,
       "current": {
-        "holding": "cn_bond_511010",
-        "symbol": "511010",
-        "market": "cn",
-        "type": "bond"
+        "holding": "hk_stock_6869",
+        "symbol": "6869",
+        "market": "hk",
+        "type": "stock"
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-07",
-      "cum_return": 9.949188075197846e-05,
-      "market_value": 1000099.491880752,
-      "annualized": 0.0027991103548379304,
-      "max_drawdown": -0.00022030345023638098,
+      "cum_return": -0.04006410256410253,
+      "market_value": 959935.8974358975,
+      "annualized": -0.6829884846171637,
+      "max_drawdown": -0.1693376068376068,
       "status": "ok"
     },
     {
@@ -2725,15 +2685,15 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "us_stock_MSFT",
-          "symbol": "MSFT",
-          "market": "us",
+          "key": "cn_stock_600350",
+          "symbol": "600350",
+          "market": "cn",
           "type": "stock",
           "legs": [
             {
-              "key": "us_stock_MSFT",
-              "symbol": "MSFT",
-              "market": "us",
+              "key": "cn_stock_600350",
+              "symbol": "600350",
+              "market": "cn",
               "type": "stock",
               "weight": 1.0
             }
@@ -2742,17 +2702,17 @@
       ],
       "n_switches": 0,
       "current": {
-        "holding": "us_stock_MSFT",
-        "symbol": "MSFT",
-        "market": "us",
+        "holding": "cn_stock_600350",
+        "symbol": "600350",
+        "market": "cn",
         "type": "stock"
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-07",
-      "cum_return": 0.06300082340891278,
-      "market_value": 1063000.8234089129,
-      "annualized": 4.565345539601492,
-      "max_drawdown": -0.013968266268864937,
+      "cum_return": 0.0139720558882237,
+      "market_value": 1013972.0558882237,
+      "annualized": 0.4767502105080008,
+      "max_drawdown": -0.013861386138613652,
       "status": "ok"
     },
     {
@@ -2761,16 +2721,16 @@
       "holdings": [
         {
           "date": "2026-09-24",
-          "key": "us_stock_GOOGL",
-          "symbol": "GOOGL",
+          "key": "us_etf_VOO",
+          "symbol": "VOO",
           "market": "us",
-          "type": "stock",
+          "type": "etf",
           "legs": [
             {
-              "key": "us_stock_GOOGL",
-              "symbol": "GOOGL",
+              "key": "us_etf_VOO",
+              "symbol": "VOO",
               "market": "us",
-              "type": "stock",
+              "type": "etf",
               "weight": 1.0
             }
           ]
@@ -2778,17 +2738,17 @@
       ],
       "n_switches": 0,
       "current": {
-        "holding": "us_stock_GOOGL",
-        "symbol": "GOOGL",
+        "holding": "us_etf_VOO",
+        "symbol": "VOO",
         "market": "us",
-        "type": "stock"
+        "type": "etf"
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-07",
-      "cum_return": 0.015539198504498142,
-      "market_value": 1015539.1985044981,
-      "annualized": 0.5422375330404738,
-      "max_drawdown": -0.01697279702394805,
+      "cum_return": 0.013027058374234457,
+      "market_value": 1013027.0583742345,
+      "annualized": 0.4385659109523028,
+      "max_drawdown": -0.013970370995652681,
       "status": "ok"
     },
     {
