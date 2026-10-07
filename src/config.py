@@ -217,7 +217,8 @@ def _load(path: Path) -> dict:
 
 def load_holdings(path: Path = HOLDINGS_PATH) -> list[Item]:
     cfg = _load(path)
-    items = [_parse(h) for h in cfg.get("holdings", [])]
+    # 用 `or []`：键存在但值为 null（如 `holdings:` 后面留空）时 `.get(k, [])` 会返回 None
+    items = [_parse(h) for h in cfg.get("holdings") or []]
     for it in items:
         if not it.start_date:
             raise ValueError(f"持仓 {it.name}({it.symbol}) 缺少 start_date")
@@ -226,7 +227,7 @@ def load_holdings(path: Path = HOLDINGS_PATH) -> list[Item]:
 
 def load_benchmarks(path: Path = HOLDINGS_PATH) -> list[Item]:
     cfg = _load(path)
-    return [_parse(b) for b in cfg.get("benchmarks", [])]
+    return [_parse(b) for b in cfg.get("benchmarks") or []]
 
 
 def load_base_currency(path: Path = HOLDINGS_PATH) -> str:
@@ -306,7 +307,7 @@ def load_investors(path: Path = INVESTORS_PATH) -> list[Investor]:
     default_start = cfg.get("start_date", DEFAULT_START_DATE)
     default_principal = float(cfg.get("principal", DEFAULT_PRINCIPAL))
     out: list[Investor] = []
-    for h in cfg.get("investors", []):
+    for h in cfg.get("investors") or []:
         nick = str(h["nickname"])
         legs = _parse_legs(h, nick)
         first = legs[0]
@@ -329,7 +330,7 @@ def load_investors(path: Path = INVESTORS_PATH) -> list[Investor]:
 def load_investor_benchmarks(path: Path = INVESTORS_PATH) -> list[Item]:
     """读 investors.yaml 的 benchmarks（基准指数，不参与组合收益）。"""
     cfg = _load(path)
-    return [_parse(b) for b in cfg.get("benchmarks", [])]
+    return [_parse(b) for b in cfg.get("benchmarks") or []]
 
 
 # --------------------------------------------------------------------------- 调仓流水（switches.yaml）
@@ -378,12 +379,21 @@ def portfolio_id(nickname: str) -> str:
 
 
 def load_switches(path: Path = SWITCHES_PATH) -> list[Switch]:
-    """读 switches.yaml 的调仓流水（append-only）。文件不存在时返回空表（= 每人单段）。"""
+    """读 switches.yaml 的调仓流水（append-only）。文件不存在时返回空表（= 每人单段）。
+
+    ⚠️ 空文件的几种写法都要能正确处理：
+      - 文件不存在                          → []
+      - 只有注释 / 空文件                    → yaml 得到 None → []
+      - ``switches:``（键存在但值为 null）   → **必须用 ``or []``**，
+        因为 ``cfg.get("switches", [])`` 在"键存在、值为 None"时**返回 None 而不是默认值**，
+        直接迭代会 `TypeError: 'NoneType' object is not iterable`。
+      - ``switches: []``                    → []
+    """
     if not path.exists():
         return []
     cfg = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     out: list[Switch] = []
-    for s in cfg.get("switches", []):
+    for s in cfg.get("switches") or []:
         nick = str(s["nickname"])
         legs = _parse_legs(s, nick)
         first = legs[0]

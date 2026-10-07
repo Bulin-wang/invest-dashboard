@@ -1,5 +1,5 @@
 # ==========================================================================
-# 调仓流水（append-only）—— **占位样例**，请替换为真实调仓记录
+# 调仓流水（append-only）—— 当前为空 = 所有人从 start_date 起买入并持有
 # --------------------------------------------------------------------------
 # 每条 = 某投资者在某日（收盘）**全仓切换**到某标的：
 #   {date: 2026-10-15, nickname: "investor01", symbol: "AAPL", market: us, type: stock}
@@ -7,87 +7,3 @@
 # 维护：每天有人提交调仓申请就往 switches 追加一行，不改历史。
 # ==========================================================================
 switches:
-  - {date: 2026-09-25, nickname: "investor01", symbol: "601318", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor02", symbol: "600036", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor03", symbol: "000858", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor04", symbol: "600030", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor05", symbol: "600276", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor06", symbol: "000333", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor07", symbol: "000651", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor08", symbol: "600887", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor09", symbol: "601166", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor10", symbol: "600900", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor11", symbol: "601899", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor12", symbol: "002594", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor13", symbol: "300750", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor14", symbol: "601012", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor15", symbol: "600309", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor16", symbol: "601888", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor17", symbol: "000001", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor18", symbol: "600028", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor19", symbol: "601857", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor20", symbol: "601988", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor21", symbol: "601398", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor22", symbol: "601628", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor23", symbol: "000725", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor24", symbol: "002415", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor25", symbol: "300059", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor26", symbol: "600585", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor27", symbol: "601668", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor28", symbol: "601088", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor29", symbol: "000002", market: cn, type: stock}
-  - {date: 2026-09-25, nickname: "investor30", symbol: "510300", market: cn, type: etf}
-  - {date: 2026-09-25, nickname: "investor31", symbol: "510500", market: cn, type: etf}
-  - {date: 2026-09-25, nickname: "investor32", symbol: "510050", market: cn, type: etf}
-  - {date: 2026-09-25, nickname: "investor33", symbol: "159915", market: cn, type: etf}
-  - {date: 2026-09-25, nickname: "investor34", symbol: "588000", market: cn, type: etf}
-  - {date: 2026-09-25, nickname: "investor35", symbol: "512880", market: cn, type: etf}
-  - {date: 2026-09-25, nickname: "investor36", symbol: "511010", market: cn, type: bond}
-  - {date: 2026-09-25, nickname: "investor37", symbol: "511260", market: cn, type: bond}
-  - {date: 2026-09-25, nickname: "investor38", symbol: "518880", market: cn, type: etf}
-  - {date: 2026-09-25, nickname: "investor39", symbol: "513100", market: cn, type: etf}
-  - {date: 2026-09-25, nickname: "investor40", symbol: "513050", market: cn, type: etf}
-  - {date: 2026-09-25, nickname: "investor41", symbol: "512480", market: cn, type: etf}
-  - {date: 2026-09-25, nickname: "investor42", symbol: "000300", market: cn, type: index}
-  - {date: 2026-09-25, nickname: "investor43", symbol: "399001", market: cn, type: index}
-  - {date: 2026-09-25, nickname: "investor44", symbol: "399006", market: cn, type: index}
-  - {date: 2026-09-25, nickname: "investor45", symbol: "000905", market: cn, type: index}
-  - {date: 2026-09-25, nickname: "investor46", symbol: "AAPL", market: us, type: stock}
-  - {date: 2026-09-25, nickname: "investor47", symbol: "MSFT", market: us, type: stock}
-  - {date: 2026-09-25, nickname: "investor48", symbol: "GOOGL", market: us, type: stock}
-  - {date: 2026-09-25, nickname: "investor49", symbol: "AMZN", market: us, type: stock}
-  - {date: 2026-09-25, nickname: "investor50", symbol: "NVDA", market: us, type: stock}
-  - {date: 2026-09-25, nickname: "investor51", symbol: "TSLA", market: us, type: stock}
-  - {date: 2026-09-25, nickname: "investor52", symbol: "META", market: us, type: stock}
-  - {date: 2026-09-25, nickname: "investor53", symbol: "JPM", market: us, type: stock}
-  - {date: 2026-09-25, nickname: "investor54", symbol: "SPY", market: us, type: etf}
-  - {date: 2026-09-25, nickname: "investor55", symbol: "QQQ", market: us, type: etf}
-  - {date: 2026-09-25, nickname: "investor56", symbol: "TLT", market: us, type: bond}
-  - {date: 2026-09-28, nickname: "investor01", symbol: "600036", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor03", symbol: "600030", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor05", symbol: "000333", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor07", symbol: "600887", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor09", symbol: "600900", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor11", symbol: "002594", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor13", symbol: "601012", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor15", symbol: "601888", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor17", symbol: "600028", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor19", symbol: "601988", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor21", symbol: "601628", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor23", symbol: "002415", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor25", symbol: "600585", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor27", symbol: "601088", market: cn, type: stock}
-  - {date: 2026-09-28, nickname: "investor29", symbol: "510300", market: cn, type: etf}
-  - {date: 2026-09-28, nickname: "investor31", symbol: "510050", market: cn, type: etf}
-  - {date: 2026-09-28, nickname: "investor33", symbol: "588000", market: cn, type: etf}
-  - {date: 2026-09-28, nickname: "investor35", symbol: "511010", market: cn, type: bond}
-  - {date: 2026-09-28, nickname: "investor37", symbol: "518880", market: cn, type: etf}
-  - {date: 2026-09-28, nickname: "investor39", symbol: "513050", market: cn, type: etf}
-  - {date: 2026-09-28, nickname: "investor41", symbol: "000300", market: cn, type: index}
-  - {date: 2026-09-28, nickname: "investor43", symbol: "399006", market: cn, type: index}
-  - {date: 2026-09-28, nickname: "investor45", symbol: "AAPL", market: us, type: stock}
-  - {date: 2026-09-28, nickname: "investor47", symbol: "GOOGL", market: us, type: stock}
-  - {date: 2026-09-28, nickname: "investor49", symbol: "NVDA", market: us, type: stock}
-  - {date: 2026-09-28, nickname: "investor51", symbol: "META", market: us, type: stock}
-  - {date: 2026-09-28, nickname: "investor53", symbol: "SPY", market: us, type: etf}
-  - {date: 2026-09-28, nickname: "investor55", symbol: "TLT", market: us, type: bond}
