@@ -32,7 +32,7 @@ investors:
   - {nickname: "investor15", symbol: "601012", market: "cn", type: "stock"}
   - {nickname: "investor16", symbol: "NVDA", market: "us", type: "stock"}
   - {nickname: "investor17", symbol: "RGTI", market: "us", type: "stock"}
-  - {nickname: "investor18", symbol: "000001", market: "cn", type: "stock"}
+  - {nickname: "investor18", symbol: "513300", market: "cn", type: "etf"}
   - {nickname: "investor19", symbol: "600887", market: "cn", type: "stock"}
   - {nickname: "investor20", symbol: "QQQ", market: "us", type: "etf"}
   - {nickname: "investor21", symbol: "601988", market: "cn", type: "stock"}
@@ -49,7 +49,7 @@ investors:
   - {nickname: "investor32", symbol: "603259", market: "cn", type: "stock"}
   - {nickname: "investor33", symbol: "510050", market: "cn", type: "etf"}
   - {nickname: "investor34", symbol: "SOXX", market: "us", type: "etf"}
-  - {nickname: "investor35", symbol: "588000", market: "cn", type: "etf"}
+  - {nickname: "investor35", symbol: "603259", market: "cn", type: "stock"}
   - {nickname: "investor36", symbol: "NVDA", market: "us", type: "stock"}
   - {nickname: "investor37", symbol: "6869", market: "hk", type: "stock"}
   - {nickname: "investor38", symbol: "511100", market: "cn", type: "etf"}
