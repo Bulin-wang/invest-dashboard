@@ -8,6 +8,9 @@ venv/
 # 运行日志 / 临时产物
 *.log
 prototype/out/
+.tmp_*/
+.tmp_*
+*.bak
 
 # 本地/编辑器
 .vscode/

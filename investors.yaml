@@ -11,66 +11,67 @@ base_currency: CNY
 start_date: 2026-09-24
 principal: 1000000
 
+# ⚠️ `--initial-cash` 模式：所有人从 start_date 起持有 100 万**现金**，
+#    之后按 switches.yaml 里各自的日期陆续建仓（目标 = 下面的「计划持仓」）。
+#    symbol 里的 999999 是「非真实标的」的醒目标记；type: cash 时 symbol 不参与计算。
+
 investors:
-  - {nickname: "investor21", symbol: "999999", market: "cn", type: "cash"}
-  - {nickname: "investor26", symbol: "999999", market: "cn", type: "cash"}
-  - {nickname: "investor28", symbol: "999999", market: "cn", type: "cash"}
-  - {nickname: "investor55", symbol: "999999", market: "us", type: "cash"}
-  - {nickname: "investor56", symbol: "999999", market: "us", type: "cash"}
-  - {nickname: "investor01", symbol: "510300", market: "cn", type: "etf"}
-  - {nickname: "investor02", symbol: "600967", market: "cn", type: "stock"}
-  - {nickname: "investor03", symbol: "NVDA", market: "us", type: "stock"}
-  - {nickname: "investor04", symbol: "AVGO", market: "us", type: "stock"}
-  - {nickname: "investor05", symbol: "688603", market: "cn", type: "stock"}
-  - {nickname: "investor06", symbol: "159736", market: "cn", type: "etf"}
-  - {nickname: "investor07", symbol: "600519", market: "cn", type: "stock"}
-  - {nickname: "investor08", symbol: "NVDA", market: "us", type: "stock"}
-  - {nickname: "investor09", symbol: "NVDA", market: "us", type: "stock"}
-  - nickname: "investor10"
-    holdings:
-      - {symbol: "01810", market: "hk", type: "stock", weight: 0.7}
-      - {symbol: "ONDO", market: "us", type: "crypto", weight: 0.3}
-  - {nickname: "investor11", symbol: "510300", market: "cn", type: "etf"}
-  - {nickname: "investor12", symbol: "SC2611", market: "cn", type: "futures", expires: "2026-10-30"}
-  - {nickname: "investor13", symbol: "AAPL", market: "us", type: "stock"}
-  - {nickname: "investor14", symbol: "AAPL", market: "us", type: "stock"}
-  - {nickname: "investor15", symbol: "AAPL", market: "us", type: "stock"}
-  - {nickname: "investor16", symbol: "NVDA", market: "us", type: "stock"}
-  - {nickname: "investor17", symbol: "RGTI", market: "us", type: "stock"}
-  - {nickname: "investor18", symbol: "513300", market: "cn", type: "etf"}
-  - {nickname: "investor19", symbol: "600887", market: "cn", type: "stock"}
-  - {nickname: "investor20", symbol: "QQQ", market: "us", type: "etf"}
-  - {nickname: "investor22", symbol: "NVDA", market: "us", type: "stock"}
-  - {nickname: "investor23", symbol: "AAPL", market: "us", type: "stock"}
-  - {nickname: "investor24", symbol: "510300", market: "cn", type: "etf"}
-  - {nickname: "investor25", symbol: "KOD", market: "us", type: "stock"}
-  - {nickname: "investor27", symbol: "FTHY", market: "us", type: "stock"}
-  - {nickname: "investor29", symbol: "588710", market: "cn", type: "etf"}
-  - {nickname: "investor30", symbol: "AMD", market: "us", type: "stock"}
-  - {nickname: "investor31", symbol: "POWL", market: "us", type: "stock"}
-  - {nickname: "investor32", symbol: "603259", market: "cn", type: "stock"}
-  - {nickname: "investor33", symbol: "MSTR", market: "us", type: "stock"}
-  - {nickname: "investor34", symbol: "SOXX", market: "us", type: "etf"}
-  - {nickname: "investor35", symbol: "603259", market: "cn", type: "stock"}
-  - {nickname: "investor36", symbol: "NVDA", market: "us", type: "stock"}
-  - {nickname: "investor37", symbol: "6869", market: "hk", type: "stock"}
-  - {nickname: "investor38", symbol: "511100", market: "cn", type: "etf"}
-  - {nickname: "investor39", symbol: "600600", market: "cn", type: "stock"}
-  - {nickname: "investor40", symbol: "688256", market: "cn", type: "stock"}
-  - {nickname: "investor41", symbol: "ZECUSDT", market: "us", type: "crypto"}
-  - {nickname: "investor42", symbol: "515120", market: "cn", type: "etf"}
-  - {nickname: "investor43", symbol: "002837", market: "cn", type: "stock"}
-  - {nickname: "investor44", symbol: "399001", market: "cn", type: "index"}
-  - {nickname: "investor45", symbol: "AAPL", market: "us", type: "stock"}
-  - {nickname: "investor46", symbol: "VOO", market: "us", type: "etf"}
-  - {nickname: "investor47", symbol: "QQQ", market: "us", type: "etf"}
-  - {nickname: "investor48", symbol: "600350", market: "cn", type: "stock"}
-  - {nickname: "investor49", symbol: "VOO", market: "us", type: "etf"}
-  - {nickname: "investor50", symbol: "NVDU", market: "us", type: "etf"}
-  - {nickname: "investor51", symbol: "NVDA", market: "us", type: "stock"}
-  - {nickname: "investor52", symbol: "002910", market: "cn", type: "fund"}
-  - {nickname: "investor53", symbol: "002837", market: "cn", type: "stock"}
-  - {nickname: "investor54", symbol: "510300", market: "cn", type: "etf"}
+  - {nickname: "investor21", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 999999/cn/cash
+  - {nickname: "investor26", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 999999/cn/cash
+  - {nickname: "investor28", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 999999/cn/cash
+  - {nickname: "investor55", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 999999/us/cash
+  - {nickname: "investor56", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 999999/us/cash
+  - {nickname: "investor01", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 510300/cn/etf
+  - {nickname: "investor02", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 600967/cn/stock
+  - {nickname: "investor03", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: NVDA/us/stock
+  - {nickname: "investor04", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: AVGO/us/stock
+  - {nickname: "investor05", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 688603/cn/stock
+  - {nickname: "investor06", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 159736/cn/etf
+  - {nickname: "investor07", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 600519/cn/stock
+  - {nickname: "investor08", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: NVDA/us/stock
+  - {nickname: "investor09", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: NVDA/us/stock
+  - {nickname: "investor10", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 01810/hk/stock 70% + ONDO/us/crypto 30%
+  - {nickname: "investor11", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 510300/cn/etf
+  - {nickname: "investor12", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: SC2611/cn/futures
+  - {nickname: "investor13", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: AAPL/us/stock
+  - {nickname: "investor14", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: AAPL/us/stock
+  - {nickname: "investor15", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: AAPL/us/stock
+  - {nickname: "investor16", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: NVDA/us/stock
+  - {nickname: "investor17", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: RGTI/us/stock
+  - {nickname: "investor18", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 513300/cn/etf
+  - {nickname: "investor19", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 600887/cn/stock
+  - {nickname: "investor20", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: QQQ/us/etf
+  - {nickname: "investor22", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: NVDA/us/stock
+  - {nickname: "investor23", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: AAPL/us/stock
+  - {nickname: "investor24", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 510300/cn/etf
+  - {nickname: "investor25", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: KOD/us/stock
+  - {nickname: "investor27", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: FTHY/us/stock
+  - {nickname: "investor29", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 588710/cn/etf
+  - {nickname: "investor30", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: AMD/us/stock
+  - {nickname: "investor31", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: POWL/us/stock
+  - {nickname: "investor32", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 603259/cn/stock
+  - {nickname: "investor33", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: MSTR/us/stock
+  - {nickname: "investor34", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: SOXX/us/etf
+  - {nickname: "investor35", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 603259/cn/stock
+  - {nickname: "investor36", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: NVDA/us/stock
+  - {nickname: "investor37", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 6869/hk/stock
+  - {nickname: "investor38", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 511100/cn/etf
+  - {nickname: "investor39", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 600600/cn/stock
+  - {nickname: "investor40", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 688256/cn/stock
+  - {nickname: "investor41", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: ZECUSDT/us/crypto
+  - {nickname: "investor42", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 515120/cn/etf
+  - {nickname: "investor43", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 002837/cn/stock
+  - {nickname: "investor44", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 399001/cn/index
+  - {nickname: "investor45", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: AAPL/us/stock
+  - {nickname: "investor46", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: VOO/us/etf
+  - {nickname: "investor47", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: QQQ/us/etf
+  - {nickname: "investor48", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 600350/cn/stock
+  - {nickname: "investor49", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: VOO/us/etf
+  - {nickname: "investor50", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: NVDU/us/etf
+  - {nickname: "investor51", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: NVDA/us/stock
+  - {nickname: "investor52", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 002910/cn/fund
+  - {nickname: "investor53", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 002837/cn/stock
+  - {nickname: "investor54", symbol: "999999", market: "cn", type: "cash"}   # 计划持仓: 510300/cn/etf
 
 # 基准指数（看板可叠加对比，不参与组合收益）
 benchmarks:

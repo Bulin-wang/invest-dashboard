@@ -290,9 +290,10 @@ switches:
 
 ```
 investors.yaml               # 公开清单：60 余位投资者的昵称 + **初始**标的（不含真实姓名）
-switches.yaml                # 调仓流水（append-only）：每条 = 某投资者某日全仓切换到某标的
+switches.yaml                # 调仓/建仓流水（append-only）：每条 = 某投资者某日切换到某标的
 private/                     # 本地私密：roster.csv(真名↔昵称) + investors.private.yaml（gitignore）
-tools/make_investors.py      # 本地匿名化：roster + members -> investors.yaml
+tools/make_investors.py      # 本地匿名化：roster + members -> investors.yaml（--initial-cash 支持陆续建仓）
+tools/rebuild_switches.py    # 把 switches.yaml 重建成「现金 → 建仓」（起点改为现金）
 tools/admin_app.py           # 本地管理台（Streamlit）：新增投资者 / 追加调仓（支持多标的权重）
 tools/admin_ops.py           # 管理台纯文件操作（可单测）
 prototype/
@@ -334,6 +335,7 @@ real_name,nickname
 
 - **加人**：往 `roster.csv` 追加一行（分配一个**没用过**的昵称）+ 往 `investors.private.yaml` 的 `members`
   追加一行（真名 + 初始标的），再跑一次 `python -m tools.make_investors`。
+  （用「陆续建仓模式」时加 `--initial-cash`，见上文；`members` 里仍填真实标的。）
 - **改昵称**：改 `roster.csv` 那一行（对外昵称会变，注意历史）。
 - **查询 真名 → 昵称**（录调仓时用）：直接查 `roster.csv`。
 
@@ -349,6 +351,8 @@ pip install -r requirements.txt
 
 # 0) 改名单后（可选）重新生成公开清单：编辑 private/investors.private.yaml + private/roster.csv，然后
 python -m tools.make_investors
+#    「陆续建仓模式」（初始 = 现金，之后按 switches.yaml 的日期建仓）则加 --initial-cash
+python -m tools.make_investors --initial-cash
 
 # 1) 首次：回填历史（未复权）→ 生成 data/prices/
 python -m prototype.backfill --days 400
@@ -363,7 +367,7 @@ streamlit run app/streamlit_app.py
 python -m pytest tests/ -q
 ```
 
-编辑 `investors.yaml` 增删投资者（`market: cn|us|hk`，`type: stock|etf|bond|index`），
+编辑 `investors.yaml` 增删投资者（`market: cn|us|hk`，`type: stock|etf|bond|index|fund|crypto|futures|cash`），
 顶层 `start_date` / `principal` 为统一默认值，可逐条覆盖。**新增标的后直接跑
 `python -m prototype.daily_close` 即可**——脚本会自动给历史过短/缺失的标的**补种日线**
 （等效于对它跑一次 `backfill`），所以不必手动回填新标的，也不会因为某标只有 1 天数据把
@@ -386,6 +390,47 @@ switches:
 
 含义：investor01 在 `2026-10-15` 收盘把整仓**全仓切换**到 AAPL。追加后跑 `python -m prototype.daily_close`
 即可重算组合收益。每位投资者各自独立，日期 / 标的互不影响。
+
+### 陆续建仓模式（初始持仓 = 现金）
+
+适用场景：**所有人从 `start_date` 起都持有 100 万现金，之后按各自提交日陆续建仓**。
+
+此时把 `investors.yaml` 的初始持仓写成**现金**，建仓记录写成 `switches.yaml` 里的目标：
+
+```yaml
+# investors.yaml —— 每人初始都是现金
+investors:
+  - {nickname: "investor01", symbol: "999999", market: "cn", type: "cash"}
+
+# switches.yaml —— 各自的建仓日 + 目标标的
+switches:
+  - {date: 2026-09-25, nickname: "investor43", symbol: "002837", market: cn, type: stock}
+```
+
+效果：`date` **之前**净值恒为 100（收益 0%）；`date` 收盘价买入，**次日起**跟随标的涨跌。
+
+> ⚠️ `type: cash` 会**压过 `symbol`**（key 恒为 `cash`），所以现金腿不抓行情、不参与计算，
+> `symbol` 只作可读标记（`999999` = 还没有真实标的）。
+> ⚠️ 若建仓日正好是数据里的**最后一天**，收益会显示 0%：新一段的基准价就是当天收盘价，
+> 要等下一个交易日才有涨跌。这是口径的必然结果，不是 bug。
+
+两个配套命令：
+
+```bash
+python -m tools.make_investors --initial-cash   # 生成「全现金」初始持仓（真实标的保留为注释）
+python -m tools.rebuild_switches                # 把现有 switches.yaml 重建成「现金 → 建仓」
+```
+
+`rebuild_switches` 说明：它把每条记录的**起点改为现金**（相当于把"一开始就持有"改成"这天买入"），
+日期与目标标的取自输入文件。**必须先备份原件再运行**（它的默认输入就是自己的输出）：
+
+```bash
+cp switches.yaml switches.yaml.bak
+python -m tools.rebuild_switches --from switches.yaml.bak --write
+```
+
+`private/investors.private.yaml` 里继续保存**真实标的**（作为「计划持仓」的文档），
+只是生成公开清单时会被替换为现金；生成结果里会把计划持仓写成注释，便于对照。
 
 ## 本地管理台（GUI，辅助录入）
 

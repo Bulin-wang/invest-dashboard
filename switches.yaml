@@ -1,10 +1,16 @@
 # ==========================================================================
-# 调仓流水（append-only）—— 当前为空 = 所有人从 start_date 起买入并持有
+# 建仓流水（append-only）—— 每人从 start_date 起持有现金，按各自提交日建仓
 # --------------------------------------------------------------------------
-# 每条 = 某投资者在某日（收盘）**全仓切换**到某标的：
-#   {date: 2026-10-15, nickname: "investor01", symbol: "AAPL", market: us, type: stock}
-# 口径：调仓日收盘价切换；**当日算旧标的，次交易日起算新标的**；不计费用 / 汇率。
-# 维护：每天有人提交调仓申请就往 switches 追加一行，不改历史。
+# 语义：`date` 收盘价买入 `symbol`；**该日算旧状态（现金），次日起按标的算收益**。
+#       即：date 之前收益 0%，date 之后跟随标的涨跌。
+#   {date: 2026-10-08, nickname: "investor01", symbol: "510300", market: cn, type: etf}
+# 多标的（目标权重组合）用 holdings 写法：
+#   - date: 2026-10-08
+#     nickname: "investor10"
+#     holdings:
+#       - {symbol: "01810", market: hk, type: stock, weight: 0.7}
+#       - {symbol: "ONDO", market: us, type: crypto, weight: 0.3}
+# 口径：调仓日收盘价切换；不计费用 / 汇率。维护：有新记录就往这里追加，不改历史。
 # ==========================================================================
 switches:
   - {date: 2026-10-03, nickname: "investor12", symbol: "SC2611", market: cn, type: futures, expires: "2026-10-30"}
