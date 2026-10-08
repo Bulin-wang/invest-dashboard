@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-08T07:17:01.671760+00:00",
+  "updated_at": "2026-10-08T12:52:16.121996+00:00",
   "base_currency": "CNY",
   "caliber": "price_return",
   "source": "sina/tencent",
   "principal": 1000000.0,
   "base_date": "2026-09-24",
   "n_investors": 56,
-  "n_switches": 0,
+  "n_switches": 52,
   "items": {
     "cn_etf_510300": {
       "name": "investor01",
@@ -196,16 +196,16 @@
       "type": "futures",
       "start_date": "2026-09-24",
       "first_date": "2026-09-24",
-      "last_date": "2026-09-30",
+      "last_date": "2026-10-08",
       "base_close": 743.5,
-      "last_close": 711.0,
-      "cum_return": -0.04371217215870882,
-      "market_value": 956287.8278412912,
-      "annualized": -0.9341838124759612,
+      "last_close": 758.5,
+      "cum_return": 0.02017484868863484,
+      "market_value": 1020174.8486886348,
+      "annualized": 0.6838927916727715,
       "max_drawdown": -0.04371217215870882,
-      "calmar": -21.37125121771929,
-      "n_obs": 4,
-      "appended": false,
+      "calmar": 15.64536278796017,
+      "n_obs": 5,
+      "appended": true,
       "caliber": "settlement_price",
       "status": "ok"
     },
@@ -697,19 +697,19 @@
       "type": "fund",
       "start_date": "2026-09-24",
       "first_date": "2026-09-27",
-      "last_date": "2026-09-29",
+      "last_date": "2026-10-07",
       "base_close": 7.8674,
-      "last_close": 7.9474,
-      "cum_return": 0.010168543610341363,
-      "market_value": 1010168.5436103414,
-      "annualized": 5.344905142955634,
-      "max_drawdown": 0.0,
-      "calmar": null,
-      "n_obs": 3,
-      "appended": false,
+      "last_close": 7.8559,
+      "cum_return": -0.001461728143986596,
+      "market_value": 998538.2718560135,
+      "annualized": -0.05202645106266557,
+      "max_drawdown": -0.011513199285300701,
+      "calmar": -4.518852646726052,
+      "n_obs": 4,
+      "appended": true,
       "caliber": "cumulative_nav",
       "status": "ok",
-      "unit_nav": 7.9474
+      "unit_nav": 7.8559
     },
     "cn_index_000300": {
       "name": "沪深300",
@@ -940,9 +940,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "cn_etf_510300",
+          "symbol": "510300",
+          "market": "cn",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "cn_etf_510300",
+              "symbol": "510300",
+              "market": "cn",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_etf_510300",
         "symbol": "510300",
@@ -976,9 +992,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "cn_stock_600967",
+          "symbol": "600967",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_600967",
+              "symbol": "600967",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_stock_600967",
         "symbol": "600967",
@@ -1012,9 +1044,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_NVDA",
         "symbol": "NVDA",
@@ -1048,9 +1096,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_stock_AVGO",
+          "symbol": "AVGO",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_AVGO",
+              "symbol": "AVGO",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_AVGO",
         "symbol": "AVGO",
@@ -1084,9 +1148,41 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "cn_stock_688603",
+          "symbol": "688603",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_688603",
+              "symbol": "688603",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "cn_stock_688603",
+          "symbol": "688603",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_688603",
+              "symbol": "688603",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 2,
       "current": {
         "holding": "cn_stock_688603",
         "symbol": "688603",
@@ -1120,9 +1216,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "cn_etf_159736",
+          "symbol": "159736",
+          "market": "cn",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "cn_etf_159736",
+              "symbol": "159736",
+              "market": "cn",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_etf_159736",
         "symbol": "159736",
@@ -1156,9 +1268,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "cn_stock_600519",
+          "symbol": "600519",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_600519",
+              "symbol": "600519",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_stock_600519",
         "symbol": "600519",
@@ -1192,9 +1320,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_NVDA",
         "symbol": "NVDA",
@@ -1228,9 +1372,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-09-27",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_NVDA",
         "symbol": "NVDA",
@@ -1242,7 +1402,7 @@
       "cum_return": 0.05739602814141942,
       "market_value": 1057396.0281414194,
       "annualized": 3.2888772980300223,
-      "max_drawdown": -0.0073984283564622055,
+      "max_drawdown": -0.0073984283564623166,
       "status": "ok"
     },
     {
@@ -1271,9 +1431,32 @@
               "weight": 0.3
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "key": "hk_stock_01810:0.7|us_crypto_ONDO:0.3",
+          "symbol": "01810+ONDO",
+          "market": "hk",
+          "type": "multi",
+          "legs": [
+            {
+              "key": "hk_stock_01810",
+              "symbol": "01810",
+              "market": "hk",
+              "type": "stock",
+              "weight": 0.7
+            },
+            {
+              "key": "us_crypto_ONDO",
+              "symbol": "ONDO",
+              "market": "us",
+              "type": "crypto",
+              "weight": 0.3
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "hk_stock_01810:0.7|us_crypto_ONDO:0.3",
         "symbol": "01810+ONDO",
@@ -1282,10 +1465,10 @@
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
-      "cum_return": -0.0850748553488494,
-      "market_value": 914925.1446511507,
-      "annualized": -0.9016947006850253,
-      "max_drawdown": -0.11579450036387517,
+      "cum_return": -0.08502664832577334,
+      "market_value": 914973.3516742266,
+      "annualized": -0.9015594775651311,
+      "max_drawdown": -0.11577939572893503,
       "status": "ok"
     },
     {
@@ -1307,9 +1490,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "cn_etf_510300",
+          "symbol": "510300",
+          "market": "cn",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "cn_etf_510300",
+              "symbol": "510300",
+              "market": "cn",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_etf_510300",
         "symbol": "510300",
@@ -1343,9 +1542,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-03",
+          "key": "cn_futures_SC2611",
+          "symbol": "SC2611",
+          "market": "cn",
+          "type": "futures",
+          "legs": [
+            {
+              "key": "cn_futures_SC2611",
+              "symbol": "SC2611",
+              "market": "cn",
+              "type": "futures",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_futures_SC2611",
         "symbol": "SC2611",
@@ -1354,9 +1569,9 @@
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
-      "cum_return": -0.04371217215870882,
-      "market_value": 956287.8278412912,
-      "annualized": -0.6884188567852425,
+      "cum_return": 0.02017484868863484,
+      "market_value": 1020174.8486886349,
+      "annualized": 0.6838927916727715,
       "max_drawdown": -0.04371217215870882,
       "status": "ok"
     },
@@ -1379,9 +1594,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_stock_AAPL",
+          "symbol": "AAPL",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_AAPL",
+              "symbol": "AAPL",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_AAPL",
         "symbol": "AAPL",
@@ -1415,9 +1646,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_stock_AAPL",
+          "symbol": "AAPL",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_AAPL",
+              "symbol": "AAPL",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_AAPL",
         "symbol": "AAPL",
@@ -1451,9 +1698,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_stock_AAPL",
+          "symbol": "AAPL",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_AAPL",
+              "symbol": "AAPL",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_AAPL",
         "symbol": "AAPL",
@@ -1487,9 +1750,41 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 2,
       "current": {
         "holding": "us_stock_NVDA",
         "symbol": "NVDA",
@@ -1523,9 +1818,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-09-28",
+          "key": "us_stock_RGTI",
+          "symbol": "RGTI",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_RGTI",
+              "symbol": "RGTI",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_RGTI",
         "symbol": "RGTI",
@@ -1535,7 +1846,7 @@
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
       "cum_return": -0.11575757575757573,
-      "market_value": 884242.4242424243,
+      "market_value": 884242.4242424242,
       "annualized": -0.9596275947202914,
       "max_drawdown": -0.12424969987995205,
       "status": "ok"
@@ -1559,9 +1870,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "cn_etf_513300",
+          "symbol": "513300",
+          "market": "cn",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "cn_etf_513300",
+              "symbol": "513300",
+              "market": "cn",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_etf_513300",
         "symbol": "513300",
@@ -1595,9 +1922,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-06",
+          "key": "cn_stock_600887",
+          "symbol": "600887",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_600887",
+              "symbol": "600887",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_stock_600887",
         "symbol": "600887",
@@ -1607,7 +1950,7 @@
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
       "cum_return": 0.015241635687732291,
-      "market_value": 1015241.6356877323,
+      "market_value": 1015241.6356877324,
       "annualized": 0.4838550495557792,
       "max_drawdown": 0.0,
       "status": "ok"
@@ -1631,9 +1974,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-06",
+          "key": "us_etf_QQQ",
+          "symbol": "QQQ",
+          "market": "us",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "us_etf_QQQ",
+              "symbol": "QQQ",
+              "market": "us",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_etf_QQQ",
         "symbol": "QQQ",
@@ -1667,9 +2026,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_NVDA",
         "symbol": "NVDA",
@@ -1703,9 +2078,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_stock_AAPL",
+          "symbol": "AAPL",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_AAPL",
+              "symbol": "AAPL",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_AAPL",
         "symbol": "AAPL",
@@ -1739,9 +2130,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-04",
+          "key": "cn_etf_510300",
+          "symbol": "510300",
+          "market": "cn",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "cn_etf_510300",
+              "symbol": "510300",
+              "market": "cn",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_etf_510300",
         "symbol": "510300",
@@ -1775,9 +2182,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_stock_KOD",
+          "symbol": "KOD",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_KOD",
+              "symbol": "KOD",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_KOD",
         "symbol": "KOD",
@@ -1811,9 +2234,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-06",
+          "key": "us_stock_FTHY",
+          "symbol": "FTHY",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_FTHY",
+              "symbol": "FTHY",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_FTHY",
         "symbol": "FTHY",
@@ -1822,9 +2261,9 @@
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
-      "cum_return": -0.014740108611326685,
-      "market_value": 985259.8913886733,
-      "annualized": -0.3211949375757496,
+      "cum_return": -0.014740108611326797,
+      "market_value": 985259.8913886732,
+      "annualized": -0.32119493757575157,
       "max_drawdown": -0.03230769230769226,
       "status": "ok"
     },
@@ -1847,9 +2286,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "cn_etf_588710",
+          "symbol": "588710",
+          "market": "cn",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "cn_etf_588710",
+              "symbol": "588710",
+              "market": "cn",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_etf_588710",
         "symbol": "588710",
@@ -1883,9 +2338,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_stock_AMD",
+          "symbol": "AMD",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_AMD",
+              "symbol": "AMD",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_AMD",
         "symbol": "AMD",
@@ -1919,9 +2390,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_stock_POWL",
+          "symbol": "POWL",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_POWL",
+              "symbol": "POWL",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_POWL",
         "symbol": "POWL",
@@ -1955,9 +2442,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "cn_stock_603259",
+          "symbol": "603259",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_603259",
+              "symbol": "603259",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_stock_603259",
         "symbol": "603259",
@@ -1991,9 +2494,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_stock_MSTR",
+          "symbol": "MSTR",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_MSTR",
+              "symbol": "MSTR",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_MSTR",
         "symbol": "MSTR",
@@ -2027,9 +2546,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-09-25",
+          "key": "us_etf_SOXX",
+          "symbol": "SOXX",
+          "market": "us",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "us_etf_SOXX",
+              "symbol": "SOXX",
+              "market": "us",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_etf_SOXX",
         "symbol": "SOXX",
@@ -2039,7 +2574,7 @@
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
       "cum_return": 0.029589980037804553,
-      "market_value": 1029589.9800378046,
+      "market_value": 1029589.9800378045,
       "annualized": 1.1399456002445247,
       "max_drawdown": -0.02076203115177766,
       "status": "ok"
@@ -2063,9 +2598,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "cn_stock_603259",
+          "symbol": "603259",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_603259",
+              "symbol": "603259",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_stock_603259",
         "symbol": "603259",
@@ -2099,9 +2650,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_NVDA",
         "symbol": "NVDA",
@@ -2135,9 +2702,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "hk_stock_6869",
+          "symbol": "6869",
+          "market": "hk",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "hk_stock_6869",
+              "symbol": "6869",
+              "market": "hk",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "hk_stock_6869",
         "symbol": "6869",
@@ -2171,9 +2754,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "cn_etf_511100",
+          "symbol": "511100",
+          "market": "cn",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "cn_etf_511100",
+              "symbol": "511100",
+              "market": "cn",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_etf_511100",
         "symbol": "511100",
@@ -2207,9 +2806,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "cn_stock_600600",
+          "symbol": "600600",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_600600",
+              "symbol": "600600",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_stock_600600",
         "symbol": "600600",
@@ -2218,9 +2833,9 @@
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
-      "cum_return": 0.005211465223491585,
-      "market_value": 1005211.4652234915,
-      "annualized": 0.14523556220420342,
+      "cum_return": 0.005211465223491807,
+      "market_value": 1005211.4652234918,
+      "annualized": 0.14523556220421008,
       "max_drawdown": -0.007416315894968717,
       "status": "ok"
     },
@@ -2243,9 +2858,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-09-30",
+          "key": "cn_stock_688256",
+          "symbol": "688256",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_688256",
+              "symbol": "688256",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_stock_688256",
         "symbol": "688256",
@@ -2279,9 +2910,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_crypto_ZECUSDT",
+          "symbol": "ZECUSDT",
+          "market": "us",
+          "type": "crypto",
+          "legs": [
+            {
+              "key": "us_crypto_ZECUSDT",
+              "symbol": "ZECUSDT",
+              "market": "us",
+              "type": "crypto",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_crypto_ZECUSDT",
         "symbol": "ZECUSDT",
@@ -2315,9 +2962,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-06",
+          "key": "cn_etf_515120",
+          "symbol": "515120",
+          "market": "cn",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "cn_etf_515120",
+              "symbol": "515120",
+              "market": "cn",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_etf_515120",
         "symbol": "515120",
@@ -2326,10 +2989,10 @@
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
-      "cum_return": 0.022222222222222143,
-      "market_value": 1022222.2222222221,
-      "annualized": 0.7743141911323563,
-      "max_drawdown": -0.015290519877676045,
+      "cum_return": 0.022222222222222365,
+      "market_value": 1022222.2222222224,
+      "annualized": 0.7743141911323663,
+      "max_drawdown": -0.015290519877675823,
       "status": "ok"
     },
     {
@@ -2351,9 +3014,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-09-25",
+          "key": "cn_stock_002837",
+          "symbol": "002837",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_002837",
+              "symbol": "002837",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_stock_002837",
         "symbol": "002837",
@@ -2423,9 +3102,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-09-29",
+          "key": "us_stock_AAPL",
+          "symbol": "AAPL",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_AAPL",
+              "symbol": "AAPL",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_AAPL",
         "symbol": "AAPL",
@@ -2435,9 +3130,9 @@
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
       "cum_return": 0.002232674446296823,
-      "market_value": 1002232.6744462969,
+      "market_value": 1002232.6744462968,
       "annualized": 0.059909951146725815,
-      "max_drawdown": -0.03421585011874406,
+      "max_drawdown": -0.03421585011874395,
       "status": "ok"
     },
     {
@@ -2459,9 +3154,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-09-29",
+          "key": "us_etf_VOO",
+          "symbol": "VOO",
+          "market": "us",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "us_etf_VOO",
+              "symbol": "VOO",
+              "market": "us",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_etf_VOO",
         "symbol": "VOO",
@@ -2470,9 +3181,9 @@
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
-      "cum_return": 0.010396186650447614,
-      "market_value": 1010396.1866504477,
-      "annualized": 0.3097403425244132,
+      "cum_return": 0.010396186650447836,
+      "market_value": 1010396.1866504478,
+      "annualized": 0.3097403425244205,
       "max_drawdown": -0.013970370995652681,
       "status": "ok"
     },
@@ -2495,9 +3206,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-06",
+          "key": "us_etf_QQQ",
+          "symbol": "QQQ",
+          "market": "us",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "us_etf_QQQ",
+              "symbol": "QQQ",
+              "market": "us",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_etf_QQQ",
         "symbol": "QQQ",
@@ -2531,9 +3258,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "cn_stock_600350",
+          "symbol": "600350",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_600350",
+              "symbol": "600350",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_stock_600350",
         "symbol": "600350",
@@ -2567,9 +3310,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "us_etf_VOO",
+          "symbol": "VOO",
+          "market": "us",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "us_etf_VOO",
+              "symbol": "VOO",
+              "market": "us",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_etf_VOO",
         "symbol": "VOO",
@@ -2603,9 +3362,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-09-29",
+          "key": "us_etf_NVDU",
+          "symbol": "NVDU",
+          "market": "us",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "us_etf_NVDU",
+              "symbol": "NVDU",
+              "market": "us",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_etf_NVDU",
         "symbol": "NVDU",
@@ -2639,9 +3414,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-09-26",
+          "key": "us_stock_NVDA",
+          "symbol": "NVDA",
+          "market": "us",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "us_stock_NVDA",
+              "symbol": "NVDA",
+              "market": "us",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "us_stock_NVDA",
         "symbol": "NVDA",
@@ -2653,7 +3444,7 @@
       "cum_return": 0.05739602814141942,
       "market_value": 1057396.0281414194,
       "annualized": 3.2888772980300223,
-      "max_drawdown": -0.0073984283564622055,
+      "max_drawdown": -0.0073984283564623166,
       "status": "ok"
     },
     {
@@ -2675,9 +3466,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-07",
+          "key": "cn_fund_002910",
+          "symbol": "002910",
+          "market": "cn",
+          "type": "fund",
+          "legs": [
+            {
+              "key": "cn_fund_002910",
+              "symbol": "002910",
+              "market": "cn",
+              "type": "fund",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_fund_002910",
         "symbol": "002910",
@@ -2686,10 +3493,10 @@
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
-      "cum_return": -0.004945598417408492,
-      "market_value": 995054.4015825915,
-      "annualized": -0.12133120007792275,
-      "max_drawdown": -0.014962000275451137,
+      "cum_return": -0.01640185804254468,
+      "market_value": 983598.1419574553,
+      "annualized": -0.3504405360968532,
+      "max_drawdown": -0.01640185804254468,
       "status": "ok"
     },
     {
@@ -2711,9 +3518,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-09-29",
+          "key": "cn_stock_002837",
+          "symbol": "002837",
+          "market": "cn",
+          "type": "stock",
+          "legs": [
+            {
+              "key": "cn_stock_002837",
+              "symbol": "002837",
+              "market": "cn",
+              "type": "stock",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_stock_002837",
         "symbol": "002837",
@@ -2722,10 +3545,10 @@
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-08",
-      "cum_return": -0.057672142607480104,
-      "market_value": 942327.8573925201,
-      "annualized": -0.7877002946869304,
-      "max_drawdown": -0.057672142607480104,
+      "cum_return": -0.05767214260747977,
+      "market_value": 942327.8573925202,
+      "annualized": -0.7877002946869285,
+      "max_drawdown": -0.05767214260747977,
       "status": "ok"
     },
     {
@@ -2747,9 +3570,25 @@
               "weight": 1.0
             }
           ]
+        },
+        {
+          "date": "2026-10-08",
+          "key": "cn_etf_510300",
+          "symbol": "510300",
+          "market": "cn",
+          "type": "etf",
+          "legs": [
+            {
+              "key": "cn_etf_510300",
+              "symbol": "510300",
+              "market": "cn",
+              "type": "etf",
+              "weight": 1.0
+            }
+          ]
         }
       ],
-      "n_switches": 0,
+      "n_switches": 1,
       "current": {
         "holding": "cn_etf_510300",
         "symbol": "510300",
