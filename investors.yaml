@@ -12,11 +12,11 @@ start_date: 2026-09-24
 principal: 1000000
 
 investors:
-  - {nickname: "investor21", symbol: "999999", market: "cn", type: "stock"}
-  - {nickname: "investor26", symbol: "999999", market: "cn", type: "stock"}
-  - {nickname: "investor28", symbol: "999999", market: "cn", type: "stock"}
-  - {nickname: "investor55", symbol: "999999", market: "us", type: "etf"}
-  - {nickname: "investor56", symbol: "999999", market: "us", type: "etf"}
+  - {nickname: "investor21", symbol: "999999", market: "cn", type: "cash"}
+  - {nickname: "investor26", symbol: "999999", market: "cn", type: "cash"}
+  - {nickname: "investor28", symbol: "999999", market: "cn", type: "cash"}
+  - {nickname: "investor55", symbol: "999999", market: "us", type: "cash"}
+  - {nickname: "investor56", symbol: "999999", market: "us", type: "cash"}
   - {nickname: "investor01", symbol: "510300", market: "cn", type: "etf"}
   - {nickname: "investor02", symbol: "600967", market: "cn", type: "stock"}
   - {nickname: "investor03", symbol: "NVDA", market: "us", type: "stock"}
