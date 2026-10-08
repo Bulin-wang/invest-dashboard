@@ -7,3 +7,59 @@
 # 维护：每天有人提交调仓申请就往 switches 追加一行，不改历史。
 # ==========================================================================
 switches:
+  - {date: 2026-10-03, nickname: "investor12", symbol: "SC2611", market: cn, type: futures, expires: "2026-10-30"}
+  - {date: 2026-10-07, nickname: "investor05", symbol: "688603", market: cn, type: stock}
+  - {date: 2026-10-07, nickname: "investor16", symbol: "NVDA", market: us, type: stock}
+  - {date: 2026-09-28, nickname: "investor17", symbol: "RGTI", market: us, type: stock}
+  - {date: 2026-09-25, nickname: "investor34", symbol: "SOXX", market: us, type: etf}
+  - {date: 2026-09-25, nickname: "investor43", symbol: "002837", market: cn, type: stock}
+  - {date: 2026-09-26, nickname: "investor51", symbol: "NVDA", market: us, type: stock}
+  - {date: 2026-09-27, nickname: "investor09", symbol: "NVDA", market: us, type: stock}
+  - {date: 2026-09-29, nickname: "investor53", symbol: "002837", market: cn, type: stock}
+  - {date: 2026-09-29, nickname: "investor45", symbol: "AAPL", market: us, type: stock}
+  - {date: 2026-09-29, nickname: "investor46", symbol: "VOO", market: us, type: etf}
+  - {date: 2026-09-29, nickname: "investor50", symbol: "NVDU", market: us, type: etf}
+  - date: 2026-09-30
+    nickname: "investor10"
+    holdings:
+      - {symbol: "01810", market: hk, type: stock, weight: 0.7}
+      - {symbol: "ONDO", market: us, type: crypto, weight: 0.3}
+  - {date: 2026-09-30, nickname: "investor40", symbol: "688256", market: cn, type: stock}
+  - {date: 2026-10-04, nickname: "investor24", symbol: "510300", market: cn, type: etf}
+  - {date: 2026-10-06, nickname: "investor19", symbol: "600887", market: cn, type: stock}
+  - {date: 2026-10-06, nickname: "investor47", symbol: "QQQ", market: us, type: etf}
+  - {date: 2026-10-06, nickname: "investor27", symbol: "FTHY", market: us, type: stock}
+  - {date: 2026-10-06, nickname: "investor42", symbol: "515120", market: cn, type: etf}
+  - {date: 2026-10-06, nickname: "investor20", symbol: "QQQ", market: us, type: etf}
+  - {date: 2026-10-07, nickname: "investor52", symbol: "002910", market: cn, type: fund}
+  - {date: 2026-10-07, nickname: "investor06", symbol: "159736", market: cn, type: etf}
+  - {date: 2026-10-07, nickname: "investor03", symbol: "NVDA", market: us, type: stock}
+  - {date: 2026-10-07, nickname: "investor36", symbol: "NVDA", market: us, type: stock}
+  - {date: 2026-10-07, nickname: "investor11", symbol: "510300", market: cn, type: etf}
+  - {date: 2026-10-07, nickname: "investor29", symbol: "588710", market: cn, type: etf}
+  - {date: 2026-10-07, nickname: "investor38", symbol: "511100", market: cn, type: etf}
+  - {date: 2026-10-07, nickname: "investor32", symbol: "603259", market: cn, type: stock}
+  - {date: 2026-10-07, nickname: "investor39", symbol: "600600", market: cn, type: stock}
+  - {date: 2026-10-07, nickname: "investor16", symbol: "NVDA", market: us, type: stock}
+  - {date: 2026-10-08, nickname: "investor37", symbol: "6869", market: hk, type: stock}
+  - {date: 2026-10-08, nickname: "investor49", symbol: "VOO", market: us, type: etf}
+  - {date: 2026-10-08, nickname: "investor48", symbol: "600350", market: cn, type: stock}
+  - {date: 2026-10-08, nickname: "investor35", symbol: "603259", market: cn, type: stock}
+  - {date: 2026-10-08, nickname: "investor18", symbol: "513300", market: cn, type: etf}
+  - {date: 2026-10-08, nickname: "investor33", symbol: "MSTR", market: us, type: stock}
+  - {date: 2026-10-08, nickname: "investor22", symbol: "NVDA", market: us, type: stock}
+  - {date: 2026-10-08, nickname: "investor31", symbol: "POWL", market: us, type: stock}
+  - {date: 2026-10-08, nickname: "investor05", symbol: "688603", market: cn, type: stock}
+  - {date: 2026-10-08, nickname: "investor07", symbol: "600519", market: cn, type: stock}
+  - {date: 2026-10-08, nickname: "investor04", symbol: "AVGO", market: us, type: stock}
+  - {date: 2026-10-08, nickname: "investor41", symbol: "ZECUSDT", market: us, type: crypto}
+  - {date: 2026-10-08, nickname: "investor08", symbol: "NVDA", market: us, type: stock}
+  - {date: 2026-10-08, nickname: "investor01", symbol: "510300", market: cn, type: etf}
+  - {date: 2026-10-08, nickname: "investor14", symbol: "AAPL", market: us, type: stock}
+  - {date: 2026-10-08, nickname: "investor13", symbol: "AAPL", market: us, type: stock}
+  - {date: 2026-10-08, nickname: "investor15", symbol: "AAPL", market: us, type: stock}
+  - {date: 2026-10-08, nickname: "investor02", symbol: "600967", market: cn, type: stock}
+  - {date: 2026-10-08, nickname: "investor23", symbol: "AAPL", market: us, type: stock}
+  - {date: 2026-10-08, nickname: "investor30", symbol: "AMD", market: us, type: stock}
+  - {date: 2026-10-08, nickname: "investor54", symbol: "510300", market: cn, type: etf}
+  - {date: 2026-10-08, nickname: "investor25", symbol: "KOD", market: us, type: stock}

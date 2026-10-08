@@ -23,6 +23,33 @@ def _leg_parts(leg) -> tuple:
     return leg[0], leg[1], leg[2], leg[3], ""
 
 
+def append_member_from_legs(path: Path, real_name: str, legs) -> str:
+    """把一组腿写进 members（1 条 = 旧单标的写法；多条 = ``holdings:``）。
+
+    返回可展示的持仓描述。**统一在这里处理 4/5 元组**，避免调用方各自解包时
+    漏掉 ``expires``（历史上 `admin_app` 就因为直接解包 4 元组而崩过）。
+    """
+    if len(legs) == 1:
+        sym, mkt, typ, _w, exp = _leg_parts(legs[0])
+        _insert_member_block(path, [_member_line(real_name, sym, mkt, typ, exp)])
+        return f"{sym}（{mkt}/{typ}）"
+    _insert_member_block(path, _member_lines(real_name, legs))
+    return " + ".join(f"{s} ({m}) {w:.0%}" for s, m, _t, w, _e in map(_leg_parts, legs))
+
+
+def append_switch_from_legs(path: Path, date: str, nickname: str, legs) -> str:
+    """把一组腿追加到 switches.yaml（1 条 = 全仓切换；多条 = 目标权重组合）。
+
+    返回可展示的目标持仓描述。同样统一处理 4/5 元组。
+    """
+    if len(legs) == 1:
+        sym, mkt, typ, _w, exp = _leg_parts(legs[0])
+        _append_switch_lines(path, [_switch_line(date, nickname, sym, mkt, typ, exp)])
+        return f"{sym}（{mkt}/{typ}）"
+    _append_switch_lines(path, _switch_lines(date, nickname, legs))
+    return " + ".join(f"{s} ({m}) {w:.0%}" for s, m, _t, w, _e in map(_leg_parts, legs))
+
+
 def legs_from_rows(rows) -> list[tuple[str, str, str, float, str]]:
     """把管理台表格的行解析成 legs = [(symbol, market, type, weight, expires), ...]。
 
@@ -108,9 +135,10 @@ def append_roster(path: Path, real_name: str, nickname: str) -> None:
         csv.writer(f).writerow([real_name, nickname])
 
 
-def _member_line(real_name: str, symbol: str, market: str, type_: str) -> str:
+def _member_line(real_name: str, symbol: str, market: str, type_: str,
+                 expires: str = "") -> str:
     return (f'  - {{real_name: {real_name}, symbol: "{symbol}", '
-            f'market: {market}, type: {type_}}}')
+            f'market: {market}, type: {type_}{_exp_suffix(expires)}}}')
 
 
 def _exp_suffix(expires) -> str:
@@ -165,9 +193,10 @@ def append_member_multi(path: Path, real_name: str, legs) -> None:
     _insert_member_block(path, _member_lines(real_name, legs))
 
 
-def _switch_line(date: str, nickname: str, symbol: str, market: str, type_: str) -> str:
+def _switch_line(date: str, nickname: str, symbol: str, market: str, type_: str,
+                 expires: str = "") -> str:
     return (f'  - {{date: {date}, nickname: "{nickname}", symbol: "{symbol}", '
-            f'market: {market}, type: {type_}}}')
+            f'market: {market}, type: {type_}{_exp_suffix(expires)}}}')
 
 
 def _switch_lines(date: str, nickname: str, legs) -> list[str]:

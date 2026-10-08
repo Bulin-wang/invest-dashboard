@@ -118,13 +118,9 @@ with tab_add:
             st.error("；".join(errs))
         else:
             admin_ops.append_roster(ROSTER_PATH, rn, nk)
-            if len(legs) == 1:
-                s1, m1, t1, _w1 = legs[0]
-                admin_ops.append_member(MEMBERS_PATH, rn, s1, m1, t1)   # 单标的：旧写法
-                hold = f"{s1}（{m1}/{t1}）"
-            else:
-                admin_ops.append_member_multi(MEMBERS_PATH, rn, legs)   # 多标的：holdings
-                hold = " + ".join(f"{s1} ({m1}) {w1:.0%}" for s1, m1, _t1, w1 in legs)
+            # 统一由 admin_ops 处理「1 条 = 单标的 / 多条 = holdings」与 expires，
+            # 不要在 UI 层自己解包（历史上这里按 4 元组解包，加 expires 后直接崩）
+            hold = admin_ops.append_member_from_legs(MEMBERS_PATH, rn, legs)
             make_investors.build()          # 重生成公开的 investors.yaml
             n = len(load_investors())
             st.session_state["flash"] = (
@@ -151,15 +147,9 @@ with tab_switch:
             if not legs2:
                 st.error("目标持仓至少要填一行（代码不能为空）")
             else:
-                if len(legs2) == 1:
-                    s2, m2, t2, _w2 = legs2[0]
-                    admin_ops.append_switch(SWITCHES_PATH, date.isoformat(),
-                                            pick.nickname, s2, m2, t2)   # 单标的：旧写法
-                    tgt = f"{s2}（{m2}/{t2}）"
-                else:
-                    admin_ops.append_switch_multi(SWITCHES_PATH, date.isoformat(),
-                                                  pick.nickname, legs2)  # 多标的：holdings
-                    tgt = " + ".join(f"{s2} ({m2}) {w2:.0%}" for s2, m2, _t2, w2 in legs2)
+                # 同样交给 admin_ops 处理（含 expires），避免 UI 层解包出错
+                tgt = admin_ops.append_switch_from_legs(
+                    SWITCHES_PATH, date.isoformat(), pick.nickname, legs2)
                 st.session_state["flash"] = (
                     f"✅ 已追加：{disp(pick.nickname)} 于 {date.isoformat()} 调仓至 {tgt}")
                 st.rerun()
