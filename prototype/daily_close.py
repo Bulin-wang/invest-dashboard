@@ -361,11 +361,25 @@ def run() -> dict:
             print(f"[inv] {nick:8s} {len(segs) - 1} 次调仓 · 当前 {cur_spec} "
                   f"· cum={df['cum_return'].iloc[-1]:+.2%}")
         except Exception as e:  # noqa: BLE001
+            # ⚠️ 必须删掉这个投资者的**旧组合文件**：看板（app/streamlit_app.py）
+            # 只判断"文件是否存在"就读它，残留的旧文件会被当成最新数据展示
+            # —— 名字是新持仓、数值却停在几天前，而且毫无提示。
+            # 删掉之后看板会跳过该投资者（数据缺失是显式的），比展示陈旧数据安全。
+            stale = PORTFOLIOS_DIR / f"{portfolio_id(nick)}.csv"
+            removed = False
+            if stale.exists():
+                try:
+                    stale.unlink()
+                    removed = True
+                except OSError as oe:  # noqa: BLE001
+                    print(f"[warn] {nick:8s} 旧组合文件删除失败：{oe}")
             meta["portfolios"].append({
                 "nickname": nick, "status": "error",
                 "error": f"{type(e).__name__}: {e}",
+                "stale_file_removed": removed,
             })
-            print(f"[ERR] {nick:8s} 组合 -> {type(e).__name__}: {e}")
+            print(f"[ERR] {nick:8s} 组合 -> {type(e).__name__}: {e}"
+                  + ("（已删除过期组合文件，看板将跳过该投资者）" if removed else ""))
 
     META_PATH.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 

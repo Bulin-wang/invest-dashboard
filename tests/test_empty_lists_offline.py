@@ -106,3 +106,53 @@ def test_load_investors_empty_still_errors_loudly(workdir):
     p.write_text("start_date: 2026-09-24\ninvestors:\n", encoding="utf-8")
     with pytest.raises(ValueError, match="没有 investors"):
         load_investors(p)
+
+
+def test_failed_portfolio_removes_stale_file(workdir, monkeypatch):
+    """★ 组合计算失败时，必须删除该投资者的**旧组合文件**。
+
+    否则看板（app/streamlit_app.py 只判断"文件是否存在"）会读到陈旧数据：
+    名字显示新持仓、数值却停在几天前，而且毫无提示。
+    """
+    import pandas as pd
+
+    from prototype import backfill, daily_close
+    from src import config as cfg
+
+    prices = workdir / "prices"
+    portfolios = workdir / "portfolios"
+    for d in (prices, portfolios, workdir / "returns"):
+        d.mkdir(parents=True, exist_ok=True)
+
+    # 造一个"过期"的组合文件（模拟上一次成功运行留下的）
+    stale = portfolios / "investor99.csv"
+    stale.write_text("date,holding,value,nav,cum_return,daily_return\n"
+                     "2026-09-24,cn_stock_600519,1000000.0,100.0,0.0,\n",
+                     encoding="utf-8")
+    assert stale.exists()
+
+    monkeypatch.setattr(daily_close, "PRICES_DIR", prices)
+    monkeypatch.setattr(daily_close, "PORTFOLIOS_DIR", portfolios)
+    monkeypatch.setattr(daily_close, "RETURNS_DIR", workdir / "returns")
+    monkeypatch.setattr(daily_close, "META_PATH", workdir / "meta.json")
+    monkeypatch.setattr(daily_close.qf, "snapshot", lambda items: pd.DataFrame(
+        [{"key": "cn_stock_600519", "symbol": "600519", "name": "x", "market": "cn",
+          "type": "stock", "close": 11.0, "prev_close": 11.0, "pct_chg": 0.0,
+          "date": "2026-09-30", "source": "fake"}]))
+    monkeypatch.setattr(backfill, "seed_missing", lambda *a, **k: 0)
+    monkeypatch.setattr(daily_close, "_snapshot_module", lambda kind: None)
+    monkeypatch.setattr(daily_close, "load_investor_benchmarks", lambda *a, **k: [])
+    monkeypatch.setattr(daily_close, "load_switches", lambda *a, **k: [])
+    monkeypatch.setattr(daily_close, "load_investor_config", lambda *a, **k: {
+        "start_date": "2026-09-24", "principal": 1_000_000.0, "base_currency": "CNY"})
+    # 该投资者持有的标的价格文件不存在 → 组合计算必然失败
+    monkeypatch.setattr(daily_close, "load_investors", lambda *a, **k: [
+        cfg.Investor(nickname="investor99", symbol="999999", market="cn",
+                     type="stock", start_date="2026-09-24")])
+
+    meta = daily_close.run()
+
+    pf = [p for p in meta["portfolios"] if p["nickname"] == "investor99"][0]
+    assert pf["status"] == "error"
+    assert pf.get("stale_file_removed") is True
+    assert not stale.exists(), "旧组合文件没被删除 —— 看板会继续显示陈旧数据"
