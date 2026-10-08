@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-08T01:54:02.914680+00:00",
+  "updated_at": "2026-10-08T02:22:09.300426+00:00",
   "base_currency": "CNY",
   "caliber": "price_return",
   "source": "sina/tencent",
@@ -8,22 +8,6 @@
   "n_investors": 56,
   "n_switches": 0,
   "items": {
-    "cn_stock_999999": {
-      "name": "investor21",
-      "symbol": "999999",
-      "market": "cn",
-      "type": "stock",
-      "status": "error",
-      "error": "ValueError: 本次未取到报价"
-    },
-    "us_etf_999999": {
-      "name": "investor55",
-      "symbol": "999999",
-      "market": "us",
-      "type": "etf",
-      "status": "error",
-      "error": "ValueError: 本次未取到报价"
-    },
     "cn_etf_510300": {
       "name": "investor01",
       "symbol": "510300",
@@ -40,7 +24,7 @@
       "max_drawdown": -0.021926910299003177,
       "calmar": -14.910338380080566,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -80,7 +64,7 @@
       "max_drawdown": -0.0073984283564622055,
       "calmar": 444.53729083655054,
       "n_obs": 12,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -100,7 +84,7 @@
       "max_drawdown": -0.03227259926781201,
       "calmar": 171.67452525901626,
       "n_obs": 11,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -140,7 +124,7 @@
       "max_drawdown": -0.00868055555555558,
       "calmar": 29.138603616576884,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -160,7 +144,7 @@
       "max_drawdown": -0.011868823286408925,
       "calmar": 12.995574384136766,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -180,7 +164,7 @@
       "max_drawdown": -0.6438902743142144,
       "calmar": -0.5723436320764874,
       "n_obs": 402,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -200,7 +184,7 @@
       "max_drawdown": -0.8030793456390517,
       "calmar": -0.43621349593362646,
       "n_obs": 545,
-      "appended": true,
+      "appended": false,
       "caliber": "utc_daily_close",
       "status": "ok",
       "pair": "ONDOUSDT"
@@ -241,7 +225,7 @@
       "max_drawdown": -0.03421585011874406,
       "calmar": 1.7509414770877214,
       "n_obs": 12,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -261,7 +245,7 @@
       "max_drawdown": -0.12424969987995205,
       "calmar": -7.723379578763307,
       "n_obs": 11,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -281,7 +265,7 @@
       "max_drawdown": -0.005384063173007991,
       "calmar": 64.4679269770149,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -301,7 +285,7 @@
       "max_drawdown": 0.0,
       "calmar": null,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -321,7 +305,7 @@
       "max_drawdown": -0.010705171255876555,
       "calmar": 73.25292008970231,
       "n_obs": 12,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -341,7 +325,7 @@
       "max_drawdown": -0.07495429616087723,
       "calmar": 3572078058707.753,
       "n_obs": 11,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -361,7 +345,7 @@
       "max_drawdown": -0.03230769230769226,
       "calmar": -9.941748067820836,
       "n_obs": 11,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -381,7 +365,7 @@
       "max_drawdown": -0.07389162561576346,
       "calmar": -11.70676783540386,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -401,7 +385,7 @@
       "max_drawdown": -0.03656660799517941,
       "calmar": 26.596230839673197,
       "n_obs": 11,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -421,7 +405,7 @@
       "max_drawdown": -0.03731343283582089,
       "calmar": 34.06251822422725,
       "n_obs": 11,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -441,7 +425,7 @@
       "max_drawdown": -0.010714285714285787,
       "calmar": 197.89006062763127,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -461,7 +445,7 @@
       "max_drawdown": -0.06794287450622927,
       "calmar": -10.960706249313654,
       "n_obs": 11,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -481,7 +465,7 @@
       "max_drawdown": -0.02076203115177766,
       "calmar": 54.90530246829544,
       "n_obs": 11,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -501,7 +485,7 @@
       "max_drawdown": -0.1693376068376068,
       "calmar": -4.825075460218237,
       "n_obs": 10,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -521,7 +505,7 @@
       "max_drawdown": -0.0022723394318253654,
       "calmar": -15.522015493531015,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -541,7 +525,7 @@
       "max_drawdown": -0.007416315894968717,
       "calmar": 19.583249184778158,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -561,7 +545,7 @@
       "max_drawdown": -0.07555795800197895,
       "calmar": -10.727046318169121,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -602,7 +586,7 @@
       "max_drawdown": -0.015290519877676045,
       "calmar": 50.64014810005543,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -622,7 +606,7 @@
       "max_drawdown": -0.05767214260747988,
       "calmar": -13.658245715753365,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -642,7 +626,7 @@
       "max_drawdown": -0.034408728111574916,
       "calmar": -16.071909582142037,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -662,7 +646,7 @@
       "max_drawdown": -0.013970370995652681,
       "calmar": 22.171232433326114,
       "n_obs": 10,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -682,7 +666,7 @@
       "max_drawdown": -0.013861386138613652,
       "calmar": 42.65332414845174,
       "n_obs": 5,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -702,7 +686,7 @@
       "max_drawdown": -0.03308995913992896,
       "calmar": 458.44785061120706,
       "n_obs": 10,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -743,7 +727,7 @@
       "max_drawdown": -0.1420846460038816,
       "calmar": 0.5267493175698091,
       "n_obs": 403,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -759,28 +743,183 @@
   "portfolios": [
     {
       "nickname": "investor21",
-      "status": "error",
-      "error": "ValueError: 缺 cn_stock_999999 的价格数据"
+      "principal": 1000000.0,
+      "holdings": [
+        {
+          "date": "2026-09-24",
+          "key": "cash",
+          "symbol": "999999",
+          "market": "cn",
+          "type": "cash",
+          "legs": [
+            {
+              "key": "cash",
+              "symbol": "999999",
+              "market": "cn",
+              "type": "cash",
+              "weight": 1.0
+            }
+          ]
+        }
+      ],
+      "n_switches": 0,
+      "current": {
+        "holding": "cash",
+        "symbol": "999999",
+        "market": "cn",
+        "type": "cash"
+      },
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-08",
+      "cum_return": 0.0,
+      "market_value": 1000000.0,
+      "annualized": 0.0,
+      "max_drawdown": 0.0,
+      "status": "ok"
     },
     {
       "nickname": "investor26",
-      "status": "error",
-      "error": "ValueError: 缺 cn_stock_999999 的价格数据"
+      "principal": 1000000.0,
+      "holdings": [
+        {
+          "date": "2026-09-24",
+          "key": "cash",
+          "symbol": "999999",
+          "market": "cn",
+          "type": "cash",
+          "legs": [
+            {
+              "key": "cash",
+              "symbol": "999999",
+              "market": "cn",
+              "type": "cash",
+              "weight": 1.0
+            }
+          ]
+        }
+      ],
+      "n_switches": 0,
+      "current": {
+        "holding": "cash",
+        "symbol": "999999",
+        "market": "cn",
+        "type": "cash"
+      },
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-08",
+      "cum_return": 0.0,
+      "market_value": 1000000.0,
+      "annualized": 0.0,
+      "max_drawdown": 0.0,
+      "status": "ok"
     },
     {
       "nickname": "investor28",
-      "status": "error",
-      "error": "ValueError: 缺 cn_stock_999999 的价格数据"
+      "principal": 1000000.0,
+      "holdings": [
+        {
+          "date": "2026-09-24",
+          "key": "cash",
+          "symbol": "999999",
+          "market": "cn",
+          "type": "cash",
+          "legs": [
+            {
+              "key": "cash",
+              "symbol": "999999",
+              "market": "cn",
+              "type": "cash",
+              "weight": 1.0
+            }
+          ]
+        }
+      ],
+      "n_switches": 0,
+      "current": {
+        "holding": "cash",
+        "symbol": "999999",
+        "market": "cn",
+        "type": "cash"
+      },
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-08",
+      "cum_return": 0.0,
+      "market_value": 1000000.0,
+      "annualized": 0.0,
+      "max_drawdown": 0.0,
+      "status": "ok"
     },
     {
       "nickname": "investor55",
-      "status": "error",
-      "error": "ValueError: 缺 us_etf_999999 的价格数据"
+      "principal": 1000000.0,
+      "holdings": [
+        {
+          "date": "2026-09-24",
+          "key": "cash",
+          "symbol": "999999",
+          "market": "cn",
+          "type": "cash",
+          "legs": [
+            {
+              "key": "cash",
+              "symbol": "999999",
+              "market": "cn",
+              "type": "cash",
+              "weight": 1.0
+            }
+          ]
+        }
+      ],
+      "n_switches": 0,
+      "current": {
+        "holding": "cash",
+        "symbol": "999999",
+        "market": "cn",
+        "type": "cash"
+      },
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-08",
+      "cum_return": 0.0,
+      "market_value": 1000000.0,
+      "annualized": 0.0,
+      "max_drawdown": 0.0,
+      "status": "ok"
     },
     {
       "nickname": "investor56",
-      "status": "error",
-      "error": "ValueError: 缺 us_etf_999999 的价格数据"
+      "principal": 1000000.0,
+      "holdings": [
+        {
+          "date": "2026-09-24",
+          "key": "cash",
+          "symbol": "999999",
+          "market": "cn",
+          "type": "cash",
+          "legs": [
+            {
+              "key": "cash",
+              "symbol": "999999",
+              "market": "cn",
+              "type": "cash",
+              "weight": 1.0
+            }
+          ]
+        }
+      ],
+      "n_switches": 0,
+      "current": {
+        "holding": "cash",
+        "symbol": "999999",
+        "market": "cn",
+        "type": "cash"
+      },
+      "first_date": "2026-09-24",
+      "last_date": "2026-10-08",
+      "cum_return": 0.0,
+      "market_value": 1000000.0,
+      "annualized": 0.0,
+      "max_drawdown": 0.0,
+      "status": "ok"
     },
     {
       "nickname": "investor01",
