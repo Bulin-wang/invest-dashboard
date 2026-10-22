@@ -25,6 +25,8 @@ import pandas as pd
 import requests
 import yaml
 
+from src.config import stable_key
+
 try:  # Windows 控制台默认 GBK，打印中文会炸；尽量切 UTF-8（不新建 wrapper，避免关闭底层 buffer）
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 except (AttributeError, ValueError):
@@ -38,6 +40,8 @@ SINA_LINE = re.compile(r'var hq_str_([\w$]+)="(.*)";')
 
 # 美股指数在新浪的特殊写法
 US_INDEX = {"^GSPC": "$inx", "^IXIC": "$ixic", "^DJI": "$dji", "^NDX": "$ndx"}
+# 美股指数在**腾讯**的写法（与新浪不同！`us^GSPC` 返回空，实测可用的是 INX）
+US_INDEX_TENCENT = {"^GSPC": "INX", "^IXIC": "IXIC", "^DJI": "DJI", "^NDX": "NDX"}
 
 
 @dataclass
@@ -76,6 +80,8 @@ def sina_code(it: Item) -> str:
 def tencent_code(it: Item) -> str:
     s = str(it.symbol).strip()
     if it.market == "us":
+        if it.type == "index" and s in US_INDEX_TENCENT:
+            return "us." + US_INDEX_TENCENT[s]      # ^GSPC -> us.INX（实测可用）
         return "us" + s.upper().replace(".", "")
     if it.market == "hk":
         return "hk" + s.zfill(5)
@@ -196,7 +202,7 @@ def snapshot(items: list[Item]) -> pd.DataFrame:
     rows = []
     for it in items:
         q = sina.get(sina_code(it)) or tencent.get(tencent_code(it))
-        k = f"{it.market}_{it.type}_{it.symbol}"
+        k = stable_key(it.market, it.type, it.symbol)   # ★ 与 src.config.Item.key 同源
         if not q or q.get("close") is None:
             rows.append({"key": k, "symbol": it.symbol, "name": it.name,
                          "market": it.market, "type": it.type,

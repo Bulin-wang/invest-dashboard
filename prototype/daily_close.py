@@ -51,6 +51,7 @@ from src.config import (  # noqa: E402
     load_investors,
     load_switches,
     portfolio_id,
+    stable_key,
 )
 from src.aggregate import holding_spec, weighted_path_nav  # noqa: E402
 from src.returns import (  # noqa: E402
@@ -203,7 +204,13 @@ def run() -> dict:
     # （cn_stock_000001，11 元）与上证指数（cn_index_000001，3800 点）同号，
     # 后写的那条会把前一条挤掉，于是股票价格被写成指数点位。
     # 详见回归用例 tests/test_quote_key_collision_offline.py
-    quotes = {f'{r["market"]}_{r["type"]}_{r["symbol"]}': r for _, r in snap.iterrows()}
+    # 以及 tests/test_stable_key_offline.py（手拼 key 会漏掉 symbol 清洗：
+    # `^GSPC` 变成 `us_index_^GSPC`，下游按 `us_index_GSPC` 查就永远 miss，
+    # 标普500 曾因此静默断更 10 天）。所以优先取行里已带好的 `key` 列。
+    quotes = {
+        (r.get("key") or stable_key(r["market"], r["type"], r["symbol"])): r
+        for _, r in snap.iterrows()
+    }
 
     meta: dict = {
         "updated_at": datetime.now(timezone.utc).isoformat(),

@@ -181,11 +181,13 @@ def test_all_snapshot_producers_emit_matching_key():
         fund_fetch.requests.get = orig
     assert row.get("key") == "cn_fund_002910"
 
-    # crypto / futures：检查源码里的构造契约（不联网）
+    # crypto / futures：检查源码里的构造契约（不联网）。
+    # 必须走 `stable_key(...)`，不许手拼 —— 手拼会漏掉 symbol 清洗（^ / =），
+    # 导致 `^GSPC` 这类代码生产方与消费方的 key 对不上（标普500 曾因此断更 10 天）。
     for mod, kind in ((crypto_fetch, "crypto"), (futures_fetch, "futures")):
         src = Path(mod.__file__).read_text(encoding="utf-8")
-        assert '"key": f"{item.market}_{item.type}_{item.symbol}"' in src, \
-            f"{kind} 的 daily_snapshot 没有输出 key"
+        assert '"key": stable_key(' in src, \
+            f"{kind} 的 daily_snapshot 没有用 stable_key 输出 key"
 
 
 def test_pipeline_lookup_uses_key_only():

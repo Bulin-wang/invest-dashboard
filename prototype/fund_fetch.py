@@ -55,7 +55,7 @@ try:  # 避免重复包装 sys.stdout
 except (AttributeError, ValueError):
     pass
 
-from src.config import FUND_CACHE_DIR  # noqa: E402
+from src.config import FUND_CACHE_DIR, stable_key  # noqa: E402
 
 PINGZHONG_URL = "https://fund.eastmoney.com/pingzhongdata/{code}.js"
 LSJZ_URL = "https://api.fund.eastmoney.com/f10/lsjz"      # 备用：每页 ≤20 条
@@ -362,9 +362,9 @@ def daily_snapshot(item) -> dict:
     prev = round(unit / (1.0 + pct / 100.0), 4) if (unit and pct is not None and pct != -100) else None
 
     latest = {
-        # key 必须与 quote_fetch.snapshot() 同构：daily_close 统一按
-        # `{market}_{type}_{symbol}` 取报价（见 test_quote_key_collision_offline.py）
-        "key": f"{item.market}_{item.type}_{item.symbol}",
+        # key 必须与 src.config.Item.key **同源**（用 stable_key，别自己拼字符串，
+        # 否则 `^`/`=` 这类字符会让下游查不到）。见 test_ramp_up 与 key 一致性用例。
+        "key": stable_key(item.market, item.type, item.symbol),
         "symbol": str(item.symbol),
         "name": name or item.name,
         "market": item.market,

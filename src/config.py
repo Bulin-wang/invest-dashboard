@@ -70,6 +70,25 @@ VALID_TYPES = {"stock", "etf", "bond", "index", "fund", "crypto", "futures", "ca
 CASH_KEY = "cash"        # 现金腿的固定 key：不抓行情、价格恒为 1
 
 
+def stable_key(market: str, type_: str, symbol: str) -> str:
+    """「标的身份 → 稳定键」的**唯一实现**（文件名 / 组合列名 / 报价查表都用它）。
+
+    规则：
+      - 现金腿固定为 ``cash``；
+      - 其余为 ``{market}_{type}_{清洗后的 symbol}``，其中 symbol 去掉 ``^``、
+        把 ``=`` 换成 ``_``（``^GSPC`` → ``us_index_GSPC``）。
+
+    ⚠️ 之所以抽成函数：这条规则曾经在 `prototype/*_fetch.py` 里被**重复实现但漏了清洗**，
+    导致 `^GSPC` 生成 ``us_index_^GSPC``，而下游按 ``us_index_GSPC`` 查表 →
+    **标普500 静默断更 10 天**（报价明明抓到了，却永远 miss）。
+    任何生成 key 的地方都必须调用本函数，不要再自己拼字符串。
+    """
+    if str(type_) == "cash":
+        return CASH_KEY
+    safe = str(symbol).replace("^", "").replace("=", "_")
+    return f"{market}_{type_}_{safe}"
+
+
 def _parse_date(v):
     """可选日期字段：空串 / None → None，否则规范成 ``YYYY-MM-DD`` 字符串。"""
     if v is None or v == "":
@@ -106,8 +125,7 @@ class Item:
         """
         if self.type == "cash":
             return CASH_KEY
-        safe = self.symbol.replace("^", "").replace("=", "_")
-        return f"{self.market}_{self.type}_{safe}"
+        return stable_key(self.market, self.type, self.symbol)
 
     @property
     def is_benchmark(self) -> bool:
@@ -258,8 +276,7 @@ class Investor:
         """
         if self.type == "cash":
             return CASH_KEY
-        safe = self.symbol.replace("^", "").replace("=", "_")
-        return f"{self.market}_{self.type}_{safe}"
+        return stable_key(self.market, self.type, self.symbol)
 
     @property
     def name(self) -> str:
@@ -350,8 +367,7 @@ class Switch:
     def key(self) -> str:
         if self.type == "cash":          # 现金腿固定 key
             return CASH_KEY
-        safe = self.symbol.replace("^", "").replace("=", "_")
-        return f"{self.market}_{self.type}_{safe}"
+        return stable_key(self.market, self.type, self.symbol)
 
     def item(self, name: str | None = None) -> Item:
         return Item(name=name or self.nickname, symbol=self.symbol,

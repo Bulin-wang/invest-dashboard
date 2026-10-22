@@ -57,7 +57,7 @@ try:  # 避免重复包装 sys.stdout
 except (AttributeError, ValueError):
     pass
 
-from src.config import CRYPTO_CACHE_DIR  # noqa: E402
+from src.config import CRYPTO_CACHE_DIR, stable_key  # noqa: E402
 
 BASE_URL = "https://data-api.binance.vision/api/v3/klines"
 SOURCE = "binance"
@@ -377,9 +377,8 @@ def daily_snapshot(item) -> dict:
         pass
 
     return {
-        # key 必须与 quote_fetch.snapshot() 同构：daily_close 统一按
-        # `{market}_{type}_{symbol}` 取报价（见 test_quote_key_collision_offline.py）
-        "key": f"{item.market}_{item.type}_{item.symbol}",
+        # key 必须与 src.config.Item.key **同源**（用 stable_key，别自己拼字符串）
+        "key": stable_key(item.market, item.type, item.symbol),
         "symbol": str(item.symbol),
         "name": pair,
         "market": item.market,
