@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-23T05:59:12.649949+00:00",
+  "updated_at": "2026-10-23T12:49:50.611133+00:00",
   "base_currency": "CNY",
   "caliber": "price_return",
   "source": "sina/tencent",
@@ -24,7 +24,7 @@
       "max_drawdown": -0.18601453545472413,
       "calmar": 0.132895855650516,
       "n_obs": 414,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -44,7 +44,7 @@
       "max_drawdown": -0.6479556479556479,
       "calmar": 0.3335803979562645,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -64,7 +64,7 @@
       "max_drawdown": -0.2816118220597197,
       "calmar": 1.2987763282947833,
       "n_obs": 421,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -84,7 +84,7 @@
       "max_drawdown": -0.3287787860539486,
       "calmar": 1.3208436921257922,
       "n_obs": 413,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -104,7 +104,7 @@
       "max_drawdown": -0.6104832892522241,
       "calmar": 0.07966603390085819,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -124,7 +124,7 @@
       "max_drawdown": -0.2847769028871391,
       "calmar": -0.37594021202972694,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -144,7 +144,7 @@
       "max_drawdown": -0.28648968776330075,
       "calmar": -0.12733294635359746,
       "n_obs": 414,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -164,7 +164,7 @@
       "max_drawdown": -0.6438902743142144,
       "calmar": -0.501142442902344,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -184,7 +184,7 @@
       "max_drawdown": -0.8030793456390517,
       "calmar": -0.47474620722714744,
       "n_obs": 558,
-      "appended": true,
+      "appended": false,
       "caliber": "utc_daily_close",
       "status": "ok",
       "pair": "ONDOUSDT"
@@ -196,16 +196,16 @@
       "type": "futures",
       "start_date": "2025-11-11",
       "first_date": "2025-11-11",
-      "last_date": "2026-10-22",
+      "last_date": "2026-10-23",
       "base_close": 462.7,
-      "last_close": 711.6,
-      "cum_return": 0.5379295439809813,
-      "market_value": 1537929.5439809812,
-      "annualized": 0.5772799988852633,
+      "last_close": 725.7,
+      "cum_return": 0.5684028528204021,
+      "market_value": 1568402.8528204022,
+      "annualized": 0.6081704298727799,
       "max_drawdown": -0.38118948824343035,
-      "calmar": 1.514417413621354,
-      "n_obs": 216,
-      "appended": false,
+      "calmar": 1.5954543570320017,
+      "n_obs": 217,
+      "appended": true,
       "caliber": "settlement_price",
       "status": "ok"
     },
@@ -225,7 +225,7 @@
       "max_drawdown": -0.3020563471502591,
       "calmar": 0.762396344626348,
       "n_obs": 421,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -245,7 +245,7 @@
       "max_drawdown": -0.7962371317003905,
       "calmar": 0.28937877100187176,
       "n_obs": 414,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -265,7 +265,7 @@
       "max_drawdown": -0.23907825252040338,
       "calmar": 0.714158483708464,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -285,7 +285,7 @@
       "max_drawdown": -0.22659780503550675,
       "calmar": 0.10826482284082085,
       "n_obs": 414,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -305,7 +305,7 @@
       "max_drawdown": -0.19142568407960192,
       "calmar": 1.1000957937627636,
       "n_obs": 421,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -325,7 +325,7 @@
       "max_drawdown": -0.45789473684210524,
       "calmar": 12.661307754544392,
       "n_obs": 413,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -345,7 +345,7 @@
       "max_drawdown": -0.1534320323014804,
       "calmar": -0.5069486441965501,
       "n_obs": 414,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -365,7 +365,7 @@
       "max_drawdown": -0.8286640426024543,
       "calmar": -0.23574205904511136,
       "n_obs": 338,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -385,7 +385,7 @@
       "max_drawdown": -0.31878756205905423,
       "calmar": 5.416121577869531,
       "n_obs": 413,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -405,7 +405,7 @@
       "max_drawdown": -0.7458087367178277,
       "calmar": -0.035014895753249994,
       "n_obs": 413,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -425,7 +425,7 @@
       "max_drawdown": -0.2678571428571428,
       "calmar": 2.711607480735236,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -445,7 +445,7 @@
       "max_drawdown": -0.8194560210572494,
       "calmar": -0.44262122248148805,
       "n_obs": 413,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -465,7 +465,7 @@
       "max_drawdown": -0.2900871742416147,
       "calmar": 2.294272386075386,
       "n_obs": 414,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -485,7 +485,7 @@
       "max_drawdown": -0.6801112656467315,
       "calmar": 2.3753253735967643,
       "n_obs": 411,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -505,7 +505,7 @@
       "max_drawdown": -0.02830755232029125,
       "calmar": 0.4122645205590957,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -525,7 +525,7 @@
       "max_drawdown": -0.39365740173870456,
       "calmar": -0.46037939480060897,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -545,7 +545,7 @@
       "max_drawdown": -0.5187633832976444,
       "calmar": 0.44011464299486847,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -565,7 +565,7 @@
       "max_drawdown": -0.9428142870535295,
       "calmar": 0.5342859959073308,
       "n_obs": 2771,
-      "appended": true,
+      "appended": false,
       "caliber": "utc_daily_close",
       "status": "ok",
       "pair": "ZECUSDT"
@@ -586,7 +586,7 @@
       "max_drawdown": -0.3007915567282322,
       "calmar": 0.32183654665263806,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -606,7 +606,7 @@
       "max_drawdown": -0.6424677898909812,
       "calmar": 0.06736253894342384,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -626,7 +626,7 @@
       "max_drawdown": -0.1646273433927754,
       "calmar": 0.9938261797895377,
       "n_obs": 419,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -646,7 +646,7 @@
       "max_drawdown": -0.2631578947368419,
       "calmar": 0.2947750042435014,
       "n_obs": 412,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -666,7 +666,7 @@
       "max_drawdown": -0.5229863920559028,
       "calmar": 0.6690974169714011,
       "n_obs": 419,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -677,19 +677,19 @@
       "type": "fund",
       "start_date": "2017-01-24",
       "first_date": "2017-01-24",
-      "last_date": "2026-10-21",
+      "last_date": "2026-10-22",
       "base_close": 1.0,
-      "last_close": 7.2181,
-      "cum_return": 6.2181,
-      "market_value": 7218100.0,
-      "annualized": 0.2250308435194941,
+      "last_close": 7.4034,
+      "cum_return": 6.4034,
+      "market_value": 7403400.0,
+      "annualized": 0.22815256343377,
       "max_drawdown": -0.4013013846485953,
-      "calmar": 0.5607527213407081,
-      "n_obs": 2353,
-      "appended": false,
+      "calmar": 0.5685317124772811,
+      "n_obs": 2354,
+      "appended": true,
       "caliber": "cumulative_nav",
       "status": "ok",
-      "unit_nav": 7.2181
+      "unit_nav": 7.4034
     },
     "cn_index_000300": {
       "name": "沪深300",
@@ -707,7 +707,7 @@
       "max_drawdown": -0.19601283485451593,
       "calmar": 0.14186678173484235,
       "n_obs": 414,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     },
@@ -727,7 +727,7 @@
       "max_drawdown": -0.16341171848503866,
       "calmar": 1.0063602985057731,
       "n_obs": 420,
-      "appended": true,
+      "appended": false,
       "caliber": "price_return",
       "status": "ok"
     }
@@ -1554,9 +1554,9 @@
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-23",
-      "cum_return": 0.0008438818565401629,
-      "market_value": 1000843.8818565402,
-      "annualized": 0.01068070015057776,
+      "cum_return": 0.020675105485232104,
+      "market_value": 1020675.1054852321,
+      "annualized": 0.29400755423109826,
       "max_drawdown": -0.061832564271588564,
       "status": "ok"
     },
@@ -3478,9 +3478,9 @@
       },
       "first_date": "2026-09-24",
       "last_date": "2026-10-23",
-      "cum_return": -0.08118738782316481,
-      "market_value": 918812.6121768352,
-      "annualized": -0.6557691813929571,
+      "cum_return": -0.05760002036685785,
+      "market_value": 942399.979633142,
+      "annualized": -0.5263062622502026,
       "max_drawdown": -0.0830782129292057,
       "status": "ok"
     },
