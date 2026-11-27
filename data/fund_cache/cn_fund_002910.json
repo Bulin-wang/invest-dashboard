@@ -4,10 +4,10 @@
   "name": "易方达供给改革混合",
   "source": "eastmoney",
   "caliber": "cumulative_nav",
-  "fetched_at": "2026-11-27T09:37:51",
+  "fetched_at": "2026-11-27T17:37:54",
   "first_date": "2017-01-24",
-  "last_date": "2026-11-25",
-  "n": 2378,
+  "last_date": "2026-11-26",
+  "n": 2379,
   "nav": [
     {
       "date": "2017-01-24",
@@ -16653,6 +16653,13 @@
       "close": 6.8699,
       "unit": 6.8699,
       "pct": 1.09,
+      "detail": null
+    },
+    {
+      "date": "2026-11-26",
+      "close": 7.1439,
+      "unit": 7.1439,
+      "pct": 3.99,
       "detail": null
     }
   ]
